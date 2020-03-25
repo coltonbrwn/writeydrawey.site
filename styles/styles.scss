@@ -1,132 +1,27 @@
-$ease: cubic-bezier(0.23, 1, 0.32, 1);
-$timing_themechange: 600ms;
-$delay_themechange: 300ms;
-$timing_controls: 1200ms;
-$delay_controls: 150ms;
-$timing_dropdown: 600ms;
-$timing_homehero: 2000ms;
-$delay_homehero: 200ms;
-$timing_contenttransition: 800ms;
-$delay_contenttransition: 100ms;
-$timing_stackshuffle: 1000ms;
-$timing_stackfade: 2000ms;
-$delay_stackfade: 350ms;
-$timing_hover: 300ms;
-$timing_trackbar: 100ms;
-$theme_switch_default_opacity: 0.4;
-
 $break_xl: 1500px;
 $break_lg: 1200px;
 $break_med: 900px;
 $break_sm: 600px;
 
-html {
-  background: var(--white);
-  scroll-behavior: smooth;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-input, button, textarea {
-  &:focus {
-    outline: none;
-  }
-}
-
-#main {
-  height: 100vh;
-  width: 100vw;
-  .content-container {
-    opacity: 1;
-    transition: opacity $timing_contenttransition $ease $delay_contenttransition;
-  }
-  &.content--transition--entering, &.content--transition--exiting {
-    .nav-trackbar {
-      opacity: 0;
-      transform: none;
-    }
-    .content-container {
-      opacity: 0;
-    }
-  }
-  &.content--project-detail {
-    .nav-trackbar {
-      opacity: 0;
-    }
-  }
-}
-.content-main {
-  -webkit-overflow-scrolling: touch;
-  pointer-events: all;
-}
-.content-inner {
-  position: relative;
-}
-.flex-container {
-  display: flex;
-}
-.bg-gray {
-  background: var(--gray);
-}
-.bg-white {
-  background: var(--white);
-}
-.text-center {
-  text-align: center;
-}
-.rel {
-  position: relative;
-}
-
-.module {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  .margin-copy {
-    opacity: 0;
-    transition: opacity $timing_controls $ease $delay_controls;
-  }
-  &--active .margin-copy {
-    opacity: 1;
-  }
-}
-
-.scroll-hider {
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  > div {
-    width: calc(100% + 50px);
-    height: calc(100% + 40px);
-    padding-right: calc(3rem + 50px);
-    padding-bottom: 40px;
-    overflow: auto;
-    overscroll-behavior: contain;
-  }
-}
-
-.margin-copy {
-  position: fixed;
-  top: 3em;
-  left: 3em;
-  width: 8em;
-  pointer-events: none;
-}
-
 @import './typography';
-@import './home-hero';
-@import './stack';
-@import './project-detail';
-@import './contact';
-@import './controls';
-@import './navigation';
-@import './project-selector';
-@import './about';
+
+button {
+  background: var(--black-ln);
+  outline: none;
+  border: none;
+  color: white;
+  padding: 1em 2em;
+  font-size: 1.2em;
+  margin: 1em;
+  cursor: pointer;
+}
+
+#drawingCanvas {
+  width: 100vw;
+  height: 100vh;
+  border: none;
+}
+
+.buttons {
+  position: absolute;
+}

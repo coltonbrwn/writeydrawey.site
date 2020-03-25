@@ -1,20 +1,16 @@
 import classname from 'classnames';
 import Head from 'next/head';
 import { get } from 'dotty';
-import Nav from './nav.js';
-import Controls from './controls';
 import {
-  TRANSITION_ENTERING,
-  TRANSITION_EXITING,
   COLORS,
   THEME_LIGHT,
   THEME_DARK,
 } from '../lib/util';
 
 const social_img_url = '/favicon-xxxl.png';
-const title = 'Volley Studio';
+const title = 'Writey Drawey';
 const ga_id = ''
-const url = 'https://volleystudio.us'
+const url = 'https://writeydrawey.site'
 
 export default class Layout extends React.Component {
 
@@ -83,20 +79,7 @@ export default class Layout extends React.Component {
             `}
           </style>
         </Head>
-        <div
-          id="main"
-          className={classname({
-            'content--transition--entering': (
-              this.props.transitionState === TRANSITION_ENTERING
-            ),
-            'content--transition--exiting': (
-              this.props.transitionState === TRANSITION_EXITING
-            ),
-            'content--project-detail': this.props.isProjectDetail
-          })}
-        >
-          <Nav { ...this.props }/>
-          <Controls { ...this.props }/>
+        <div id="main">
           <div className="content-container">
             { this.props.children }
           </div>

@@ -1,9 +1,0 @@
-{
-  "name": "aff0i94-ei8vrhp",
-  "arn": "arn:aws:iam::371738577564:role/aff0i94-ei8vrhp",
-  "service": "lambda.amazonaws.com",
-  "policy": {
-    "arn": "arn:aws:iam::aws:policy/AdministratorAccess"
-  },
-  "region": "us-east-1"
-}
