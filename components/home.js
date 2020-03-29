@@ -3,9 +3,10 @@ import * as api from '../lib/api';
 export default class Home extends React.Component {
 
   onCreateClick = async () => {
+    let id;
     try {
-      const { gameId } = await api.createNewGame();
-      document.location = `/${ gameId }`;
+      const {response:{id}} = await api.createNewGame();
+      document.location = `/${ id }`;
     } catch (err) {
       console.log(err)
     }
@@ -15,9 +16,11 @@ export default class Home extends React.Component {
     return (
       <div>
         <h1>Welcome to the Writey Drawey Game.</h1>
-        <p>
-          We didn't find an in-progress game at this location.
-        </p>
+        {
+          this.props.statusCode == 404 && (
+            <p>We couldn't find a game here</p>
+          )
+        }
         <button
           className="large"
           onClick={ this.onCreateClick }
