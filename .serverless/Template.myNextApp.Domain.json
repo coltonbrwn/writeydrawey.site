@@ -5,8 +5,8 @@
   "subdomains": [
     {
       "domain": "www.writeydrawey.site",
-      "distributionId": "E2B43LO1ZCIX5Y",
-      "url": "https://d2kzopzr6u20ir.cloudfront.net",
+      "distributionId": "E3GHRA877YPOUM",
+      "url": "https://d3fy1rgsc1kz4f.cloudfront.net",
       "type": "awsCloudFront"
     }
   ]

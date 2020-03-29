@@ -1,30 +1,30 @@
 {
-  "id": "epaz1vuglh",
+  "id": "o10ncs1w54",
   "endpoints": [
     {
       "path": "/api",
       "method": "POST",
-      "function": "arn:aws:lambda:us-east-1:680198729557:function:yfri3dt-rsksxqh",
-      "url": "https://epaz1vuglh.execute-api.us-east-1.amazonaws.com/dev/api",
-      "id": "9bcysq"
+      "function": "arn:aws:lambda:us-east-1:680198729557:function:l7oygb-kgb9fl",
+      "url": "https://o10ncs1w54.execute-api.us-east-1.amazonaws.com/dev/api",
+      "id": "d6vfk5"
     },
     {
       "path": "/api",
       "method": "OPTIONS",
-      "function": "arn:aws:lambda:us-east-1:680198729557:function:yfri3dt-c4wu4xi",
-      "url": "https://epaz1vuglh.execute-api.us-east-1.amazonaws.com/dev/api",
-      "id": "9bcysq"
+      "function": "arn:aws:lambda:us-east-1:680198729557:function:l7oygb-11o5lip",
+      "url": "https://o10ncs1w54.execute-api.us-east-1.amazonaws.com/dev/api",
+      "id": "d6vfk5"
     },
     {
       "path": "/state",
       "method": "GET",
-      "function": "arn:aws:lambda:us-east-1:680198729557:function:yfri3dt-6fcf7nb",
-      "url": "https://epaz1vuglh.execute-api.us-east-1.amazonaws.com/dev/state",
-      "id": "pl9u0l"
+      "function": "arn:aws:lambda:us-east-1:680198729557:function:l7oygb-579l0c",
+      "url": "https://o10ncs1w54.execute-api.us-east-1.amazonaws.com/dev/state",
+      "id": "8skthl"
     }
   ],
-  "name": "yfri3dt-g58xg6",
+  "name": "l7oygb-p4yzws7",
   "region": "us-east-1",
   "stage": "dev",
-  "url": "https://epaz1vuglh.execute-api.us-east-1.amazonaws.com/dev"
+  "url": "https://o10ncs1w54.execute-api.us-east-1.amazonaws.com/dev"
 }

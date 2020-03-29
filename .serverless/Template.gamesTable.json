@@ -1,0 +1,7 @@
+{
+  "lastDeployHadNameDefined": true,
+  "arn": "arn:aws:dynamodb:us-east-1:680198729557:table/writey-drawey-games",
+  "name": "writey-drawey-games",
+  "region": "us-east-1",
+  "delete": true
+}
