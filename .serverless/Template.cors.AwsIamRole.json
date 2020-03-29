@@ -1,0 +1,9 @@
+{
+  "name": "oiewlbk-azmnrf1",
+  "arn": "arn:aws:iam::371738577564:role/oiewlbk-azmnrf1",
+  "service": "lambda.amazonaws.com",
+  "policy": {
+    "arn": "arn:aws:iam::aws:policy/AdministratorAccess"
+  },
+  "region": "us-east-1"
+}
