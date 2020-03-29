@@ -13,31 +13,34 @@
 
 myNextApp:
   component: serverless-next.js
-  inputs:
-    domain: ["new", "volleystudio.us"]
+  # inputs:
+    # domain: ["writeydrawey.site"]
 
-contactForm:
+plugins:
+   - serverless-offline
+
+gameApi:
   component: "@serverless/aws-lambda"
   inputs:
-    name: contact-form-prod
-    description: "[volleystudio.us] Sends a contact form email"
+    name: writey-drawey-api
+    description: "general purpose endpoint for game management"
     memory: 128
     timeout: 20
     code: ./functions
-    handler: contactForm.submit
-    runtime: nodejs8.10
+    handler: gameApi.submit
+    runtime: nodejs12.x
     region: us-east-1
 
 cors:
   component: "@serverless/aws-lambda"
   inputs:
-    name: contact-form-cors-prod
-    description: "[volleystudio.us] CORS endpoint"
+    name: writey-drawey-api-cors
+    description: "general purpose CORS endpoint"
     memory: 128
     timeout: 20
     code: ./functions
-    handler: contactForm.cors
-    runtime: nodejs8.10
+    handler: gameApi.cors
+    runtime: nodejs12.x
     region: us-east-1
 
 api:
@@ -46,9 +49,9 @@ api:
     description: Volley Contact Form
     cors: true
     endpoints:
-      - path: /contact
+      - path: /api
         method: POST
-        function: ${contactForm.arn}
-      - path: /contact
+        function: ${gameApi.arn}
+      - path: /api
         method: OPTIONS
         function: ${cors.arn}

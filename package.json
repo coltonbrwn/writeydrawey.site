@@ -22,14 +22,12 @@
     "node-sass": "^4.13.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-draggable": "^3.3.0",
-    "sanity-mux-player": "^0.0.26",
     "serverless-next.js": "^1.6.0",
-    "superagent": "^5.1.0",
-    "throttle-debounce": "^2.1.0",
     "webpack": "^4.34.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "serverless-offline": "^6.1.2"
+  },
   "scripts": {
     "dev": "next -p 3030",
     "build": "next build",

@@ -5,6 +5,10 @@ $break_sm: 600px;
 
 @import './typography';
 
+body {
+  text-align: center;
+}
+
 button {
   background: var(--black-ln);
   outline: none;
@@ -20,8 +24,16 @@ button {
   width: 100vw;
   height: 100vh;
   border: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
 }
 
 .buttons {
   position: absolute;
+}
+
+h1 {
+  padding: 1em 0.2em;
 }

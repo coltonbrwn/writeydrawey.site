@@ -1,0 +1,9 @@
+{
+  "name": "oiewlbk-dhco5s",
+  "arn": "arn:aws:iam::371738577564:role/oiewlbk-dhco5s",
+  "service": "lambda.amazonaws.com",
+  "policy": {
+    "arn": "arn:aws:iam::aws:policy/AdministratorAccess"
+  },
+  "region": "us-east-1"
+}

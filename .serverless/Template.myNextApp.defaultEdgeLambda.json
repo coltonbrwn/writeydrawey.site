@@ -1,0 +1,17 @@
+{
+  "name": "oiewlbk-fmzds8d",
+  "hash": "FBW8ivbIpWg7s3kNwwLDUELjzjDJQGM103fRp+Hzcf4=",
+  "description": "Default Lambda@Edge for Next CloudFront distribution",
+  "memory": 512,
+  "timeout": 10,
+  "code": "/Users/colton/Dev/repos/writey-drawey/.serverless_nextjs/default-lambda",
+  "shims": [],
+  "handler": "index.handler",
+  "runtime": "nodejs10.x",
+  "env": {},
+  "role": {
+    "arn": "arn:aws:iam::371738577564:role/oiewlbk-09jfayj"
+  },
+  "arn": "arn:aws:lambda:us-east-1:371738577564:function:oiewlbk-fmzds8d",
+  "region": "us-east-1"
+}
