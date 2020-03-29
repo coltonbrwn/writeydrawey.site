@@ -1,8 +1,8 @@
 {
-  "name": "fey-2019",
+  "name": "writey-drawey",
   "version": "1.0.0",
   "author": "",
-  "description": "Fey 2019 Festival Website",
+  "description": "Writey Drawey",
   "private": true,
   "main": "index.js",
   "dependencies": {
@@ -23,6 +23,7 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "serverless-next.js": "^1.6.0",
+    "shortid": "^2.2.15",
     "webpack": "^4.34.0"
   },
   "devDependencies": {

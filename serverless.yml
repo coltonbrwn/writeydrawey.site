@@ -14,31 +14,40 @@
 myNextApp:
   component: serverless-next.js
   # inputs:
-    # domain: ["writeydrawey.site"]
-
-plugins:
-   - serverless-offline
+  #   domain: ["writeydrawey.site"]
 
 gameApi:
   component: "@serverless/aws-lambda"
   inputs:
-    name: writey-drawey-api
+    name: writey-drawey-api-2
     description: "general purpose endpoint for game management"
     memory: 128
     timeout: 20
-    code: ./functions
+    code: ./backend
     handler: gameApi.submit
+    runtime: nodejs12.x
+    region: us-east-1
+
+gameState:
+  component: "@serverless/aws-lambda"
+  inputs:
+    name: writey-drawey-game-state-2
+    description: "polling endpoint for game state"
+    memory: 1024
+    timeout: 4
+    code: ./backend
+    handler: gameApi.get
     runtime: nodejs12.x
     region: us-east-1
 
 cors:
   component: "@serverless/aws-lambda"
   inputs:
-    name: writey-drawey-api-cors
+    name: writey-drawey-api-cors-2
     description: "general purpose CORS endpoint"
     memory: 128
     timeout: 20
-    code: ./functions
+    code: ./backend
     handler: gameApi.cors
     runtime: nodejs12.x
     region: us-east-1
@@ -55,3 +64,6 @@ api:
       - path: /api
         method: OPTIONS
         function: ${cors.arn}
+      - path: /state
+        method: GET
+        function: ${gameState.arn}
