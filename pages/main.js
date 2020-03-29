@@ -2,6 +2,7 @@ import { get } from 'dotty';
 import Router from 'next/router';
 import Layout from '../components/layout';
 import Home from '../components/home';
+import Phrases from '../components/phrases';
 import Starting from '../components/starting';
 import Playing from '../components/playing';
 import RoundOver from '../components/round-over';
@@ -25,16 +26,6 @@ export default class Main extends React.Component {
   }
 
   componentDidMount() {
-
-    try {
-      this.setState({
-        player: JSON.parse(localStorage.getItem('player'))
-      })
-    } catch (err) {
-      console.log('no local player data found')
-    }
-
-
     this.interval = window.setInterval(async () => {
       const gameId = Router.query.slug;
       if (!gameId) {
@@ -43,7 +34,8 @@ export default class Main extends React.Component {
       try {
         const response = await api.getGameState({ gameId });
         this.setState({
-          gameState: response
+          gameState: response,
+          player: JSON.parse(localStorage.getItem('player'))
         })
       } catch (e) {
         this.setState({
@@ -59,7 +51,13 @@ export default class Main extends React.Component {
     const { gameState, player } = this.state;
     switch (gameState.state) {
       case GAME_STATE.STARTING:
-        return get(player, 'id') ? Starting : CreatePlayer;
+        if (!get(player, 'id')) {
+          return CreatePlayer
+        } else if (!get(gameState, `playerInput.${ player.id }`)) {
+          return Phrases
+        } else {
+          return Starting
+        }
       case GAME_STATE.PLAYING:
         return Playing;
       case GAME_STATE.ROUND_OVER:
