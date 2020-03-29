@@ -1,12 +1,12 @@
 {
   "name": "yfri3dt-6fcf7nb",
-  "hash": "KpZODfHRm9qAsJHgQAcpIhGP7mN06evWf3FWa8bNAhY=",
+  "hash": "4gIlnXq5AvRoRNyYGF4pZNRwVCniig51eLRNs+wB0Xc=",
   "description": "polling endpoint for game state",
   "memory": 1024,
   "timeout": 4,
   "code": "./backend",
   "shims": [],
-  "handler": "gameApi.get",
+  "handler": "index.get",
   "runtime": "nodejs12.x",
   "env": {},
   "role": {

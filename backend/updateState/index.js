@@ -1,7 +1,7 @@
-var { TABLES, API_METHODS } = require('../constants')
+var { TABLES, API_METHODS, GAME_STATE } = require('../constants')
 var shortid = require('shortid')
 var AWS = require('aws-sdk')
-var dynamodb = new AWS.DynamoDB()
+var dynamodb = new AWS.DynamoDB.DocumentClient()
 
 module.exports = async function(method, payload) {
   switch (method) {
@@ -13,8 +13,9 @@ module.exports = async function(method, payload) {
 }
 
 function createGame() {
-  dynamodb.putItem({
+  return dynamodb.put({
     TableName: TABLES.GAMES,
+    ReturnValues: "ALL_NEW",
     Item: {
       id: shortid.generate(),
       state: GAME_STATE.STARTING
