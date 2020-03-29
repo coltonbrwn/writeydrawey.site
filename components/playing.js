@@ -1,8 +1,10 @@
 
 export default class Home extends React.Component {
   render() {
-    <div>
-      Playing
-    </div>
+    return (
+      <div>
+        Playing
+      </div>
+    )
   }
 }
