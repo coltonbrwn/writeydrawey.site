@@ -11,10 +11,12 @@
 #
 # Happy Coding!
 
+name: writey-drawey-site
+
 myNextApp:
   component: serverless-next.js
-  # inputs:
-  #   domain: ["writeydrawey.site"]
+  inputs:
+    domain: ["writeydrawey.site"]
 
 gameApi:
   component: "@serverless/aws-lambda"
@@ -24,7 +26,7 @@ gameApi:
     memory: 128
     timeout: 20
     code: ./backend
-    handler: gameApi.submit
+    handler: index.submit
     runtime: nodejs12.x
     region: us-east-1
 
@@ -36,7 +38,7 @@ gameState:
     memory: 1024
     timeout: 4
     code: ./backend
-    handler: gameApi.get
+    handler: index.get
     runtime: nodejs12.x
     region: us-east-1
 
@@ -48,7 +50,7 @@ cors:
     memory: 128
     timeout: 20
     code: ./backend
-    handler: gameApi.cors
+    handler: index.cors
     runtime: nodejs12.x
     region: us-east-1
 

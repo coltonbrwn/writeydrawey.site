@@ -1,12 +1,12 @@
 {
   "name": "yfri3dt-c4wu4xi",
-  "hash": "KpZODfHRm9qAsJHgQAcpIhGP7mN06evWf3FWa8bNAhY=",
+  "hash": "4gIlnXq5AvRoRNyYGF4pZNRwVCniig51eLRNs+wB0Xc=",
   "description": "general purpose CORS endpoint",
   "memory": 128,
   "timeout": 20,
   "code": "./backend",
   "shims": [],
-  "handler": "gameApi.cors",
+  "handler": "index.cors",
   "runtime": "nodejs12.x",
   "env": {},
   "role": {

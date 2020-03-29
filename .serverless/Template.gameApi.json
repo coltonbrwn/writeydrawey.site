@@ -1,12 +1,12 @@
 {
   "name": "yfri3dt-rsksxqh",
-  "hash": "KpZODfHRm9qAsJHgQAcpIhGP7mN06evWf3FWa8bNAhY=",
+  "hash": "4gIlnXq5AvRoRNyYGF4pZNRwVCniig51eLRNs+wB0Xc=",
   "description": "general purpose endpoint for game management",
   "memory": 128,
   "timeout": 20,
   "code": "./backend",
   "shims": [],
-  "handler": "gameApi.submit",
+  "handler": "index.submit",
   "runtime": "nodejs12.x",
   "env": {},
   "role": {

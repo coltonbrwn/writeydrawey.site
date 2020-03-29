@@ -15,6 +15,9 @@ module.exports.cors = (event, context, cb) => {
   });
 }
 
+/*
+  SUBMIT
+ */
 module.exports.submit = async (event, context, cb) => {
 
   try {
@@ -30,6 +33,7 @@ module.exports.submit = async (event, context, cb) => {
   try {
     var response = await updateState(method, payload);
   } catch (error) {
+    console.log(error);
     return cb(null, {
       statusCode: 500,
       body: JSON.stringify({ message:'Error executing request', error }),
@@ -39,11 +43,14 @@ module.exports.submit = async (event, context, cb) => {
 
   cb(null, {
     statusCode: 200,
-    body: JSON.stringify({ message: 'Success', method }),
+    body: JSON.stringify({ message: 'Success', method, response }),
     headers: corsHeaders
   })
 }
 
+/*
+  GET
+ */
 module.exports.get = async (event, context, cb) => {
 
   try {
@@ -59,6 +66,7 @@ module.exports.get = async (event, context, cb) => {
   try {
     var response = await getState(id);
   } catch (error) {
+    console.log(error);
     return cb(null, {
       statusCode: 500,
       body: JSON.stringify({ message:'Error executing request', error }),
