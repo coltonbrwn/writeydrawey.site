@@ -21,7 +21,7 @@ myNextApp:
 gameApi:
   component: "@serverless/aws-lambda"
   inputs:
-    name: writey-drawey-api-2
+    name: writey-drawey-api
     description: "general purpose endpoint for game management"
     memory: 128
     timeout: 20
@@ -33,7 +33,7 @@ gameApi:
 gameState:
   component: "@serverless/aws-lambda"
   inputs:
-    name: writey-drawey-game-state-2
+    name: writey-drawey-game-state
     description: "polling endpoint for game state"
     memory: 1024
     timeout: 4
@@ -45,7 +45,7 @@ gameState:
 cors:
   component: "@serverless/aws-lambda"
   inputs:
-    name: writey-drawey-api-cors-2
+    name: writey-drawey-api-cors
     description: "general purpose CORS endpoint"
     memory: 128
     timeout: 20
@@ -57,7 +57,7 @@ cors:
 api:
   component: "@serverless/aws-api-gateway"
   inputs:
-    description: Volley Contact Form
+    description: Writey Drawey
     cors: true
     endpoints:
       - path: /api
@@ -69,3 +69,36 @@ api:
       - path: /state
         method: GET
         function: ${gameState.arn}
+
+gamesTable:
+  component: '@serverless/aws-dynamodb'
+  inputs:
+    name: writey-drawey-games # optional
+    attributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+    keySchema:
+      - AttributeName: id
+        KeyType: HASH
+    region: us-east-1
+
+playersTable:
+  component: '@serverless/aws-dynamodb'
+  inputs:
+    name: writey-drawey-players # optional
+    attributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+      - AttributeName: gameId
+        AttributeType: S
+    keySchema:
+      - AttributeName: id
+        KeyType: HASH
+    globalSecondaryIndexes:
+      - IndexName: 'gameIndex'
+        KeySchema:
+         - AttributeName: gameId
+           KeyType: HASH
+        Projection:
+           ProjectionType: 'KEYS_ONLY'
+    region: us-east-1
