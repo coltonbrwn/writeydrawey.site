@@ -4,21 +4,27 @@ plugins:
   - serverless-offline
 
 provider:
-  stage: dev
   name: aws
   runtime: nodejs12.x
 
+custom:
+  serverless-offline:
+    port: 4000
+    prefix: dev-api
+
 functions:
   gameApi:
-    handler: functions/gameApi.submit
+    handler: ./index.submit
     timeout: 3
     events:
       - http:
           method: POST
+          path: /api
           cors: true
   getState:
-    handler: functions/gameApi.get
+    handler: ./index.get
     events:
       - http:
+          path: /state
           method: GET
           cors: true
