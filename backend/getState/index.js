@@ -8,5 +8,5 @@ module.exports = async function(id) {
     Key: {
       id
     }
-  }).promise()
+  }).promise().then(res => res.Item )
 }

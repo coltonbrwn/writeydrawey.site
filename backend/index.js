@@ -40,7 +40,6 @@ module.exports.submit = async (event, context, cb) => {
       headers: corsHeaders
     })
   }
-
   cb(null, {
     statusCode: 200,
     body: JSON.stringify({ message: 'Success', method, response }),
@@ -65,8 +64,16 @@ module.exports.get = async (event, context, cb) => {
 
   try {
     var response = await getState(id);
+
+    if (!response) {
+      return cb(null, {
+        statusCode: 404,
+        headers: corsHeaders
+      })
+    }
+
   } catch (error) {
-    console.log(error);
+    console.log(error)
     return cb(null, {
       statusCode: 500,
       body: JSON.stringify({ message:'Error executing request', error }),
