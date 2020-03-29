@@ -8,6 +8,10 @@ export default class Starting extends React.Component {
     super()
   }
 
+  onStartClick = () => {
+    api.startGame({ gameId: this.props.gameState.id })
+  }
+
   render() {
     return (
       <div>
@@ -18,6 +22,12 @@ export default class Starting extends React.Component {
             <div>{ player.name }</div>
           ))
         }
+        <button
+          className="large"
+          onClick={ this.onStartClick }
+        >
+          Start Game
+        </button>
       </div>
     )
   }

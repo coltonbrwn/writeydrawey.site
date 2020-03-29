@@ -19,7 +19,7 @@ export default class CreatePlayer extends React.Component {
     api.createNewPlayer({
       playerName: this.state.playerName
     }).then( res => {
-      window.localStorage.setItem('player', JSON.stringify(res.data.response))
+      window.sessionStorage.setItem('player', JSON.stringify(res.data.response))
     })
   }
 
