@@ -1,17 +1,17 @@
 {
-  "name": "oiewlbk-iaaofb9",
-  "hash": "kBKh+7g0i5QSTKTRiIlhjeLl1IXfzFweWpkz1zSeBFA=",
+  "name": "yfri3dt-c4wu4xi",
+  "hash": "KpZODfHRm9qAsJHgQAcpIhGP7mN06evWf3FWa8bNAhY=",
   "description": "general purpose CORS endpoint",
   "memory": 128,
   "timeout": 20,
-  "code": "./functions",
+  "code": "./backend",
   "shims": [],
   "handler": "gameApi.cors",
   "runtime": "nodejs12.x",
   "env": {},
   "role": {
-    "arn": "arn:aws:iam::371738577564:role/oiewlbk-azmnrf1"
+    "arn": "arn:aws:iam::680198729557:role/yfri3dt-ipfqloh"
   },
-  "arn": "arn:aws:lambda:us-east-1:371738577564:function:oiewlbk-iaaofb9",
+  "arn": "arn:aws:lambda:us-east-1:680198729557:function:yfri3dt-c4wu4xi",
   "region": "us-east-1"
 }

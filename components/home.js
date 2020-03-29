@@ -2,8 +2,9 @@ import * as api from '../lib/api';
 
 export default class Home extends React.Component {
 
-  onCreateClick() {
-    api.createNewGame();
+  async onCreateClick() {
+    const { gameId } = await api.createNewGame();
+    document.location = `/${ gameId }`;
   }
 
   render() {

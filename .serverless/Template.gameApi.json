@@ -1,17 +1,17 @@
 {
-  "name": "oiewlbk-vwxeks6",
-  "hash": "kBKh+7g0i5QSTKTRiIlhjeLl1IXfzFweWpkz1zSeBFA=",
+  "name": "yfri3dt-rsksxqh",
+  "hash": "KpZODfHRm9qAsJHgQAcpIhGP7mN06evWf3FWa8bNAhY=",
   "description": "general purpose endpoint for game management",
   "memory": 128,
   "timeout": 20,
-  "code": "./functions",
+  "code": "./backend",
   "shims": [],
   "handler": "gameApi.submit",
   "runtime": "nodejs12.x",
   "env": {},
   "role": {
-    "arn": "arn:aws:iam::371738577564:role/oiewlbk-dhco5s"
+    "arn": "arn:aws:iam::680198729557:role/yfri3dt-69krt1m"
   },
-  "arn": "arn:aws:lambda:us-east-1:371738577564:function:oiewlbk-vwxeks6",
+  "arn": "arn:aws:lambda:us-east-1:680198729557:function:yfri3dt-rsksxqh",
   "region": "us-east-1"
 }

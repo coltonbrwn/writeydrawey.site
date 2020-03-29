@@ -1,6 +1,6 @@
 {
-  "name": "oiewlbk-09jfayj",
-  "arn": "arn:aws:iam::371738577564:role/oiewlbk-09jfayj",
+  "name": "yfri3dt-sof4xam",
+  "arn": "arn:aws:iam::680198729557:role/yfri3dt-sof4xam",
   "service": [
     "edgelambda.amazonaws.com",
     "lambda.amazonaws.com"

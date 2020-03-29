@@ -1,0 +1,24 @@
+service: writey-drawey-offline
+
+plugins:
+  - serverless-offline
+
+provider:
+  stage: dev
+  name: aws
+  runtime: nodejs12.x
+
+functions:
+  gameApi:
+    handler: functions/gameApi.submit
+    timeout: 3
+    events:
+      - http:
+          method: POST
+          cors: true
+  getState:
+    handler: functions/gameApi.get
+    events:
+      - http:
+          method: GET
+          cors: true

@@ -1,6 +1,6 @@
 {
-  "name": "oiewlbk-dhco5s",
-  "arn": "arn:aws:iam::371738577564:role/oiewlbk-dhco5s",
+  "name": "yfri3dt-69krt1m",
+  "arn": "arn:aws:iam::680198729557:role/yfri3dt-69krt1m",
   "service": "lambda.amazonaws.com",
   "policy": {
     "arn": "arn:aws:iam::aws:policy/AdministratorAccess"
