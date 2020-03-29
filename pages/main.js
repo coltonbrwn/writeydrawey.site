@@ -26,12 +26,14 @@ export default class Main extends React.Component {
 
   componentDidMount() {
 
-    const player = localStorage.getItem('player');
-    if (get(player, 'id')) {
+    try {
       this.setState({
-        player
+        player: JSON.parse(localStorage.getItem('player'))
       })
+    } catch (err) {
+      console.log('no local player data found')
     }
+
 
     this.interval = window.setInterval(async () => {
       const gameId = Router.query.slug;
