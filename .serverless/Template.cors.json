@@ -1,0 +1,17 @@
+{
+  "name": "oiewlbk-iaaofb9",
+  "hash": "kBKh+7g0i5QSTKTRiIlhjeLl1IXfzFweWpkz1zSeBFA=",
+  "description": "general purpose CORS endpoint",
+  "memory": 128,
+  "timeout": 20,
+  "code": "./functions",
+  "shims": [],
+  "handler": "gameApi.cors",
+  "runtime": "nodejs12.x",
+  "env": {},
+  "role": {
+    "arn": "arn:aws:iam::371738577564:role/oiewlbk-azmnrf1"
+  },
+  "arn": "arn:aws:lambda:us-east-1:371738577564:function:oiewlbk-iaaofb9",
+  "region": "us-east-1"
+}

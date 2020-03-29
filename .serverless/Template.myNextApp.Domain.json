@@ -1,0 +1,13 @@
+{
+  "region": "us-east-1",
+  "privateZone": false,
+  "domain": "writeydrawey.site",
+  "subdomains": [
+    {
+      "domain": "www.writeydrawey.site",
+      "distributionId": "E1USO38MK8R51N",
+      "url": "https://d39hfowsvdi764.cloudfront.net",
+      "type": "awsCloudFront"
+    }
+  ]
+}
