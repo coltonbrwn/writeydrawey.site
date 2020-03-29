@@ -50,8 +50,12 @@ async function submitPhrases({ player, game, phrases }) {
     }
   }).promise()
 
-  const playerInput = gameState.Item.playerInput || {}
-  playerInput[ player ] = [ phrases[0] ]
+  const playerInput = gameState.Item.playerInput || []
+  playerInput.push({
+    playerId: player,
+    phrase: phrases[0],
+    ts: new Date().getTime()
+  })
   gameState.playerInput = playerInput
 
   return dynamodb.put({
