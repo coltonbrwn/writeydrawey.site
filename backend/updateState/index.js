@@ -13,12 +13,14 @@ module.exports = async function(method, payload) {
 }
 
 function createGame() {
+  const newGameId = shortid.generate()
   return dynamodb.put({
     TableName: TABLES.GAMES,
-    ReturnValues: "ALL_NEW",
     Item: {
-      id: shortid.generate(),
+      id: newGameId,
       state: GAME_STATE.STARTING
     }
-  }).promise()
+  }).promise().then( res => ({
+    id: newGameId
+  }))
 }

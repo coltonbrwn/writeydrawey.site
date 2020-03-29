@@ -13,3 +13,7 @@ module.exports.TABLES = {
 module.exports.API_METHODS = {
   CREATE_GAME: 'createGame'
 }
+
+module.exports.INITIAL_STATE = {
+  
+}
