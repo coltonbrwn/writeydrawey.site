@@ -3,7 +3,7 @@ import Router from 'next/router';
 import Layout from '../components/layout';
 import Home from '../components/home';
 import Phrases from '../components/phrases';
-import Starting from '../components/starting';
+import Waiting from '../components/waiting';
 import Playing from '../components/playing';
 import RoundOver from '../components/round-over';
 import CreatePlayer from '../components/create-player';
@@ -12,6 +12,14 @@ import { GAME_STATE, INITIAL_STATE } from '../backend/constants';
 import * as api from '../lib/api';
 
 import "../styles/styles.scss";
+
+function playerHasSubmitted(gameState, playerId) {
+  try {
+    return gameState.playerInput.find( el => el.playerId === playerId )
+  } catch (e) {
+    return false
+  }
+}
 
 export default class Main extends React.Component {
 
@@ -53,10 +61,10 @@ export default class Main extends React.Component {
       case GAME_STATE.STARTING:
         if (!get(player, 'id')) {
           return CreatePlayer
-        } else if (!get(gameState, `playerInput.${ player.id }`)) {
+        } else if (!playerHasSubmitted(gameState, player.id)) {
           return Phrases
         } else {
-          return Starting
+          return Waiting
         }
       case GAME_STATE.PLAYING:
         return Playing;
