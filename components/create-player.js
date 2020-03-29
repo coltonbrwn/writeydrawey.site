@@ -18,6 +18,8 @@ export default class CreatePlayer extends React.Component {
   onSubmit = () => {
     api.createNewPlayer({
       playerName: this.state.playerName
+    }).then( res => {
+      window.localStorage.setItem('player', JSON.stringify(res.data.response))
     })
   }
 
