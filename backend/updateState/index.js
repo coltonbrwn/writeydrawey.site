@@ -12,6 +12,8 @@ module.exports = async function(method, payload) {
       return await createPlayer(payload)
     case API_METHODS.SUBMIT_PHRASES:
       return await submitPhrases(payload)
+    case API_METHODS.START_GAME:
+      return await startGame(payload)
     default:
       return null;
   }
@@ -66,4 +68,15 @@ async function submitPhrases({ player, game, phrases }) {
     }
   }).promise()
 
+}
+
+function startGame({ gameId }) {
+  const newGameState = {
+    id: gameId,
+    state: GAME_STATE.PLAYING
+  }
+  return dynamodb.put({
+    TableName: TABLES.GAMES,
+    Item: newGameState
+  }).promise().then( res => newGameState)
 }

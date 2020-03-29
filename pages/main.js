@@ -43,7 +43,7 @@ export default class Main extends React.Component {
         const response = await api.getGameState({ gameId });
         this.setState({
           gameState: response,
-          player: JSON.parse(localStorage.getItem('player'))
+          player: JSON.parse(sessionStorage.getItem('player'))
         })
       } catch (e) {
         this.setState({
