@@ -1,6 +1,6 @@
 {
-  "name": "yfri3dt-c4wu4xi",
-  "hash": "4gIlnXq5AvRoRNyYGF4pZNRwVCniig51eLRNs+wB0Xc=",
+  "name": "l7oygb-11o5lip",
+  "hash": "n7104l6Rl8u9GKiHNkT9MOcRRisXLdO5oUWHge/NmOU=",
   "description": "general purpose CORS endpoint",
   "memory": 128,
   "timeout": 20,
@@ -10,8 +10,8 @@
   "runtime": "nodejs12.x",
   "env": {},
   "role": {
-    "arn": "arn:aws:iam::680198729557:role/yfri3dt-ipfqloh"
+    "arn": "arn:aws:iam::680198729557:role/l7oygb-54fh5au9"
   },
-  "arn": "arn:aws:lambda:us-east-1:680198729557:function:yfri3dt-c4wu4xi",
+  "arn": "arn:aws:lambda:us-east-1:680198729557:function:l7oygb-11o5lip",
   "region": "us-east-1"
 }

@@ -5,6 +5,7 @@ import Home from '../components/home';
 import Starting from '../components/starting';
 import Playing from '../components/playing';
 import RoundOver from '../components/round-over';
+import CreatePlayer from '../components/create-player';
 import Done from '../components/done';
 import { GAME_STATE, INITIAL_STATE } from '../backend/constants';
 import * as api from '../lib/api';
@@ -17,12 +18,21 @@ export default class Main extends React.Component {
     super()
     this.state = {
       gameState: INITIAL_STATE,
+      player: null,
       error: null,
       statusCode: 200
     }
   }
 
   componentDidMount() {
+
+    const player = localStorage.getItem('player');
+    if (get(player, 'id')) {
+      this.setState({
+        player
+      })
+    }
+
     this.interval = window.setInterval(async () => {
       const gameId = Router.query.slug;
       if (!gameId) {
@@ -44,11 +54,10 @@ export default class Main extends React.Component {
   }
 
   getComponent() {
-    console.log(this.state);
-    const { gameState } = this.state;
+    const { gameState, player } = this.state;
     switch (gameState.state) {
       case GAME_STATE.STARTING:
-        return Starting;
+        return get(player, 'id') ? Starting : CreatePlayer;
       case GAME_STATE.PLAYING:
         return Playing;
       case GAME_STATE.ROUND_OVER:
