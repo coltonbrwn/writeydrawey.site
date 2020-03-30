@@ -58,21 +58,28 @@ async function submitPhrases({ player, game, phrases }) {
     phrase: phrases[0],
     ts: new Date().getTime()
   })
-  gameState.playerInput = playerInput
 
+  const newGameState = {
+    ...gameState.Item,
+    playerInput
+  }
   return dynamodb.put({
     TableName: TABLES.GAMES,
-    Item: {
-      ...gameState.Item,
-      playerInput
+    Item: newGameState
+  }).promise().then( res => newGameState)
+}
+
+async function startGame({ gameId }) {
+
+  const gameState = await dynamodb.get({
+    TableName: TABLES.GAMES,
+    Key: {
+      id: gameId
     }
   }).promise()
 
-}
-
-function startGame({ gameId }) {
   const newGameState = {
-    id: gameId,
+    ...gameState.Item,
     state: GAME_STATE.PLAYING
   }
   return dynamodb.put({
