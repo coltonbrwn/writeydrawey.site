@@ -18,7 +18,7 @@ module.exports.cors = (event, context, cb) => {
 /*
   SUBMIT
  */
-module.exports.submit = async (event, context, cb) => {
+module.exports.update = async (event, context, cb) => {
 
   try {
     var { method, payload } = JSON.parse(event.body)

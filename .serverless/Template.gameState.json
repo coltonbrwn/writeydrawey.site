@@ -1,17 +1,1 @@
-{
-  "name": "l7oygb-579l0c",
-  "hash": "n7104l6Rl8u9GKiHNkT9MOcRRisXLdO5oUWHge/NmOU=",
-  "description": "polling endpoint for game state",
-  "memory": 1024,
-  "timeout": 4,
-  "code": "./backend",
-  "shims": [],
-  "handler": "index.get",
-  "runtime": "nodejs12.x",
-  "env": {},
-  "role": {
-    "arn": "arn:aws:iam::680198729557:role/l7oygb-r5qg1zm"
-  },
-  "arn": "arn:aws:lambda:us-east-1:680198729557:function:l7oygb-579l0c",
-  "region": "us-east-1"
-}
+{}
