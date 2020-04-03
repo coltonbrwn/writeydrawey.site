@@ -1,0 +1,30 @@
+{
+  "id": "5093s0prz8",
+  "endpoints": [
+    {
+      "path": "/api",
+      "method": "POST",
+      "function": "arn:aws:lambda:us-east-1:680198729557:function:l7oygb-3v96vwd",
+      "url": "https://5093s0prz8.execute-api.us-east-1.amazonaws.com/dev/api",
+      "id": "hb2sjn"
+    },
+    {
+      "path": "/state",
+      "method": "GET",
+      "function": "arn:aws:lambda:us-east-1:680198729557:function:l7oygb-0tt5f5n",
+      "url": "https://5093s0prz8.execute-api.us-east-1.amazonaws.com/dev/state",
+      "id": "w57617"
+    },
+    {
+      "path": "/api",
+      "method": "OPTIONS",
+      "function": "arn:aws:lambda:us-east-1:680198729557:function:l7oygb-659y4nc",
+      "url": "https://5093s0prz8.execute-api.us-east-1.amazonaws.com/dev/api",
+      "id": "hb2sjn"
+    }
+  ],
+  "name": "l7oygb-o2kmat",
+  "region": "us-east-1",
+  "stage": "dev",
+  "url": "https://5093s0prz8.execute-api.us-east-1.amazonaws.com/dev"
+}
