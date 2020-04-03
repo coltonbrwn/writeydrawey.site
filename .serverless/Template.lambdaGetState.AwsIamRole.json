@@ -1,0 +1,9 @@
+{
+  "name": "l7oygb-3q44b5e",
+  "arn": "arn:aws:iam::680198729557:role/l7oygb-3q44b5e",
+  "service": "lambda.amazonaws.com",
+  "policy": {
+    "arn": "arn:aws:iam::aws:policy/AdministratorAccess"
+  },
+  "region": "us-east-1"
+}

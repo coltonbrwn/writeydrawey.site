@@ -1,40 +1,28 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
 name: writey-drawey-site
 
 myNextApp:
   component: serverless-next.js
   inputs:
-    domain: ["writeydrawey.site"]
+    domain: ["www", "writeydrawey.site"]
+    bucket: writey-drawey-static-assets
 
-gameApi:
+lambdaUpdateState:
   component: "@serverless/aws-lambda"
   inputs:
     name: writey-drawey-api
-    description: "general purpose endpoint for game management"
+    description: "post endpoint for updating game state"
     memory: 128
     timeout: 20
     code: ./backend
-    handler: index.submit
+    handler: index.update
     runtime: nodejs12.x
     region: us-east-1
 
-gameState:
+lambdaGetState:
   component: "@serverless/aws-lambda"
   inputs:
     name: writey-drawey-game-state
-    description: "polling endpoint for game state"
+    description: "polling endpoint for fetching game state"
     memory: 1024
     timeout: 4
     code: ./backend
@@ -42,7 +30,7 @@ gameState:
     runtime: nodejs12.x
     region: us-east-1
 
-cors:
+lambdaCors:
   component: "@serverless/aws-lambda"
   inputs:
     name: writey-drawey-api-cors
@@ -54,7 +42,7 @@ cors:
     runtime: nodejs12.x
     region: us-east-1
 
-api:
+gameApiGateway:
   component: "@serverless/aws-api-gateway"
   inputs:
     description: Writey Drawey
@@ -62,13 +50,13 @@ api:
     endpoints:
       - path: /api
         method: POST
-        function: ${gameApi.arn}
-      - path: /api
-        method: OPTIONS
-        function: ${cors.arn}
+        function: ${lambdaUpdateState.arn}
       - path: /state
         method: GET
-        function: ${gameState.arn}
+        function: ${lambdaGetState.arn}
+      - path: /api
+        method: OPTIONS
+        function: ${lambdaCors.arn}
 
 gamesTable:
   component: '@serverless/aws-dynamodb'

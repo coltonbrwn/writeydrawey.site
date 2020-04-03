@@ -1,9 +1,1 @@
-{
-  "name": "l7oygb-54fh5au9",
-  "arn": "arn:aws:iam::680198729557:role/l7oygb-54fh5au9",
-  "service": "lambda.amazonaws.com",
-  "policy": {
-    "arn": "arn:aws:iam::aws:policy/AdministratorAccess"
-  },
-  "region": "us-east-1"
-}
+{}
