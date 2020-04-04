@@ -6,18 +6,22 @@ import Phrases from '../components/phrases';
 import Waiting from '../components/waiting';
 import Playing from '../components/playing';
 import RoundOver from '../components/round-over';
-import CreatePlayer from '../components/create-player';
+import JoinGame from '../components/join-game';
 import Done from '../components/done';
 import { GAME_STATE, INITIAL_STATE } from '../backend/constants';
 import * as api from '../lib/api';
 
 import "../styles/styles.scss";
 
-function playerHasSubmitted(gameState, playerId) {
+function playerHasContributed(gameState, player) {
   try {
-    return gameState.playerInput.find( el => el.playerId === playerId )
+    const playerContribution = gameState.playerInput.find( input => (
+      input.round === gameState.round && input.playerId === player.playerId
+    ))
+    return Boolean(playerContribution);
   } catch (e) {
-    return false
+    console.log(e)
+    return false;
   }
 }
 
@@ -43,7 +47,7 @@ export default class Main extends React.Component {
         const response = await api.getGameState({ gameId });
         this.setState({
           gameState: response,
-          player: JSON.parse(sessionStorage.getItem('player'))
+          player: JSON.parse(window.sessionStorage.getItem('player'))
         })
       } catch (e) {
         this.setState({
@@ -57,15 +61,14 @@ export default class Main extends React.Component {
 
   getComponent() {
     const { gameState, player } = this.state;
+
+    if (playerHasContributed(gameState, player)) {
+      return Waiting;
+    }
+
     switch (gameState.state) {
       case GAME_STATE.STARTING:
-        if (!get(player, 'id')) {
-          return CreatePlayer
-        } else if (!playerHasSubmitted(gameState, player.id)) {
-          return Phrases
-        } else {
-          return Waiting
-        }
+        return JoinGame;
       case GAME_STATE.PLAYING:
         return Playing;
       case GAME_STATE.ROUND_OVER:
