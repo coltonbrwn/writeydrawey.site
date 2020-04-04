@@ -24,7 +24,7 @@ input.large {
   font-size: 2em;
 }
 
-#drawingCanvas {
+#drawingCanvas, img.playerDrawing {
   width: 100vw;
   height: 100vh;
   border: none;
@@ -40,4 +40,8 @@ input.large {
 
 h1 {
   padding: 1em 0.2em;
+}
+
+.strikethrough {
+  text-decoration: line-through;
 }
