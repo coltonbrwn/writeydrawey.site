@@ -71,8 +71,6 @@ export default class Main extends React.Component {
         return JoinGame;
       case GAME_STATE.PLAYING:
         return Playing;
-      case GAME_STATE.ROUND_OVER:
-        return RoundOver;
       case GAME_STATE.DONE:
         return Done;
       default:
@@ -84,6 +82,18 @@ export default class Main extends React.Component {
     const Component = this.getComponent();
     return (
       <Layout theme="light">
+        {
+          this.state.player && (
+            <div style={{textAlign: 'left'}}>
+              <div>
+                { this.state.player.playerName }
+              </div>
+              <div>
+                { this.state.player.playerId }
+              </div>
+            </div>
+          )
+        }
         <Component { ...this.state }/>
       </Layout>
     );
