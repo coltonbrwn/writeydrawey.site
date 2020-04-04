@@ -24,6 +24,7 @@
     "react-dom": "^16.10.2",
     "serverless-next.js": "^1.6.0",
     "shortid": "^2.2.15",
+    "uuid": "^7.0.2",
     "webpack": "^4.34.0"
   },
   "devDependencies": {

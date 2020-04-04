@@ -26,10 +26,11 @@ export default class Phrases extends React.Component {
         return;
       }
     }
-    api.submitPhrases({
+    api.playerInput({
       player: this.props.player.id,
-      phrases: this.state.phrases,
-      game: this.props.gameState.id
+      phrase: this.state.phrases[0],
+      game: this.props.gameState.id,
+      round: 0
     })
   }
 
