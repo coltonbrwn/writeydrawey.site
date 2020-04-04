@@ -69,24 +69,3 @@ gamesTable:
       - AttributeName: id
         KeyType: HASH
     region: us-east-1
-
-playersTable:
-  component: '@serverless/aws-dynamodb'
-  inputs:
-    name: writey-drawey-players # optional
-    attributeDefinitions:
-      - AttributeName: id
-        AttributeType: S
-      - AttributeName: gameId
-        AttributeType: S
-    keySchema:
-      - AttributeName: id
-        KeyType: HASH
-    globalSecondaryIndexes:
-      - IndexName: 'gameIndex'
-        KeySchema:
-         - AttributeName: gameId
-           KeyType: HASH
-        Projection:
-           ProjectionType: 'KEYS_ONLY'
-    region: us-east-1

@@ -7,8 +7,7 @@ module.exports.GAME_STATE = {
 }
 
 module.exports.TABLES = {
-  GAMES: 'writey-drawey-games',
-  PLAYERS: 'writey-drawey-players'
+  GAMES: 'writey-drawey-games'
 }
 
 module.exports.API_METHODS = {
@@ -19,5 +18,8 @@ module.exports.API_METHODS = {
 }
 
 module.exports.INITIAL_STATE = {
-
+  id: null,
+  players: [],
+  playerInput: [],
+  round: 0
 }
