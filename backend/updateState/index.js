@@ -8,10 +8,10 @@ module.exports = async function(method, payload) {
   switch (method) {
     case API_METHODS.CREATE_GAME:
       return await createGame()
-    case API_METHODS.CREATE_PLAYER:
-      return await createPlayer(payload)
-    case API_METHODS.SUBMIT_PHRASES:
-      return await submitPhrases(payload)
+    case API_METHODS.ADD_PLAYER:
+      return await addPlayer(payload)
+    case API_METHODS.PLAYER_INPUT:
+      return await playerInput(payload)
     case API_METHODS.START_GAME:
       return await startGame(payload)
     default:
@@ -19,46 +19,66 @@ module.exports = async function(method, payload) {
   }
 }
 
+/*
+  CREATE_GAME
+ */
 function createGame() {
   const newGameId = shortid.generate()
   return dynamodb.put({
     TableName: TABLES.GAMES,
     Item: {
       id: newGameId,
-      state: GAME_STATE.STARTING
+      state: GAME_STATE.STARTING,
+      round: 0
     }
   }).promise().then( res => ({
     id: newGameId
   }))
 }
 
-function createPlayer({ name, photo }) {
-  const newPlayer = {
-    id: uuid.v4(),
-    name,
-    photo
-  }
-  return dynamodb.put({
-    TableName: TABLES.PLAYERS,
-    Item: newPlayer
-  }).promise().then( res => newPlayer )
-}
-
-async function submitPhrases({ player, game, phrases }) {
+/*
+  ADD_PLAYER
+ */
+async function addPlayer({ player, gameId }) {
   const gameState = await dynamodb.get({
     TableName: TABLES.GAMES,
     Key: {
-      id: game
+      id: gameId
     }
   }).promise()
+  const players = gameState.Item.players || []
+  players.push({
+    ...player,
+    ts: new Date().getTime()
+  });
+  const newGameState = {
+    ...gameState.Item,
+    players
+  }
+  return dynamodb.put({
+    TableName: TABLES.GAMES,
+    Item: newGameState
+  }).promise().then( res => newGameState)
+}
 
+/*
+ PLAYER_INPUT
+ */
+async function playerInput({ playerId, gameId, phrase, drawing, round }) {
+  const gameState = await dynamodb.get({
+    TableName: TABLES.GAMES,
+    Key: {
+      id: gameId
+    }
+  }).promise()
   const playerInput = gameState.Item.playerInput || []
   playerInput.push({
-    playerId: player,
-    phrase: phrases[0],
-    ts: new Date().getTime()
+    playerId,
+    phrase,
+    drawing,
+    round,
+    ts: new Date().getTime(),
   })
-
   const newGameState = {
     ...gameState.Item,
     playerInput
@@ -69,18 +89,20 @@ async function submitPhrases({ player, game, phrases }) {
   }).promise().then( res => newGameState)
 }
 
+/*
+ START GAME
+ */
 async function startGame({ gameId }) {
-
   const gameState = await dynamodb.get({
     TableName: TABLES.GAMES,
     Key: {
       id: gameId
     }
   }).promise()
-
   const newGameState = {
     ...gameState.Item,
-    state: GAME_STATE.PLAYING
+    state: GAME_STATE.PLAYING,
+    round: 1
   }
   return dynamodb.put({
     TableName: TABLES.GAMES,
