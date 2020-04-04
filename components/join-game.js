@@ -20,10 +20,8 @@ export default class AddPlayer extends React.Component {
     } catch (e) { }
     if (!this.state.player || !this.state.player.id) {
       this.setState({
-        player: {
-          playerName: '',
-          playerId: v4()
-        }
+        playerName: '',
+        playerId: v4()
       })
     }
   }
