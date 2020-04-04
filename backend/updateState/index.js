@@ -16,6 +16,8 @@ module.exports = async function(method, payload) {
       return await playerInput(payload)
     case API_METHODS.START_GAME:
       return await startGame(payload)
+    case API_METHODS.NEXT_ROUND:
+      return await nextRound(payload)
     default:
       return null;
   }
@@ -111,4 +113,20 @@ async function startGame({ gameId }) {
     TableName: TABLES.GAMES,
     Item: newGameState
   }).promise().then( res => newGameState)
+}
+
+async function nextRound({ gameId }) {  
+  return dynamodb.update({
+    TableName: TABLES.GAMES,
+    Key: {
+      id: gameId
+    },
+    UpdateExpression: 'set #a = #a + :one',
+    ExpressionAttributeNames: {
+      '#a' : 'round'
+    },
+    ExpressionAttributeValues: {
+      ':one' : 1
+    }
+  }).promise()
 }
