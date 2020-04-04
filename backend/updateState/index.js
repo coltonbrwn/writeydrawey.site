@@ -2,6 +2,8 @@ var { TABLES, API_METHODS, GAME_STATE } = require('../constants')
 var uuid = require('uuid')
 var shortid = require('shortid')
 var AWS = require('aws-sdk')
+var uniqBy = require('lodash.uniqby')
+
 var dynamodb = new AWS.DynamoDB.DocumentClient()
 
 module.exports = async function(method, payload) {
@@ -51,9 +53,10 @@ async function addPlayer({ player, gameId }) {
     ...player,
     ts: new Date().getTime()
   });
+  const uniqPlayers = uniqBy(players, item => item.playerId)
   const newGameState = {
     ...gameState.Item,
-    players
+    players: uniqPlayers
   }
   return dynamodb.put({
     TableName: TABLES.GAMES,

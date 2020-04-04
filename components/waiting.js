@@ -19,7 +19,9 @@ export default class Starting extends React.Component {
         <h3><strong>Players in the game:</strong></h3>
         {
           this.props.gameState.players.map( player => (
-            <div>{ player.playerName }</div>
+            <div key={ player.playerId }>
+              { player.playerName }
+            </div>
           ))
         }
         <button
