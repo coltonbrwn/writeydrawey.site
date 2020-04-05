@@ -88,7 +88,6 @@ async function playerInput({ playerId, gameId, phrase, drawing, round }) {
       rawImage: drawing,
       keyName: `g-${ gameId }/${ round }_p-${ playerId }`
     })
-    console.log(imageUrl)
   }
 
   playerInput.push({

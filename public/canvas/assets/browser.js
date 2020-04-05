@@ -3,8 +3,6 @@ console.log('HI')
 $(function() {
   $('#undo').click(window.globals.onUndoClick)
   $('#photo').click(onPhotoClick)
-
-
 })
 
 window.globals = {
