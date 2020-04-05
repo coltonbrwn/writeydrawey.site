@@ -22,6 +22,10 @@ export default class Home extends React.Component {
     return leftHandPlayerInput || {}
   }
 
+  onDrawingClick = () => {
+    console.log('woah')
+  }
+
   onDescriptionChange = e => {
     this.setState({
       description: e.target.value
@@ -60,23 +64,35 @@ export default class Home extends React.Component {
   }
 
   render() {
+
+    if (!(this.props.player && this.props.gameState.players.find( p => p.playerId === this.props.player.playerId ))) {
+      return (
+        <div>
+          <h1>This game is currently being played</h1>
+          <h3>It wouldn't really make sense to let you jump in</h3>
+          <a href="/">
+            <button className="large">
+              Go Home
+            </button>
+          </a>
+        </div>
+      )
+    }
+
     const myId = this.props.player.playerId
     const isDrawingRound = Boolean(this.props.gameState.round % 2)
     const leftHandPlayerInput = this.getLeftHandPlayer()
     return (
       <div>
-        <div style={{textAlign: 'left'}}>
-          Viewing: { leftHandPlayerInput.playerId }
-        </div>
         <h3>{ this.props.gameState.round }</h3>
         {
           isDrawingRound
             ? (
               <div>
                 <h1>Draw "{ leftHandPlayerInput.phrase }"</h1>
-                <iframe id="drawingCanvas" src="/canvas/index.html" />
+                <iframe id="drawingCanvas" src="/canvas/index.html" onClick={ this.onDrawingClick }/>
                 <button className="large" onClick={ this.onDrawingSubmit }>
-                  Okay
+                  I'm Done Drawing
                 </button>
               </div>
             ): (

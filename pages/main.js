@@ -78,13 +78,8 @@ export default class Main extends React.Component {
       <Layout theme="light">
         {
           this.state.player && (
-            <div style={{textAlign: 'left'}}>
-              <div>
-                { this.state.player.playerName }
-              </div>
-              <div>
-                { this.state.player.playerId }
-              </div>
+            <div style={{textAlign: 'left', position: 'absolute'}}>
+              { this.state.player.playerName }
             </div>
           )
         }

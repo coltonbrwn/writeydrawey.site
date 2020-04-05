@@ -51,11 +51,11 @@ export default class Starting extends React.Component {
             )) === 0;
             return (
               <div
-                className={ isPlayerReady ? 'strikethrough' : ''}
                 key={ p.playerId }
               >
-                { !isAdminPlayer ? '' : <strong>*</strong> }
                 { p.playerName }
+                { isAdminPlayer && <strong className="mono"> [admin]</strong> }
+                <strong className="mono"> { isPlayerReady ? ' (done)' : ' (waiting)' }</strong>
               </div>
             )
           })
