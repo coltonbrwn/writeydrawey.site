@@ -8,6 +8,10 @@ module.exports.TABLES = {
   GAMES: 'writey-drawey-games'
 }
 
+module.exports.BUCKETS = {
+  IMAGES: 'writey-drawey-images'
+}
+
 module.exports.API_METHODS = {
   CREATE_GAME: 'createGame',
   ADD_PLAYER: 'addPlayer',
