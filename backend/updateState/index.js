@@ -1,8 +1,10 @@
-var { TABLES, API_METHODS, GAME_STATE } = require('../constants')
 var uuid = require('uuid')
 var shortid = require('shortid')
 var AWS = require('aws-sdk')
 var uniqBy = require('lodash.uniqby')
+
+var convertImage = require('./convert-image');
+var { TABLES, API_METHODS, GAME_STATE } = require('../constants')
 
 var dynamodb = new AWS.DynamoDB.DocumentClient()
 
@@ -79,10 +81,20 @@ async function playerInput({ playerId, gameId, phrase, drawing, round }) {
     }
   }).promise()
   const playerInput = gameState.Item.playerInput || []
+
+  let imageUrl;
+  if (drawing) {
+    imageUrl = await convertImage.convertB64Image({
+      rawImage: drawing,
+      gameId
+    })
+    console.log(imageUrl)
+  }
+
   playerInput.push({
     playerId,
     phrase,
-    drawing,
+    drawing: imageUrl,
     round,
     ts: new Date().getTime(),
   })
