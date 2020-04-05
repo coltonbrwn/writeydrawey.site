@@ -72,13 +72,15 @@ export default class AddPlayer extends React.Component {
   render() {
     return (
       <div>
-        <h1>Join Game #{ this.props.gameState.id }</h1>
-        <input
-          className="large"
-          placeholder="Your Name"
-          onChange={ this.onNameInputChanage }
-          value={ this.state.playerName }
-        />
+        <h1>Joining Game <span className="mono">#{ this.props.gameState.id }</span></h1>
+        <div>
+          <input
+            className="large"
+            placeholder="Your Name"
+            onChange={ this.onNameInputChanage }
+            value={ this.state.playerName }
+          />
+        </div>
         <h1>Choose A Phrase</h1>
         <textarea
           className="large"

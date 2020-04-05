@@ -1,7 +1,7 @@
 
 export default class Home extends React.Component {
-  render() {
 
+  render() {
     /*
       Loops through the game state and creates a stack of responses
       that tracks the logical progression from each player's first entry
@@ -28,6 +28,12 @@ export default class Home extends React.Component {
       <div>
         <h1>Game Over!</h1>
         <h3>Game results below</h3>
+
+        <a href="/">
+          <button className="large">
+            Back Home
+          </button>
+        </a>
 
         {
           cardStacks.map( c => (
