@@ -5,7 +5,6 @@
     "lambdaGetState": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.0/node_modules/@serverless/aws-lambda",
     "lambdaCors": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.0/node_modules/@serverless/aws-lambda",
     "gameApiGateway": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-api-gateway@4.1.0/node_modules/@serverless/aws-api-gateway",
-    "gamesTable": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-dynamodb@4.0.0/node_modules/@serverless/aws-dynamodb",
-    "playersTable": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-dynamodb@4.0.0/node_modules/@serverless/aws-dynamodb"
+    "gamesTable": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-dynamodb@4.0.0/node_modules/@serverless/aws-dynamodb"
   }
 }

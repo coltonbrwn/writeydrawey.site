@@ -61,20 +61,16 @@ export default class Main extends React.Component {
 
   getComponent() {
     const { gameState, player } = this.state;
-
-    if (playerHasContributed(gameState, player)) {
-      return Waiting;
-    }
-
-    switch (gameState.state) {
-      case GAME_STATE.STARTING:
-        return JoinGame;
-      case GAME_STATE.PLAYING:
-        return Playing;
-      case GAME_STATE.DONE:
-        return Done;
-      default:
-        return Home;
+    if (gameState.state === GAME_STATE.DONE) {
+      return Done
+    } else if (playerHasContributed(gameState, player)) {
+      return Waiting
+    } else if (gameState.state === GAME_STATE.STARTING) {
+      return JoinGame
+    } else if (gameState.state === GAME_STATE.PLAYING) {
+      return Playing
+    } else {
+      return Home
     }
   }
 
