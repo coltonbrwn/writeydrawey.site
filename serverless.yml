@@ -69,3 +69,20 @@ gamesTable:
       - AttributeName: id
         KeyType: HASH
     region: us-east-1
+
+imageBucket:
+  component: "@serverless/aws-s3"
+  inputs:
+    name: writey-drawey-images
+    region: us-east-1
+    cors:
+      CORSRules:
+      - AllowedHeaders:
+        - "*"
+        AllowedMethods:
+        - PUT
+        - POST
+        - DELETE
+        AllowedOrigins:
+        - http://writeydrawey.site
+        MaxAgeSeconds: 3000
