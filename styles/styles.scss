@@ -24,6 +24,10 @@ input.large {
   font-size: 2em;
 }
 
+#drawingCanvas {
+  cursor: crosshair;
+}
+
 #drawingCanvas, img.playerDrawing {
   width: 100vw;
   height: 100vh;
