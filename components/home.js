@@ -15,7 +15,7 @@ export default class Home extends React.Component {
   render() {
     return (
       <div>
-        <h1>Welcome to the Writey Drawey Game.</h1>
+        <h1>Welcome Writey Drawey</h1>
         {
           this.props.statusCode == 404 && (
             <p>We couldn't find a game here</p>
