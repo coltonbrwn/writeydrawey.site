@@ -2,10 +2,8 @@ import { get } from 'dotty';
 import Router from 'next/router';
 import Layout from '../components/layout';
 import Home from '../components/home';
-import Phrases from '../components/phrases';
 import Waiting from '../components/waiting';
 import Playing from '../components/playing';
-import RoundOver from '../components/round-over';
 import JoinGame from '../components/join-game';
 import Done from '../components/done';
 import { GAME_STATE, INITIAL_STATE } from '../backend/constants';
@@ -44,9 +42,9 @@ export default class Main extends React.Component {
         return;
       }
       try {
-        const response = await api.getGameState({ gameId });
+        const gameState = await api.getGameState({ gameId });
         this.setState({
-          gameState: response,
+          gameState,
           player: JSON.parse(window.sessionStorage.getItem('player'))
         })
       } catch (e) {
