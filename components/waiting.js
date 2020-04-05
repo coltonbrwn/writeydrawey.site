@@ -21,6 +21,12 @@ export default class Starting extends React.Component {
     })
   }
 
+  onEndGameClick = () => {
+    api.endGame({
+      gameId: this.props.gameState.id
+    })
+  }
+
   render() {
     const { gameState, player } = this.props;
     const isAdminPlayer = gameState.players.findIndex( p => (
