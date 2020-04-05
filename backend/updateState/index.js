@@ -18,6 +18,8 @@ module.exports = async function(method, payload) {
       return await startGame(payload)
     case API_METHODS.NEXT_ROUND:
       return await nextRound(payload)
+    case API_METHODS.END_GAME:
+      return await endGame(payload)
     default:
       return null;
   }
@@ -98,24 +100,40 @@ async function playerInput({ playerId, gameId, phrase, drawing, round }) {
  START GAME
  */
 async function startGame({ gameId }) {
-  const gameState = await dynamodb.get({
+  return dynamodb.update({
     TableName: TABLES.GAMES,
     Key: {
       id: gameId
+    },
+    UpdateExpression: 'set #game_state = :state_playing, #round = :one',
+    ExpressionAttributeNames: {
+      '#game_state': 'state',
+      '#round': 'round'
+    },
+    ExpressionAttributeValues: {
+      ':state_playing': GAME_STATE.PLAYING,
+      ':one': 1
     }
   }).promise()
-  const newGameState = {
-    ...gameState.Item,
-    state: GAME_STATE.PLAYING,
-    round: 1
-  }
-  return dynamodb.put({
-    TableName: TABLES.GAMES,
-    Item: newGameState
-  }).promise().then( res => newGameState)
 }
 
-async function nextRound({ gameId }) {  
+async function endGame({ gameId }) {
+  return dynamodb.update({
+    TableName: TABLES.GAMES,
+    Key: {
+      id: gameId
+    },
+    UpdateExpression: 'set #game_state = :state_done',
+    ExpressionAttributeNames: {
+      '#game_state': 'state'
+    },
+    ExpressionAttributeValues: {
+      ':state_done': GAME_STATE.DONE
+    }
+  }).promise()
+}
+
+async function nextRound({ gameId }) {
   return dynamodb.update({
     TableName: TABLES.GAMES,
     Key: {
