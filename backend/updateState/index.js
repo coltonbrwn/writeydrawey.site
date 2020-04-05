@@ -86,7 +86,7 @@ async function playerInput({ playerId, gameId, phrase, drawing, round }) {
   if (drawing) {
     imageUrl = await convertImage.convertB64Image({
       rawImage: drawing,
-      gameId
+      keyName: `g-${ gameId }/${ round }_p-${ playerId }`
     })
     console.log(imageUrl)
   }
