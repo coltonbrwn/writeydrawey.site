@@ -4,12 +4,12 @@ myNextApp:
   component: serverless-next.js
   inputs:
     domain: ["www", "writeydrawey.site"]
-    bucket: writey-drawey-static-assets
+    bucketName: writey-drawey-next-js
 
 lambdaUpdateState:
   component: "@serverless/aws-lambda"
+  name: writey-drawey-update-game
   inputs:
-    name: writey-drawey-api
     description: "post endpoint for updating game state"
     memory: 128
     timeout: 20
@@ -20,8 +20,8 @@ lambdaUpdateState:
 
 lambdaGetState:
   component: "@serverless/aws-lambda"
+  name: writey-drawey-game-state
   inputs:
-    name: writey-drawey-game-state
     description: "polling endpoint for fetching game state"
     memory: 1024
     timeout: 4
@@ -32,8 +32,8 @@ lambdaGetState:
 
 lambdaCors:
   component: "@serverless/aws-lambda"
+  name: writey-drawey-api-cors
   inputs:
-    name: writey-drawey-api-cors
     description: "general purpose CORS endpoint"
     memory: 128
     timeout: 20

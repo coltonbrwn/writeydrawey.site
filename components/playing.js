@@ -22,10 +22,6 @@ export default class Home extends React.Component {
     return leftHandPlayerInput || {}
   }
 
-  onDrawingClick = () => {
-    console.log('woah')
-  }
-
   onDescriptionChange = e => {
     this.setState({
       description: e.target.value
@@ -90,7 +86,7 @@ export default class Home extends React.Component {
             ? (
               <div>
                 <h1>Draw "{ leftHandPlayerInput.phrase }"</h1>
-                <iframe id="drawingCanvas" src="/canvas/index.html" onClick={ this.onDrawingClick }/>
+                <iframe id="drawingCanvas" src="/canvas/index.html" />
                 <button className="large" onClick={ this.onDrawingSubmit }>
                   I'm Done Drawing
                 </button>
