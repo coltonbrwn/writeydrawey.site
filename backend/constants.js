@@ -23,7 +23,8 @@ module.exports.API_METHODS = {
 
 module.exports.INITIAL_STATE = {
   id: null,
+  state: null,
   players: [],
   playerInput: [],
-  round: 0
+  round: 0,
 }
