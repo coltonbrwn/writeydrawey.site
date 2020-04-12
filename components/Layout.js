@@ -9,7 +9,7 @@ import {
 
 const social_img_url = '/favicon-xxxl.png';
 const title = 'Writey Drawey';
-const ga_id = ''
+const ga_id = 'UA-93943838-5'
 const url = 'https://writeydrawey.site'
 
 export default class Layout extends React.Component {
