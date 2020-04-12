@@ -1,5 +1,5 @@
 var { TABLES, API_METHODS } = require('../constants');
-var AWS = require('aws-sdk')
+var AWS = require('aws-sdk');
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
 function sort(array) {
@@ -18,6 +18,10 @@ module.exports = async function(id) {
       id
     }
   }).promise();
+
+  if (!gameState) {
+    return null
+  }
 
   return {
     id: gameState.id,

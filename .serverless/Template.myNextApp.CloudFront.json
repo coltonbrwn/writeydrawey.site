@@ -5,7 +5,7 @@
   "region": "us-east-1",
   "origins": [
     {
-      "url": "http://l7oygb-qnezqw.s3.amazonaws.com",
+      "url": "http://writey-drawey-next-js.s3.amazonaws.com",
       "private": true,
       "pathPatterns": {
         "_next/*": {
@@ -28,7 +28,7 @@
       "queryString": true
     },
     "lambda@edge": {
-      "origin-request": "arn:aws:lambda:us-east-1:680198729557:function:l7oygb-8lz7hmn:30"
+      "origin-request": "arn:aws:lambda:us-east-1:680198729557:function:l7oygb-8lz7hmn:32"
     }
   }
 }
