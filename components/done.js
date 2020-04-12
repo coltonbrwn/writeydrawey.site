@@ -1,28 +1,10 @@
+import createCardStacks from '../lib/create-card-stacks';
 
 export default class Home extends React.Component {
 
   render() {
-    /*
-      Loops through the game state and creates a stack of responses
-      that tracks the logical progression from each player's first entry
-     */
-    const gameState = this.props.gameState
-    const playerIds = gameState.players.map( p => p.playerId )
-    const cardStacks = gameState.players.map( (player, i) => {
-      const cards = [];
-      let j = i;
-      for (var round = 0; round <= gameState.round; round++) {
-        const playerId = playerIds[ j ]
-        cards.push( gameState.playerInput.find( input => (
-          input.round === round && input.playerId === playerId
-        )))
-        j = (j <= 0) ? playerIds.length - 1 : j - 1;
-      }
-      return {
-        player,
-        cards
-      }
-    })
+
+    const cardStacks = createCardStacks(this.props.gameState)
 
     return (
       <div>
