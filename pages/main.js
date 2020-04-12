@@ -18,20 +18,37 @@ function playerHasContributed(gameState, player) {
     ))
     return Boolean(playerContribution);
   } catch (e) {
-    console.log(e)
     return false;
   }
 }
 
 export default class Main extends React.Component {
 
-  constructor() {
+  constructor({ gameState }) {
     super()
     this.state = {
-      gameState: INITIAL_STATE,
+      gameState: gameState || INITIAL_STATE,
       player: null,
       error: null,
       statusCode: 200
+    }
+  }
+
+  static async getInitialProps({ query }) {
+    if (!query) {
+      return {
+        gameState: INITIAL_STATE
+      }
+    }
+    try {
+      return {
+        gameState: await api.getGameState({ gameId: query.slug })
+      }
+    } catch (e) {
+      return {
+        gameState: INITIAL_STATE,
+        statusCode: 404
+      }
     }
   }
 
@@ -48,6 +65,7 @@ export default class Main extends React.Component {
           player: JSON.parse(window.sessionStorage.getItem('player'))
         })
       } catch (e) {
+        console.log(e)
         this.setState({
           gameState: INITIAL_STATE,
           statusCode: get(e, 'request.status')

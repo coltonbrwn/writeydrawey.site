@@ -56,7 +56,7 @@ module.exports.get = async (event, context, cb) => {
     var { id }  = event.queryStringParameters;
   } catch (err) {
     return cb(null, {
-      statusCode: 500,
+      statusCode: 400,
       body: JSON.stringify({ message:'Error parsing request'}),
       headers: corsHeaders
     })

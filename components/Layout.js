@@ -35,7 +35,16 @@ export default class Layout extends React.Component {
                 gtag('js', new Date());
                 gtag('config', '${ ga_id }');
             `
-          }}/>
+          }} />
+          <script dangerouslySetInnerHTML={{
+            __html: `
+              window.process = {
+                 env: {
+                   NODE_ENV: '${ process.env.NODE_ENV }'
+                 }
+              };
+            `
+          }} />
 
           <link rel="shortcut icon" href="/favicon-32.png" />
           <link rel="icon" type="image/png" href="/favicon-196.png" />

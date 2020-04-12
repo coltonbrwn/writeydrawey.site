@@ -4,7 +4,7 @@ var AWS = require('aws-sdk')
 var uniqBy = require('lodash.uniqby')
 
 var convertImage = require('./convert-image');
-var { TABLES, API_METHODS, GAME_STATE } = require('../constants')
+var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE } = require('../constants')
 
 var dynamodb = new AWS.DynamoDB.DocumentClient()
 
@@ -35,9 +35,9 @@ function createGame() {
   return dynamodb.put({
     TableName: TABLES.GAMES,
     Item: {
+      ...INITIAL_STATE,
       id: newGameId,
-      state: GAME_STATE.STARTING,
-      round: 0
+      state: GAME_STATE.STARTING
     }
   }).promise().then( res => ({
     id: newGameId
