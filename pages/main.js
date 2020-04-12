@@ -64,6 +64,9 @@ export default class Main extends React.Component {
           gameState,
           player: JSON.parse(window.sessionStorage.getItem('player'))
         })
+        if (gameState.state === GAME_STATE.DONE) {
+          window.clearInterval(this.interval);
+        }
       } catch (e) {
         console.log(e)
         this.setState({

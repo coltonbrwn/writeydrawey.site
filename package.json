@@ -34,7 +34,8 @@
     "dev": "next -p 3030",
     "build": "next build",
     "start": "next start",
-    "now-build": "next build"
+    "now-build": "next build",
+    "test": "mocha"
   },
   "keywords": [],
   "license": "MIT",
