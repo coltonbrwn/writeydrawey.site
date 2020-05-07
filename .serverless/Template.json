@@ -1,6 +1,6 @@
 {
   "components": {
-    "myNextApp": "/Users/colton/.serverless/components/registry/npm/serverless-next.js@1.9.8/node_modules/serverless-next.js",
+    "myNextApp": "/Users/colton/.serverless/components/registry/npm/serverless-next.js@1.9.10/node_modules/serverless-next.js",
     "lambdaUpdateState": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.0/node_modules/@serverless/aws-lambda",
     "lambdaGetState": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.0/node_modules/@serverless/aws-lambda",
     "lambdaCors": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.0/node_modules/@serverless/aws-lambda",

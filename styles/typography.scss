@@ -1,21 +1,30 @@
 @font-face {
-  font-family: 'Basis';
-  font-weight: 400;
-  src: url('/BasisGrotesque-Regular.ttf')  format('truetype');
+  font-family: 'Relative';
+  font-weight: normal;
+  src: url('/relative-book.eot'); /* IE9 Compat Modes */
+  src: url('/relative-book.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/relative-book.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/relative-book.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/relative-book.ttf')  format('truetype'); /* Safari, Android, iOS */
 }
 @font-face {
-  font-family: 'Basis';
-  font-weight: 600;
-  src: url('/BasisGrotesque-Bold.ttf')  format('truetype');
+  font-family: 'Relative';
+  font-style: italic;
+  font-weight: normal;
+  src: url('/relative-italic.eot'); /* IE9 Compat Modes */
+  src: url('/relative-italic.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/relative-italic.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/relative-italic.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/relative-italic.ttf')  format('truetype'); /* Safari, Android, iOS */
 }
 @font-face {
-  font-family: 'Basis';
-  font-weight: 500;
-  src: url('/BasisGrotesque-Medium.ttf')  format('truetype');
-}
-@font-face {
-  font-family: 'Basis-Mono';
-  src: url('/BasisGrotesque-Mono.ttf')  format('truetype');
+  font-family: 'Relative Mono';
+  font-weight: normal;
+  src: url('/relative-mono-11-pitch.eot'); /* IE9 Compat Modes */
+  src: url('/relative-mono-11-pitch.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/relative-mono-11-pitch.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/relative-mono-11-pitch.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/relative-mono-11-pitch.ttf')  format('truetype'); /* Safari, Android, iOS */
 }
 
 html {
@@ -30,11 +39,11 @@ html {
 }
 body {
   margin: 0;
-  font-family: 'Basis', sans-serif;
-  letter-spacing: 0.06em;
+  font-family: 'Relative', 'Helvetica', sans-serif;
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-transform: lowercase;
 }
 h1, h2, h3, h4, p {
   line-height: 1.4em;
@@ -79,11 +88,10 @@ a {
   font-weight: 500;
   letter-spacing: 0.06em;
 }
-.bold {
-  font-weight: 600;
-  letter-spacing: 0.08em;
-}
 .mono {
-  font-family: 'Basis-Mono';
+  font-family: 'Relative Mono';
   font-size: 0.6em;
+}
+.strikethrough {
+  text-decoration: line-through;
 }
