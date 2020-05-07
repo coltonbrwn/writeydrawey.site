@@ -24,27 +24,30 @@ function playerHasContributed(gameState, player) {
 
 export default class Main extends React.Component {
 
-  constructor({ gameState }) {
+  constructor({ gameState, statusCode }) {
     super()
     this.state = {
       gameState: gameState || INITIAL_STATE,
       player: null,
       error: null,
-      statusCode: 200
+      statusCode
     }
   }
 
   static async getInitialProps({ query }) {
-    if (!query) {
+    if (!query.slug) {
       return {
-        gameState: INITIAL_STATE
+        gameState: INITIAL_STATE,
+        statusCode: 200
       }
     }
     try {
       return {
-        gameState: await api.getGameState({ gameId: query.slug })
+        gameState: await api.getGameState({ gameId: query.slug }),
+        statusCode: 200
       }
     } catch (e) {
+      console.log(e)
       return {
         gameState: INITIAL_STATE,
         statusCode: 404
