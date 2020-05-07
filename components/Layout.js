@@ -46,9 +46,9 @@ export default class Layout extends React.Component {
             `
           }} />
 
-          <link rel="shortcut icon" href="/favicon-32.png" />
-          <link rel="icon" type="image/png" href="/favicon-196.png" />
-          <link rel="apple-touch-icon" href="/favicon-180.png" />
+          <link rel="shortcut icon" href="/favicon/favicon-32.png" />
+          <link rel="icon" type="image/png" href="/favicon/favicon-196.png" />
+          <link rel="apple-touch-icon" href="/favicon/favicon-180.png" />
 
           <meta name="description" content={ description } />
           <meta itemProp="name" content={ title } />
