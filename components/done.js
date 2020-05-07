@@ -5,6 +5,7 @@ export default class Home extends React.Component {
   render() {
 
     const cardStacks = createCardStacks(this.props.gameState)
+    
 
     return (
       <div>
@@ -28,10 +29,12 @@ export default class Home extends React.Component {
                       input.phrase ? (
                         <h3 style={{ padding: '4em 2em' }}>{input.phrase}</h3>
                       ) : (
-                        <img src={input.drawing} style={{
-                          border: "2px solid var(--black-ln)",
-                          width: '50%'
-                        }}/>
+                        <div>
+                          <img src={input.drawing} style={{
+                            border: "2px solid var(--black-ln)",
+                            width: '50%'
+                          }}/>
+                        </div>
                       )
                     }
                   </div>

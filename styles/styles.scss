@@ -4,9 +4,36 @@ $break_med: 900px;
 $break_sm: 600px;
 
 @import './typography';
+@import './nav.scss';
 
 body {
   text-align: center;
+}
+
+#main {
+  padding: 1.8rem;
+  height: 100vh;
+  box-sizing: border-box;
+}
+.content-container {
+  height: 100%;
+}
+.full-height {
+  height: 100%;
+}
+
+.home {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .logo {
+    height: 12rem;
+    svg {
+      height: 100%;
+    }
+  }
 }
 
 button {
@@ -36,16 +63,4 @@ input.large {
   left: 0;
   top: 0;
   z-index: -1;
-}
-
-.buttons {
-  position: absolute;
-}
-
-h1 {
-  padding: 1em 0.2em;
-}
-
-.strikethrough {
-  text-decoration: line-through;
 }

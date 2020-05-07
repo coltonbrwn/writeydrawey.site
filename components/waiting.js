@@ -53,8 +53,8 @@ export default class Starting extends React.Component {
               <div
                 key={ p.playerId }
               >
+                { isAdminPlayer && <span style={{ fontSize: '1.4em'}}> 👑 </span> }
                 { p.playerName }
-                { isAdminPlayer && <strong className="mono"> [admin]</strong> }
                 <strong className="mono"> { isPlayerReady ? ' (done)' : ' (waiting)' }</strong>
               </div>
             )
