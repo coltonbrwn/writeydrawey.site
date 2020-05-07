@@ -28,7 +28,7 @@
 }
 
 html {
-  font-size: 14.5px;
+  font-size: 30px;
   color: var(--black-ln);
   @media (max-width: $break_lg) {
     font-size: 13px;
@@ -43,41 +43,39 @@ body {
   font-weight: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-transform: lowercase;
 }
 h1, h2, h3, h4, p {
-  line-height: 1.4em;
+  margin: 0;
+  padding: 0;
   font-weight: normal;
-  margin: 0 0 0.6rem;
-  letter-spacing: 0.02em;
 }
 h1 {
-  font-size: 3.5rem;
-  line-height: 0.96em;
-  font-weight: 300;
+  font-size: 2.2rem;
+  line-height: 1.4em;
+  margin-bottom: 1em;
+  font-family: 'Relative Mono';
 }
 h2 {
-  font-size: 2.2rem;
-  font-weight: 400;
-  line-height: 1.2em;
-  letter-spacing: 0.03em;
+  font-size: 1.5rem;
 }
 h3 {
-  font-size: 1.7rem;
-  line-height: 1.1;
-  font-weight: 500;
-  letter-spacing: 0.03em;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-family: 'Relative Mono';
 }
 h4 {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 500;
   line-height: 1.6;
 }
 p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin: 0;
   padding-bottom: 0.5em;
-  line-height: 1.5em;
+  &:nth-of-type(n+2){
+    text-indent: 1em;
+  }
 }
 a {
   color: var(--black-ln);
@@ -90,7 +88,6 @@ a {
 }
 .mono {
   font-family: 'Relative Mono';
-  font-size: 0.6em;
 }
 .strikethrough {
   text-decoration: line-through;
