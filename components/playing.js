@@ -10,8 +10,8 @@ export default class Home extends React.Component {
   }
 
   getLeftHandPlayer() {
-    const { gameState, player } = this.props
-    const myPlayerIndex = gameState.players.findIndex( p => p.playerId === player.playerId )
+    const { gameState, viewer } = this.props
+    const myPlayerIndex = gameState.players.findIndex( p => p.playerId === viewer.userId )
     const leftHandPlayerIndex = myPlayerIndex === 0
       ? gameState.players.length - 1
       : myPlayerIndex - 1
@@ -31,7 +31,7 @@ export default class Home extends React.Component {
   onPhraseSubmit = async () => {
     try {
       await api.playerInput({
-        playerId: this.props.player.playerId,
+        playerId: this.props.viewer.userId,
         gameId: this.props.gameState.id,
         round: this.props.gameState.round,
         phrase: this.state.description
@@ -49,7 +49,7 @@ export default class Home extends React.Component {
         .getElementById('myCanvas')
         .toDataURL("image/png");
       await api.playerInput({
-        playerId: this.props.player.playerId,
+        playerId: this.props.viewer.userId,
         gameId: this.props.gameState.id,
         round: this.props.gameState.round,
         drawing: dataUrl
@@ -61,7 +61,7 @@ export default class Home extends React.Component {
 
   render() {
 
-    if (!(this.props.player && this.props.gameState.players.find( p => p.playerId === this.props.player.playerId ))) {
+    if (!(this.props.viewer && this.props.gameState.players.find( p => p.playerId === this.props.viewer.userId ))) {
       return (
         <div>
           <h1>This game is currently being played</h1>
@@ -75,7 +75,7 @@ export default class Home extends React.Component {
       )
     }
 
-    const myId = this.props.player.playerId
+    const myId = this.props.viewer.userId
     const isDrawingRound = Boolean(this.props.gameState.round % 2)
     const leftHandPlayerInput = this.getLeftHandPlayer()
     return (
