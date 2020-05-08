@@ -11,10 +11,10 @@ import * as api from '../lib/api'
 
 import "../styles/styles.scss"
 
-function playerHasContributed(gameState, player) {
+function playerHasContributed(gameState, viewer) {
   try {
     const playerContribution = gameState.playerInput.find( input => (
-      input.round === gameState.round && input.playerId === player.playerId
+      input.round === gameState.round && input.playerId === viewer.userId
     ))
     return Boolean(playerContribution);
   } catch (e) {
@@ -24,18 +24,17 @@ function playerHasContributed(gameState, player) {
 
 export default class Main extends React.Component {
 
-  constructor({ gameState, statusCode }) {
+  constructor({ gameState, viewer, statusCode }) {
     super()
     this.state = {
       gameState: gameState || INITIAL_STATE,
-      player: null,
+      viewer,
       error: null,
       statusCode
     }
   }
 
   static async getInitialProps({ req, query }) {
-    console.log(req.headers)
     if (!query.slug) {
       return {
         gameState: INITIAL_STATE,
@@ -43,7 +42,7 @@ export default class Main extends React.Component {
       }
     }
     try {
-      const { gameState, viewer } = await api.getGameState({ gameId: query.slug });
+      const { gameState, viewer } = await api.getGameState({ gameId: query.slug }, req);
       return {
         gameState,
         viewer,
@@ -85,10 +84,10 @@ export default class Main extends React.Component {
   }
 
   getComponent() {
-    const { gameState, player } = this.state;
+    const { gameState, viewer } = this.state;
     if (gameState.state === GAME_STATE.DONE) {
       return Done
-    } else if (playerHasContributed(gameState, player)) {
+    } else if (playerHasContributed(gameState, viewer)) {
       return Waiting
     } else if (gameState.state === GAME_STATE.STARTING) {
       return JoinGame
@@ -100,13 +99,14 @@ export default class Main extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     const Component = this.getComponent();
     return (
       <Layout theme="light">
         {
-          this.state.player && (
+          this.state.viewer && (
             <div style={{textAlign: 'left', position: 'absolute'}}>
-              { this.state.player.playerName }
+              { this.state.viewer.name }
             </div>
           )
         }

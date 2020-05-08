@@ -27,6 +27,7 @@ module.exports = async function(id) {
     id: gameState.id,
     round: gameState.round,
     state: gameState.state,
+    admin: gameState.admin,
     players: sort( gameState.players ),
     playerInput: sort( gameState.playerInput )
   };
