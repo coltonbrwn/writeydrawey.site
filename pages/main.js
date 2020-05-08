@@ -1,15 +1,15 @@
-import { get } from 'dotty';
-import Router from 'next/router';
-import Layout from '../components/layout';
-import Home from '../components/home';
-import Waiting from '../components/waiting';
-import Playing from '../components/playing';
-import JoinGame from '../components/join-game';
-import Done from '../components/done';
-import { GAME_STATE, INITIAL_STATE } from '../backend/constants';
-import * as api from '../lib/api';
+import { get } from 'dotty'
+import Router from 'next/router'
+import Layout from '../components/layout'
+import Home from '../components/home'
+import Waiting from '../components/waiting'
+import Playing from '../components/playing'
+import JoinGame from '../components/join-game'
+import Done from '../components/done'
+import { GAME_STATE, INITIAL_STATE } from '../backend/constants'
+import * as api from '../lib/api'
 
-import "../styles/styles.scss";
+import "../styles/styles.scss"
 
 function playerHasContributed(gameState, player) {
   try {
@@ -35,7 +35,7 @@ export default class Main extends React.Component {
   }
 
   static async getInitialProps({ req, query }) {
-    console.log(query)
+    console.log(req.headers)
     if (!query.slug) {
       return {
         gameState: INITIAL_STATE,

@@ -21,7 +21,7 @@ module.exports.cors = (event, context, cb) => {
 module.exports.update = async (event, context, cb) => {
 
   try {
-    var { method, payload } = JSON.parse(event.body)
+    var { method, payload, viewer } = JSON.parse(event.body)
   } catch (e) {
     return cb(null, {
       statusCode: 400,
@@ -31,7 +31,7 @@ module.exports.update = async (event, context, cb) => {
   }
 
   try {
-    var response = await updateState(method, payload);
+    var response = await updateState(method, payload, viewer);
   } catch (error) {
     console.log(error);
     return cb(null, {
