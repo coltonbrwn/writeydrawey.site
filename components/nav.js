@@ -1,4 +1,5 @@
 import Logo from './svg/logo'
+import * as api from '../lib/api';
 
 export default class Nav extends React.Component {
 
