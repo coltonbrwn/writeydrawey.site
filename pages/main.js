@@ -34,7 +34,8 @@ export default class Main extends React.Component {
     }
   }
 
-  static async getInitialProps({ query }) {
+  static async getInitialProps({ req, query }) {
+    console.log(query)
     if (!query.slug) {
       return {
         gameState: INITIAL_STATE,
@@ -42,8 +43,10 @@ export default class Main extends React.Component {
       }
     }
     try {
+      const { gameState, viewer } = await api.getGameState({ gameId: query.slug });
       return {
-        gameState: await api.getGameState({ gameId: query.slug }),
+        gameState,
+        viewer,
         statusCode: 200
       }
     } catch (e) {
@@ -62,10 +65,10 @@ export default class Main extends React.Component {
         return;
       }
       try {
-        const gameState = await api.getGameState({ gameId });
+        const { gameState, viewer } = await api.getGameState({ gameId });
         this.setState({
           gameState,
-          player: JSON.parse(window.sessionStorage.getItem('player'))
+          viewer
         })
         if (gameState.state === GAME_STATE.DONE) {
           window.clearInterval(this.interval);
