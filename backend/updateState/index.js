@@ -8,20 +8,20 @@ var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE } = require('../constants')
 
 var dynamodb = new AWS.DynamoDB.DocumentClient()
 
-module.exports = async function(method, payload) {
+module.exports = async function(method, payload, viewer) {
   switch (method) {
     case API_METHODS.CREATE_GAME:
-      return await createGame()
+      return await createGame(viewer)
     case API_METHODS.ADD_PLAYER:
-      return await addPlayer(payload)
+      return await addPlayer(payload, viewer)
     case API_METHODS.PLAYER_INPUT:
-      return await playerInput(payload)
+      return await playerInput(payload, viewer)
     case API_METHODS.START_GAME:
-      return await startGame(payload)
+      return await startGame(payload, viewer)
     case API_METHODS.NEXT_ROUND:
-      return await nextRound(payload)
+      return await nextRound(payload, viewer)
     case API_METHODS.END_GAME:
-      return await endGame(payload)
+      return await endGame(payload, viewer)
     default:
       return null;
   }
@@ -30,14 +30,15 @@ module.exports = async function(method, payload) {
 /*
   CREATE_GAME
  */
-function createGame() {
+function createGame(viewer) {
   const newGameId = shortid.generate()
   return dynamodb.put({
     TableName: TABLES.GAMES,
     Item: {
       ...INITIAL_STATE,
       id: newGameId,
-      state: GAME_STATE.STARTING
+      state: GAME_STATE.STARTING,
+      admin: viewer.userId
     }
   }).promise().then( res => ({
     id: newGameId
