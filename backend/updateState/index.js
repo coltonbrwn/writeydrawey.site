@@ -48,7 +48,7 @@ function createGame(viewer) {
 /*
   ADD_PLAYER
  */
-async function addPlayer({ player, gameId }) {
+async function addPlayer({ player, gameId }, viewer) {
   const gameState = await dynamodb.get({
     TableName: TABLES.GAMES,
     Key: {
@@ -58,6 +58,7 @@ async function addPlayer({ player, gameId }) {
   const players = gameState.Item.players || []
   players.push({
     ...player,
+    playerId: viewer.userId,
     ts: new Date().getTime()
   });
   const uniqPlayers = uniqBy(players, item => item.playerId)
@@ -74,7 +75,8 @@ async function addPlayer({ player, gameId }) {
 /*
  PLAYER_INPUT
  */
-async function playerInput({ playerId, gameId, phrase, drawing, round }) {
+async function playerInput({ gameId, phrase, drawing, round }, viewer) {
+  const playerId = viewer.userId
   const gameState = await dynamodb.get({
     TableName: TABLES.GAMES,
     Key: {
@@ -111,7 +113,7 @@ async function playerInput({ playerId, gameId, phrase, drawing, round }) {
 /*
  START GAME
  */
-async function startGame({ gameId }) {
+async function startGame({ gameId }, viewer) {
   return dynamodb.update({
     TableName: TABLES.GAMES,
     Key: {
@@ -129,7 +131,7 @@ async function startGame({ gameId }) {
   }).promise()
 }
 
-async function endGame({ gameId }) {
+async function endGame({ gameId }, viewer) {
   return dynamodb.update({
     TableName: TABLES.GAMES,
     Key: {

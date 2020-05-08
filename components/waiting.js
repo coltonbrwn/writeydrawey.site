@@ -28,9 +28,9 @@ export default class Starting extends React.Component {
   }
 
   render() {
-    const { gameState, player } = this.props;
+    const { gameState, viewer } = this.props;
     const isAdminPlayer = gameState.players.findIndex( p => (
-      player.playerId === p.playerId
+      viewer.userId === p.playerId
     )) === 0;
     const allPlayersReady = gameState.players.reduce((acc, val) => {
       return acc && gameState.playerInput.find( item => (
@@ -46,9 +46,7 @@ export default class Starting extends React.Component {
             const isPlayerReady = gameState.playerInput.find( item => (
               item.playerId === p.playerId && item.round === gameState.round
             ))
-            const isAdminPlayer = gameState.players.findIndex( item => (
-              item.playerId === p.playerId
-            )) === 0;
+            const isAdminPlayer = gameState.admin === p.playerId
             return (
               <div
                 key={ p.playerId }

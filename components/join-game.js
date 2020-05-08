@@ -13,17 +13,7 @@ export default class AddPlayer extends React.Component {
   }
 
   componentDidMount() {
-    try {
-      this.setState({
-        ...JSON.parse(sessionStorage.getItem('player'))
-      })
-    } catch (e) { }
-    if (!this.state.player || !this.state.player.id) {
-      this.setState({
-        playerName: '',
-        playerId: v4()
-      })
-    }
+
   }
 
   validate() {
@@ -49,10 +39,8 @@ export default class AddPlayer extends React.Component {
   onSubmit = async () => {
     try {
       const player = {
-        playerId: this.state.playerId,
         playerName: this.state.playerName
       }
-      window.sessionStorage.setItem('player', JSON.stringify(player));
       this.validate()
       await api.addPlayer({
         gameId: this.props.gameState.id,
@@ -60,7 +48,6 @@ export default class AddPlayer extends React.Component {
       })
       await api.playerInput({
         gameId: this.props.gameState.id,
-        playerId: player.playerId,
         phrase: this.state.phrase,
         round: 0
       })
