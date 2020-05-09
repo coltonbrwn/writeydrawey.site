@@ -7,7 +7,7 @@ export default class Home extends React.Component {
     return (
       <div className="full-height">
         <Nav noLogo noHome={ this.props.statusCode !== 404 }/>
-        <div className="home">
+        <div className="home flex-container">
           {
             this.props.statusCode == 404 ? (
               <p>We couldn't find a game here</p>
