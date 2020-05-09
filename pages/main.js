@@ -99,7 +99,6 @@ export default class Main extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     const Component = this.getComponent();
     return (
       <Layout theme="light">
