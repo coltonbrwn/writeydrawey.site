@@ -1,4 +1,5 @@
 import { v4 } from 'uuid';
+import Nav from './nav';
 import * as api from '../lib/api';
 
 export default class AddPlayer extends React.Component {
@@ -58,26 +59,36 @@ export default class AddPlayer extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Joining Game <span className="mono">#{ this.props.gameState.id }</span></h1>
-        <div>
-          <input
-            className="large"
-            placeholder="Your Name"
-            onChange={ this.onNameInputChanage }
-            value={ this.state.playerName }
-          />
+      <div className="content-container">
+        <Nav noHome textOverride="joining game..." />
+        <div className="join flex-container">
+          <div className="input-container">
+            <div className="input-container-flex">
+              <h3>your name:</h3>
+              <span className="input-wrapper">
+                <input
+                  onChange={ this.onNameInputChanage }
+                  value={ this.state.playerName }
+                />
+              </span>
+            </div>
+            <div className="input-container-flex">
+              <h3>a phrase:</h3>
+              <span className="input-wrapper">
+                <input
+                  onChange={ this.onPhraseInputChange }
+                  value={ this.state.phrase }
+                />
+                <span className="subtext">
+                  (anything)
+                </span>
+              </span>
+            </div>
+          </div>
+          <button onClick={ this.onSubmit }>
+            Next
+          </button>
         </div>
-        <h1>Choose A Phrase</h1>
-        <textarea
-          className="large"
-          placeholder="Your Phrase"
-          onChange={ this.onPhraseInputChange }
-          value={ this.state.phrase }
-        />
-        <button onClick={ this.onSubmit }>
-          Next
-        </button>
       </div>
     )
   }

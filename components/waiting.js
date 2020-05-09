@@ -1,4 +1,5 @@
 
+import Nav from './nav'
 import * as api from '../lib/api'
 import { GAME_STATE } from '../backend/constants'
 
@@ -29,68 +30,67 @@ export default class Starting extends React.Component {
 
   render() {
     const { gameState, viewer } = this.props;
-    const isAdminPlayer = gameState.players.findIndex( p => (
-      viewer.userId === p.playerId
-    )) === 0;
+    const isAdminPlayer = gameState.admin === viewer.userId;
     const allPlayersReady = gameState.players.reduce((acc, val) => {
       return acc && gameState.playerInput.find( item => (
         item.playerId === val.playerId && item.round === gameState.round
       ))
     }, true)
     return (
-      <div>
-        <h1>Waiting for other players</h1>
-        <h3><strong>Players in the game:</strong></h3>
-        {
-          this.props.gameState.players.map( p => {
-            const isPlayerReady = gameState.playerInput.find( item => (
-              item.playerId === p.playerId && item.round === gameState.round
-            ))
-            const isAdminPlayer = gameState.admin === p.playerId
-            return (
-              <div
-                key={ p.playerId }
+      <div className="content-container">
+        <Nav noHome textOverride="waiting for others..." />
+        <div className="waiting flex-container">
+          {
+            this.props.gameState.players.map( p => {
+              const isPlayerReady = gameState.playerInput.find( item => (
+                item.playerId === p.playerId && item.round === gameState.round
+              ))
+              const isAdmin = gameState.admin === p.playerId
+              return (
+                <h4
+                  key={ p.playerId }
+                  className={ isPlayerReady ? 'strikethrough' : ''}
+                  title={ isPlayerReady ? 'done' : 'waiting'}
+                >
+                  { p.playerName }
+                </h4>
+              )
+            })
+          }
+          {
+            isAdminPlayer &&
+            this.props.gameState.state === GAME_STATE.STARTING && (
+              <button
+                className="large"
+                onClick={ this.onStartClick }
               >
-                { isAdminPlayer && <span style={{ fontSize: '1.4em'}}> 👑 </span> }
-                { p.playerName }
-                <strong className="mono"> { isPlayerReady ? ' (done)' : ' (waiting)' }</strong>
-              </div>
+                Start Game
+              </button>
             )
-          })
-        }
-        {
-          isAdminPlayer &&
-          this.props.gameState.state === GAME_STATE.STARTING && (
-            <button
-              className="large"
-              onClick={ this.onStartClick }
-            >
-              Start Game
-            </button>
-          )
-        }
-        {
-          isAdminPlayer && allPlayersReady &&
-          this.props.gameState.state === GAME_STATE.PLAYING && (
-            <button
-              className="large"
-              onClick={ this.onNextRoundClick }
-            >
-              Next Round
-            </button>
-          )
-        }
-        {
-          isAdminPlayer && allPlayersReady &&
-          this.props.gameState.state === GAME_STATE.PLAYING && (
-            <button
-              className="large"
-              onClick={ this.onEndGameClick }
-            >
-              End Game
-            </button>
-          )
-        }
+          }
+          {
+            isAdminPlayer && allPlayersReady &&
+            this.props.gameState.state === GAME_STATE.PLAYING && (
+              <button
+                className="large"
+                onClick={ this.onNextRoundClick }
+              >
+                Next Round
+              </button>
+            )
+          }
+          {
+            isAdminPlayer && allPlayersReady &&
+            this.props.gameState.state === GAME_STATE.PLAYING && (
+              <button
+                className="large"
+                onClick={ this.onEndGameClick }
+              >
+                End Game
+              </button>
+            )
+          }
+        </div>
       </div>
     )
   }

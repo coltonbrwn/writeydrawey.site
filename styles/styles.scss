@@ -5,6 +5,7 @@ $break_sm: 600px;
 
 @import './typography';
 @import './nav.scss';
+@import './join.scss';
 
 body {
 
@@ -31,7 +32,12 @@ body {
   justify-content: center;
   text-align: center;
 }
-
+.rel {
+  position: relative;
+}
+.strikethrough {
+  text-decoration: line-through;
+}
 .home {
   .logo {
     height: 6rem;
@@ -40,7 +46,6 @@ body {
 
 .rules {
   max-width: 23rem;
-  // margin-top: 4rem;
 }
 
 svg {
@@ -49,7 +54,7 @@ svg {
 
 button {
   background: none;
-  outline: 2px solid var(--black-ln);
+  outline: 0.05rem solid var(--black-ln);
   border: none;
   color: var(--black-ln);
   padding: 1em 2em;
@@ -57,6 +62,7 @@ button {
   margin: 1em;
   cursor: pointer;
   font-family: 'Relative Mono';
+  margin-top: 2em;
   > span {
     transform: rotate(-1deg);
     display: inline-block;
