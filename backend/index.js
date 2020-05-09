@@ -22,8 +22,6 @@ module.exports.update = async (event, context, cb) => {
 
   try {
     var { method, payload, viewer } = JSON.parse(event.body)
-
-    console.log( viewer )
   } catch (e) {
     return cb(null, {
       statusCode: 400,
