@@ -89,7 +89,7 @@ export default class Layout extends React.Component {
           </style>
         </Head>
         <div id="main">
-          <div className="content-container">
+          <div className="full-height">
             { this.props.children }
           </div>
         </div>

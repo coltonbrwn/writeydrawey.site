@@ -33,6 +33,7 @@ module.exports.update = async (event, context, cb) => {
   try {
     var response = await updateState(method, payload, viewer);
   } catch (error) {
+    console.log(error)
     return cb(null, {
       statusCode: 500,
       body: JSON.stringify({ message:'Error executing request', error }),

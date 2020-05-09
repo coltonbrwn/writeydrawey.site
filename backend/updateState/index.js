@@ -32,10 +32,6 @@ module.exports = function(method, payload, viewer) {
  */
 function createGame(viewer) {
 
-  if (!(viewer && viewer.userId)) {
-    return Promise.reject('Invalid Viewer')
-  }
-
   const newGameId = shortid.generate()
   return dynamodb.put({
     TableName: TABLES.GAMES,
@@ -54,6 +50,11 @@ function createGame(viewer) {
   ADD_PLAYER
  */
 async function addPlayer({ player, gameId }, viewer) {
+
+  if (!(viewer && viewer.userId)) {
+    return Promise.reject('Invalid Viewer')
+  }
+
   const gameState = await dynamodb.get({
     TableName: TABLES.GAMES,
     Key: {
@@ -81,6 +82,11 @@ async function addPlayer({ player, gameId }, viewer) {
  PLAYER_INPUT
  */
 async function playerInput({ gameId, phrase, drawing, round }, viewer) {
+
+  if (!(viewer && viewer.userId)) {
+    return Promise.reject('Invalid Viewer')
+  }
+
   const playerId = viewer.userId
   const gameState = await dynamodb.get({
     TableName: TABLES.GAMES,
@@ -119,6 +125,11 @@ async function playerInput({ gameId, phrase, drawing, round }, viewer) {
  START GAME
  */
 async function startGame({ gameId }, viewer) {
+
+  if (!(viewer && viewer.userId)) {
+    return Promise.reject('Invalid Viewer')
+  }
+
   return dynamodb.update({
     TableName: TABLES.GAMES,
     Key: {
