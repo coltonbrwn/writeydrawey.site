@@ -19,21 +19,30 @@ export default class Nav extends React.Component {
             </div>
           )
         }
-        <div className="links">
-          <h2>
-            <a href="/new">new game</a>
-          </h2>
-          <h2>
-            <a href="/rules">rules</a>
-          </h2>
-          {
-            !this.props.noHome && (
-              <h2>
-                <a href="/">home</a>
-              </h2>
+        {
+          this.props.textOverride
+            ? (
+              <div className="text">
+                <h2>{ this.props.textOverride }</h2>
+              </div>
+            ) : (
+              <div className="links">
+                <h2>
+                  <a href="/new">new game</a>
+                </h2>
+                <h2>
+                  <a href="/rules">rules</a>
+                </h2>
+                {
+                  !this.props.noHome && (
+                    <h2>
+                      <a href="/">home</a>
+                    </h2>
+                  )
+                }
+              </div>
             )
-          }
-        </div>
+        }
       </div>
     )
   }
