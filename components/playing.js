@@ -1,11 +1,27 @@
 import * as api from '../lib/api';
+import Nav from './nav';
 
 export default class Home extends React.Component {
 
   constructor() {
     super()
     this.state = {
-      description: ''
+      description: '',
+      startedDrawing: false,
+      time: 590
+    }
+  }
+
+  componentDidMount() {
+    const isDrawingRound = Boolean(this.props.gameState.round % 2)
+    if (!isDrawingRound) {
+      this.countdown()
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.interval) {
+      window.clearInterval(this.interval);
     }
   }
 
@@ -22,9 +38,28 @@ export default class Home extends React.Component {
     return leftHandPlayerInput || {}
   }
 
+  countdown = () => {
+    this.interval = window.setInterval(() => {
+      this.setState({
+        time: this.state.time - 1
+      })
+      if (this.state.time <= 1) {
+        window.clearInterval(this.interval)
+        return this.onDrawingSubmit()
+      }
+    }, 1000)
+  }
+
   onDescriptionChange = e => {
     this.setState({
       description: e.target.value
+    })
+  }
+
+  onStartDrawingClick = () => {
+    this.countdown();
+    this.setState({
+      startedDrawing: true
     })
   }
 
@@ -65,7 +100,6 @@ export default class Home extends React.Component {
       return (
         <div>
           <h1>This game is currently being played</h1>
-          <h3>It wouldn't really make sense to let you jump in</h3>
           <a href="/">
             <button className="large">
               Go Home
@@ -78,33 +112,57 @@ export default class Home extends React.Component {
     const myId = this.props.viewer.userId
     const isDrawingRound = Boolean(this.props.gameState.round % 2)
     const leftHandPlayerInput = this.getLeftHandPlayer()
+    const startedDrawing = this.state.startedDrawing
+    const textOverride = (isDrawingRound && !startedDrawing)
+      ? `round ${ this.props.gameState.round }`
+      : `:${ this.state.time } `;
     return (
-      <div>
-        <h3>{ this.props.gameState.round }</h3>
+      <div className="playing full-height">
+        <Nav textOverride={ textOverride }/>
         {
           isDrawingRound
             ? (
-              <div>
-                <h1>Draw "{ leftHandPlayerInput.phrase }"</h1>
-                <iframe id="drawingCanvas" src="/canvas/index.html" />
-                <button className="large" onClick={ this.onDrawingSubmit }>
-                  I'm Done Drawing
-                </button>
-              </div>
-            ): (
-              <div>
-                <h1>Describe This</h1>
-                <textarea onChange={ this.onDescriptionChange } value={ this.state.description }/>
-                <button className="large" onClick={ this.onPhraseSubmit }>
-                  Okay
-                </button>
+                startedDrawing ? (
+                  <div className="flex-container">
+                    <iframe id="drawingCanvas" src="/canvas/index.html" />
+                    <div className="bottom-margin">
+                      <h2>
+                        "{ leftHandPlayerInput.phrase }"
+                      </h2>
+                      <button onClick={ this.onDrawingSubmit }>
+                        <span>Done</span>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex-container">
+                    <h1>Draw "{ leftHandPlayerInput.phrase }"</h1>
+                    <button onClick={ this.onStartDrawingClick }>
+                      Start
+                    </button>
+                  </div>
+                )
+            ) : (
+              <div className="content-container flex-container">
                 <img className="playerDrawing" src={ leftHandPlayerInput.drawing } />
+                <div className="bottom-margin">
+                  <h4>
+                    describe this:
+                  </h4>
+                  <span className="input-wrapper">
+                    <input
+                      onChange={ this.onDescriptionChange }
+                      value={ this.state.description }
+                    />
+                  </span>
+                  <button onClick={ this.onPhraseSubmit }>
+                    Okay
+                  </button>
+                </div>
               </div>
             )
         }
-
       </div>
-
     )
   }
 }
