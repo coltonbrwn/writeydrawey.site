@@ -40,56 +40,51 @@ export default class Starting extends React.Component {
       <div className="content-container">
         <Nav noHome textOverride="waiting for others..." />
         <div className="waiting flex-container">
-          {
-            this.props.gameState.players.map( p => {
-              const isPlayerReady = gameState.playerInput.find( item => (
-                item.playerId === p.playerId && item.round === gameState.round
-              ))
-              const isAdmin = gameState.admin === p.playerId
-              return (
-                <h4
-                  key={ p.playerId }
-                  className={ isPlayerReady ? 'strikethrough' : ''}
-                  title={ isPlayerReady ? 'done' : 'waiting'}
-                >
-                  { p.playerName }
-                </h4>
+          <div className="players">
+            {
+              this.props.gameState.players.map( p => {
+                const isPlayerReady = gameState.playerInput.find( item => (
+                  item.playerId === p.playerId && item.round === gameState.round
+                ))
+                const isAdmin = gameState.admin === p.playerId
+                return (
+                  <h4
+                    key={ p.playerId }
+                    className={ isPlayerReady ? 'strikethrough' : ''}
+                    title={ isPlayerReady ? 'done' : 'waiting'}
+                  >
+                    { p.playerName }
+                  </h4>
+                )
+              })
+            }
+          </div>
+          <div className="bottom-margin">
+            {
+              isAdminPlayer &&
+              this.props.gameState.state === GAME_STATE.STARTING && (
+                <button onClick={ this.onStartClick }>
+                  Start Game
+                </button>
               )
-            })
-          }
-          {
-            isAdminPlayer &&
-            this.props.gameState.state === GAME_STATE.STARTING && (
-              <button
-                className="large"
-                onClick={ this.onStartClick }
-              >
-                Start Game
-              </button>
-            )
-          }
-          {
-            isAdminPlayer && allPlayersReady &&
-            this.props.gameState.state === GAME_STATE.PLAYING && (
-              <button
-                className="large"
-                onClick={ this.onNextRoundClick }
-              >
-                Next Round
-              </button>
-            )
-          }
-          {
-            isAdminPlayer && allPlayersReady &&
-            this.props.gameState.state === GAME_STATE.PLAYING && (
-              <button
-                className="large"
-                onClick={ this.onEndGameClick }
-              >
-                End Game
-              </button>
-            )
-          }
+            }
+            {
+              isAdminPlayer && allPlayersReady &&
+              this.props.gameState.state === GAME_STATE.PLAYING && (
+                <button onClick={ this.onNextRoundClick }>
+                  Next Round
+                </button>
+              )
+            }
+            {
+              isAdminPlayer && allPlayersReady &&
+              this.props.gameState.state === GAME_STATE.PLAYING && (
+                <button onClick={ this.onEndGameClick }>
+                  End Game
+                </button>
+              )
+            }
+          </div>
         </div>
       </div>
     )
