@@ -12,17 +12,30 @@ body {
 }
 
 #main {
-  padding: 1.2rem 1.4rem;
+  padding: 1.2rem 0;
   height: 100vh;
   box-sizing: border-box;
 }
 .content-container {
   height: 100%;
-  padding-top: 4rem;
+  padding: 3.4rem 1.4rem 0;
   box-sizing: border-box;
 }
 .full-height {
   height: 100%;
+}
+.bottom-margin {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  padding: 1.2rem 1.4rem 0;
+  width: 100%;
+  button {
+    font-size: 1rem;
+    margin: 0 0 0 4rem;
+    padding: 0.4rem 1em;
+  }
 }
 .flex-container {
   height: 100%;
@@ -43,9 +56,23 @@ body {
     height: 6rem;
   }
 }
-
 .rules {
   max-width: 23rem;
+}
+.playing {
+  h2 {
+    flex: 1;
+    text-align: left;
+  }
+  .input-wrapper {
+    flex: 1;
+    text-align: left;
+  }
+}
+.waiting {
+  button {
+    margin: 0 1rem;
+  }
 }
 
 svg {
@@ -69,22 +96,33 @@ button {
   }
 }
 
+.input-wrapper {
+  flex: 1;
+  margin: 0 1em;
+  position: relative;
+  input {
+    border: none;
+    border-bottom: 0.05rem solid var(--black-ln);
+    color: var(--black-ln);
+    font-size: 1.3rem;
+    width: 100%;
+  }
+}
+
 input.large {
   font-size: 2em;
 }
 
 #drawingCanvas {
-  cursor: crosshair;
+  width: 100%;
+  border: none;
+  flex: 1;
+  background: #f7f7f7;
+  margin-top: 3.2rem
 }
 
-#drawingCanvas, img.playerDrawing {
-  width: 100vw;
-  height: 100vh;
-  border: none;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -1;
+img.playerDrawing {
+  flex: 1;
 }
 
 ol {
