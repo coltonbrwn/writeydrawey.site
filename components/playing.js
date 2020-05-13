@@ -146,9 +146,9 @@ export default class Home extends React.Component {
               <div className="content-container flex-container">
                 <img className="playerDrawing" src={ leftHandPlayerInput.drawing } />
                 <div className="bottom-margin">
-                  <h4>
+                  <h3>
                     describe this:
-                  </h4>
+                  </h3>
                   <span className="input-wrapper">
                     <input
                       onChange={ this.onDescriptionChange }
