@@ -55,7 +55,7 @@ class New extends React.Component {
             {
               this.state.newGameId ? (
                 <div>
-                  <h3>{`${ baseUrl() }/${ this.state.newGameId }`}</h3>
+                  <h3 className="mono">{`${ baseUrl() }/${ this.state.newGameId }`}</h3>
                   <div>
                     <button onClick={ this.onCopyClick }>
                       <span>

@@ -78,12 +78,10 @@ export default class Layout extends React.Component {
           <style>
             {`
               :root {
-                --black-ln: ${ themeColor('stroke') };
-                --white: ${ themeColor('background') };
-                --gray: ${ themeColor('backgroundAlt') };
-                --trackbar: ${ themeColor('trackbar') };
-                --white-permanent: ${ themeColor('white') };
-                --black-permanent: ${ themeColor('black') };
+                --black-ln: ${ themeColor('black') };
+                --white: ${ themeColor('white') };
+                --gray: ${ themeColor('gray') };
+                --lightgray: ${ themeColor('lightgray') };
               }
             `}
           </style>

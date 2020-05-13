@@ -64,7 +64,7 @@ export default class AddPlayer extends React.Component {
         <div className="join flex-container">
           <div className="input-container">
             <div className="input-container-flex">
-              <h3>your name:</h3>
+              <h3 className="mono">your name:</h3>
               <span className="input-wrapper">
                 <input
                   onChange={ this.onNameInputChanage }
@@ -73,7 +73,7 @@ export default class AddPlayer extends React.Component {
               </span>
             </div>
             <div className="input-container-flex">
-              <h3>a phrase:</h3>
+              <h3 className="mono">a phrase:</h3>
               <span className="input-wrapper">
                 <input
                   onChange={ this.onPhraseInputChange }
