@@ -23,7 +23,7 @@ export default class Nav extends React.Component {
           this.props.textOverride
             ? (
               <div className="text">
-                <h2>{ this.props.textOverride }</h2>
+                <h3>{ this.props.textOverride }</h3>
               </div>
             ) : (
               <div className="links">

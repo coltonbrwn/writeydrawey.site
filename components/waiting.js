@@ -31,32 +31,31 @@ export default class Starting extends React.Component {
   render() {
     const { gameState, viewer } = this.props;
     const isAdminPlayer = gameState.admin === viewer.userId;
-    const allPlayersReady = gameState.players.reduce((acc, val) => {
-      return acc && gameState.playerInput.find( item => (
-        item.playerId === val.playerId && item.round === gameState.round
+    let playersReadyMap = {}, numPlayersReady = 0;
+    gameState.players.forEach( p => {
+      const isPlayerReady = gameState.playerInput.find( item => (
+        item.playerId === p.playerId && item.round === gameState.round
       ))
-    }, true)
+      numPlayersReady++;
+      playersReadyMap[ p.playerId ] = isPlayerReady
+    })
+
+    const allPlayersReady = numPlayersReady === gameState.players.length;
+
     return (
       <div className="content-container">
         <Nav noHome textOverride="waiting for others..." />
         <div className="waiting flex-container">
           <div className="players">
             {
-              this.props.gameState.players.map( p => {
-                const isPlayerReady = gameState.playerInput.find( item => (
-                  item.playerId === p.playerId && item.round === gameState.round
+              this.props.gameState.players
+                .map( p => (
+                  <h3
+                    className={ playersReadyMap[ p.playerId ] ? '' : 'player--notready' }
+                    key={ p.playerId }>
+                      { p.playerName }
+                  </h3>
                 ))
-                const isAdmin = gameState.admin === p.playerId
-                return (
-                  <h4
-                    key={ p.playerId }
-                    className={ isPlayerReady ? 'strikethrough' : ''}
-                    title={ isPlayerReady ? 'done' : 'waiting'}
-                  >
-                    { p.playerName }
-                  </h4>
-                )
-              })
             }
           </div>
           <div className="bottom-margin">
