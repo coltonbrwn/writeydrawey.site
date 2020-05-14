@@ -1,5 +1,6 @@
 import Layout from '../components/layout';
 import Nav from '../components/nav';
+import Friends from '../components/svg/friends';
 
 import "../styles/styles.scss";
 
@@ -17,6 +18,9 @@ export default function(props) {
             <p>
               To start a new game, click <u>new game</u>, then copy and share the unique game link with your friends
             </p>
+            <div className="illustration">
+              <Friends />
+            </div>
           </div>
         </div>
       </div>

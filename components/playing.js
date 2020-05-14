@@ -124,7 +124,9 @@ export default class Home extends React.Component {
             ? (
                 startedDrawing ? (
                   <div className="flex-container">
-                    <iframe id="drawingCanvas" src="/canvas/index.html" />
+                    <iframe
+                      id="drawingCanvas"
+                      src="/canvas/index.html" />
                     <div className="bottom-margin">
                       <h2>
                         "{ leftHandPlayerInput.phrase }"
@@ -143,13 +145,15 @@ export default class Home extends React.Component {
                   </div>
                 )
             ) : (
-              <div className="content-container flex-container">
-                <img className="playerDrawing" src={ leftHandPlayerInput.drawing } />
+              <div className="flex-container">
+                <img
+                  className="playerDrawing"
+                  src={ leftHandPlayerInput.drawing } />
                 <div className="bottom-margin">
-                  <h3>
-                    describe this:
-                  </h3>
                   <span className="input-wrapper">
+                    <h3>
+                      describe this:
+                    </h3>
                     <input
                       onChange={ this.onDescriptionChange }
                       value={ this.state.description }

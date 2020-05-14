@@ -36,7 +36,9 @@ export default class Starting extends React.Component {
       const isPlayerReady = gameState.playerInput.find( item => (
         item.playerId === p.playerId && item.round === gameState.round
       ))
-      numPlayersReady++;
+      if(isPlayerReady) {
+        numPlayersReady++;
+      }
       playersReadyMap[ p.playerId ] = isPlayerReady
     })
 
@@ -51,6 +53,7 @@ export default class Starting extends React.Component {
               this.props.gameState.players
                 .map( p => (
                   <h3
+                    title={ playersReadyMap[ p.playerId ] ? 'ready' : 'waiting' }
                     className={ playersReadyMap[ p.playerId ] ? '' : 'player--notready' }
                     key={ p.playerId }>
                       { p.playerName }
