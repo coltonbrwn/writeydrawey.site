@@ -1,4 +1,4 @@
-
+import Button from './button'
 import Nav from './nav'
 import * as api from '../lib/api'
 import { GAME_STATE } from '../backend/constants'
@@ -65,25 +65,25 @@ export default class Starting extends React.Component {
             {
               isAdminPlayer &&
               this.props.gameState.state === GAME_STATE.STARTING && (
-                <button onClick={ this.onStartClick }>
+                <Button onClick={ this.onStartClick } type="3">
                   Start Game
-                </button>
+                </Button>
               )
             }
             {
               isAdminPlayer && allPlayersReady &&
               this.props.gameState.state === GAME_STATE.PLAYING && (
-                <button onClick={ this.onNextRoundClick }>
+                <Button onClick={ this.onNextRoundClick } type="3">
                   Next Round
-                </button>
+                </Button>
               )
             }
             {
               isAdminPlayer && allPlayersReady &&
               this.props.gameState.state === GAME_STATE.PLAYING && (
-                <button onClick={ this.onEndGameClick }>
+                <Button onClick={ this.onEndGameClick } type="5">
                   End Game
-                </button>
+                </Button>
               )
             }
           </div>

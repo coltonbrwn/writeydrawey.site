@@ -1,5 +1,6 @@
 import Layout from '../components/layout'
 import Nav from '../components/nav'
+import Button from '../components/button'
 import * as api from '../lib/api'
 import copy from 'copy-to-clipboard'
 
@@ -55,24 +56,26 @@ class New extends React.Component {
             {
               this.state.newGameId ? (
                 <div>
-                  <h3 className="mono">{`${ baseUrl() }/${ this.state.newGameId }`}</h3>
+                  <h3 className="mono">
+                    {`${ baseUrl() }/${ this.state.newGameId }`}
+                  </h3>
                   <div>
-                    <button onClick={ this.onCopyClick }>
+                    <Button onClick={ this.onCopyClick } type="0">
                       <span>
                         { this.state.isCopied ? 'Copied!' : 'Copy Link' }
                       </span>
-                    </button>
-                    <button onClick={ this.onJoinGameClick }>
+                    </Button>
+                    <Button onClick={ this.onJoinGameClick } type="2">
                       <span>
                         Join Game
                       </span>
-                    </button>
+                    </Button>
                   </div>
                 </div>
               ) : (
-                <button onClick={ this.onNewGameClick } >
+                <Button onClick={ this.onNewGameClick } >
                   <span>New Game</span>
-                </button>
+                </Button>
               )
             }
           </div>
