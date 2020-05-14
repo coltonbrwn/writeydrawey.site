@@ -1,5 +1,6 @@
-import * as api from '../lib/api';
-import Nav from './nav';
+import * as api from '../lib/api'
+import Nav from './nav'
+import Button from './button'
 
 export default class Home extends React.Component {
 
@@ -39,15 +40,15 @@ export default class Home extends React.Component {
   }
 
   countdown = () => {
-    this.interval = window.setInterval(() => {
-      this.setState({
-        time: this.state.time - 1
-      })
-      if (this.state.time <= 1) {
-        window.clearInterval(this.interval)
-        return this.onDrawingSubmit()
-      }
-    }, 1000)
+    // this.interval = window.setInterval(() => {
+    //   this.setState({
+    //     time: this.state.time - 1
+    //   })
+    //   if (this.state.time <= 1) {
+    //     window.clearInterval(this.interval)
+    //     return this.onDrawingSubmit()
+    //   }
+    // }, 1000)
   }
 
   onDescriptionChange = e => {
@@ -101,9 +102,9 @@ export default class Home extends React.Component {
         <div>
           <h1>This game is currently being played</h1>
           <a href="/">
-            <button className="large">
+            <Button type="2">
               Go Home
-            </button>
+            </Button>
           </a>
         </div>
       )
@@ -113,12 +114,9 @@ export default class Home extends React.Component {
     const isDrawingRound = Boolean(this.props.gameState.round % 2)
     const leftHandPlayerInput = this.getLeftHandPlayer()
     const startedDrawing = this.state.startedDrawing
-    const textOverride = (isDrawingRound && !startedDrawing)
-      ? `round ${ this.props.gameState.round }`
-      : `:${ this.state.time } `;
     return (
       <div className="playing full-height">
-        <Nav textOverride={ textOverride }/>
+        <Nav textOverride={ `round ${ this.props.gameState.round }` }/>
         {
           isDrawingRound
             ? (
@@ -128,20 +126,20 @@ export default class Home extends React.Component {
                       id="drawingCanvas"
                       src="/canvas/index.html" />
                     <div className="bottom-margin">
-                      <h2>
+                      <h3>
                         "{ leftHandPlayerInput.phrase }"
-                      </h2>
-                      <button onClick={ this.onDrawingSubmit }>
-                        <span>Done</span>
-                      </button>
+                      </h3>
+                      <Button onClick={ this.onDrawingSubmit } type="4">
+                        Done
+                      </Button>
                     </div>
                   </div>
                 ) : (
                   <div className="flex-container">
                     <h1>Draw "{ leftHandPlayerInput.phrase }"</h1>
-                    <button onClick={ this.onStartDrawingClick }>
+                    <Button onClick={ this.onStartDrawingClick }>
                       Start
-                    </button>
+                    </Button>
                   </div>
                 )
             ) : (
@@ -159,9 +157,9 @@ export default class Home extends React.Component {
                       value={ this.state.description }
                     />
                   </span>
-                  <button onClick={ this.onPhraseSubmit }>
+                  <Button onClick={ this.onPhraseSubmit } type="4">
                     Okay
-                  </button>
+                  </Button>
                 </div>
               </div>
             )

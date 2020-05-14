@@ -1,3 +1,4 @@
+import Button from './button'
 
 export default class Test extends React.Component {
 
@@ -14,12 +15,12 @@ export default class Test extends React.Component {
   render() {
     <div>
       <div className="buttons">
-        <button onClick={ this.onUndoClick }>
+        <Button onClick={ this.onUndoClick }>
           Undo
-        </button>
-        <button onClick={ this.onPhotoClick }>
+        </Button>
+        <Button onClick={ this.onPhotoClick }>
           Photo
-        </button>
+        </Button>
       </div>
       <iframe id="drawingCanvas" src="/canvas/index.html" />
     </div>
