@@ -1,10 +1,10 @@
 {
   "name": "l7oygb-8lz7hmn",
-  "hash": "DNeefx1MjJVrmmZXG7FGUmSGuDZiSRY9n8zEfP5QiMk=",
+  "hash": "iwXiB5/IAhaYjLFfSQIZ5Q9alMFRFczPMRym062O4tE=",
   "description": "Default Lambda@Edge for Next CloudFront distribution",
   "memory": 512,
   "timeout": 10,
-  "code": "/Users/colton/Dev/repos/writey-drawey/.serverless_nextjs/default-lambda",
+  "code": "/Users/colton/Documents/Dev/repos/writey-drawey/.serverless_nextjs/default-lambda",
   "shims": [],
   "handler": "index.handler",
   "runtime": "nodejs10.x",
