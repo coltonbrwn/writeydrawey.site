@@ -1,9 +1,9 @@
 {
   "components": {
-    "myNextApp": "/Users/colton/.serverless/components/registry/npm/serverless-next.js@1.9.10/node_modules/serverless-next.js",
-    "lambdaUpdateState": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.0/node_modules/@serverless/aws-lambda",
-    "lambdaGetState": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.0/node_modules/@serverless/aws-lambda",
-    "lambdaCors": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.0/node_modules/@serverless/aws-lambda",
+    "myNextApp": "/Users/colton/.serverless/components/registry/npm/serverless-next.js@1.12.0-alpha.0/node_modules/serverless-next.js",
+    "lambdaUpdateState": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.3/node_modules/@serverless/aws-lambda",
+    "lambdaGetState": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.3/node_modules/@serverless/aws-lambda",
+    "lambdaCors": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.3/node_modules/@serverless/aws-lambda",
     "gameApiGateway": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-api-gateway@4.1.0/node_modules/@serverless/aws-api-gateway",
     "gamesTable": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-dynamodb@4.0.0/node_modules/@serverless/aws-dynamodb",
     "imageBucket": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-s3@4.2.0/node_modules/@serverless/aws-s3"
