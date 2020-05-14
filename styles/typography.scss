@@ -30,6 +30,9 @@
 html {
   font-size: 22px;
   color: var(--black-ln);
+  @media(max-width: $break_sm) {
+    font-size: 18px;
+  }
 }
 body {
   margin: 0;
@@ -48,13 +51,14 @@ h1 {
   font-size: 2.4rem;
   line-height: 1.4em;
   margin-bottom: 1em;
+  text-transform: lowercase;
 }
 h2 {
   font-size: 1.7rem;
   margin-bottom: 0.4em;
 }
 h3 {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
 }
 p {
   font-size: 1rem;
