@@ -140,6 +140,9 @@ button {
   &:hover svg {
     transform: scale(1.02);
   }
+  &:focus {
+    outline: none;
+  }
   &:active svg, &:focus svg {
     transform: scale(1);
   }
@@ -169,8 +172,8 @@ button {
   }
 }
 
-input.large {
-  font-size: 2em;
+input {
+  border-radius: 0;
 }
 
 #drawingCanvas {
