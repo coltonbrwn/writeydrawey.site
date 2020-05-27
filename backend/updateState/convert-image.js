@@ -4,7 +4,7 @@ var constants = require('../constants');
 var s3 = new AWS.S3();
 
 module.exports.convertB64Image = function convertB64Image({ rawImage, keyName }) {
-  const base64Data = new Buffer(rawImage.replace(/^data:image\/\w+;base64,/, ""), 'base64')
+  const base64Data = Buffer.from(rawImage.replace(/^data:image\/\w+;base64,/, ""), 'base64')
   const type = rawImage.split(';')[0].split('/')[1]
   const params = {
     Bucket: constants.BUCKETS.IMAGES,
