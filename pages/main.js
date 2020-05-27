@@ -83,6 +83,12 @@ export default class Main extends React.Component {
     }, 2000)
   }
 
+  updateGameState = gameState => {
+    this.setState({
+      gameState
+    })
+  }
+
   getComponent() {
     const { gameState, viewer } = this.state;
     if (gameState.state === GAME_STATE.DONE) {
@@ -109,7 +115,7 @@ export default class Main extends React.Component {
             </div>
           )
         }
-        <Component { ...this.state }/>
+        <Component { ...this.state } onUpdateState={ this.updateGameState }/>
       </Layout>
     );
   }
