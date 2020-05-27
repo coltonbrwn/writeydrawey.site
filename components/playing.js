@@ -66,12 +66,15 @@ export default class Home extends React.Component {
 
   onPhraseSubmit = async () => {
     try {
-      await api.playerInput({
+      const { data: { response: newGameState } } = await api.playerInput({
         playerId: this.props.viewer.userId,
         gameId: this.props.gameState.id,
         round: this.props.gameState.round,
         phrase: this.state.description
       })
+      if (this.props.onUpdateState) {
+        this.props.onUpdateState(newGameState)
+      }
     } catch (e) {
       console.log(e)
     }
@@ -84,12 +87,17 @@ export default class Home extends React.Component {
         .contentWindow.document
         .getElementById('myCanvas')
         .toDataURL("image/png");
-      await api.playerInput({
+      const { data: { response: newGameState } } = await api.playerInput({
         playerId: this.props.viewer.userId,
         gameId: this.props.gameState.id,
         round: this.props.gameState.round,
         drawing: dataUrl
       })
+
+      if (this.props.onUpdateState) {
+        this.props.onUpdateState(newGameState)
+      }
+
     } catch (e) {
       console.log(e)
     }
