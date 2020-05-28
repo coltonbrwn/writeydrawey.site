@@ -12,8 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const prerender_manifest_json_1 = __importDefault(require("./prerender-manifest.json"));
 const manifest_json_1 = __importDefault(require("./manifest.json"));
 const next_aws_cloudfront_1 = __importDefault(require("next-aws-cloudfront"));
+const addS3HostHeader = (req, s3DomainName) => {
+    req.headers["host"] = [{ key: "host", value: s3DomainName }];
+};
 const router = (manifest) => {
     const { pages: { ssr, html } } = manifest;
     const allDynamicRoutes = Object.assign(Object.assign({}, ssr.dynamic), html.dynamic);
@@ -37,14 +41,18 @@ exports.handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     const request = event.Records[0].cf.request;
     const uri = normaliseUri(request.uri);
     const manifest = manifest_json_1.default;
+    const prerenderManifest = prerender_manifest_json_1.default;
     const { pages, publicFiles } = manifest;
     const isStaticPage = pages.html.nonDynamic[uri];
     const isPublicFile = publicFiles[uri];
+    const isPrerenderedPage = prerenderManifest.routes[request.uri];
     const origin = request.origin;
     const s3Origin = origin.s3;
-    if (isStaticPage || isPublicFile) {
-        s3Origin.path = isStaticPage ? "/static-pages" : "/public";
-        if (isStaticPage) {
+    const isHTMLPage = isStaticPage || isPrerenderedPage;
+    if (isHTMLPage || isPublicFile) {
+        s3Origin.path = isHTMLPage ? "/static-pages" : "/public";
+        if (isHTMLPage) {
+            addS3HostHeader(request, s3Origin.domainName);
             request.uri = uri + ".html";
         }
         return request;
@@ -53,6 +61,7 @@ exports.handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     if (pagePath.endsWith(".html")) {
         s3Origin.path = "/static-pages";
         request.uri = pagePath.replace("pages", "");
+        addS3HostHeader(request, s3Origin.domainName);
         return request;
     }
     const { req, res, responsePromise } = next_aws_cloudfront_1.default(event.Records[0].cf);
