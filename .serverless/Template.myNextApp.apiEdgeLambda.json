@@ -1,7 +1,7 @@
 {
   "name": "l7oygb-hl4zvpv",
-  "hash": "KkRhQdmmE7f6FtT9JfoAAUdb5AENFYfHISgV8pVGArA=",
-  "description": "undefined (API)",
+  "hash": "xOuP9MvRUPiP8nWajbq60mLY/GdRHo2KOKPfVz4Xl68=",
+  "description": "API Lambda@Edge for Next CloudFront distribution",
   "memory": 512,
   "timeout": 10,
   "code": "/Users/colton/Documents/Dev/repos/writey-drawey/.serverless_nextjs/api-lambda",
