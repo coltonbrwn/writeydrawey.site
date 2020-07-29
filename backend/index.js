@@ -1,5 +1,6 @@
 var getState = require('./getState/index.js')
 var updateState = require('./updateState/index.js')
+var getCompletedGames = require('./getCompletedGames/index.js')
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -7,13 +8,6 @@ const corsHeaders = {
   'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
   'Access-Control-Allow-Headers': 'content-type'
 };
-
-module.exports.cors = (event, context, cb) => {
-  cb(null, {
-    statusCode: 200,
-    headers: corsHeaders
-  });
-}
 
 /*
   SUBMIT
@@ -65,6 +59,39 @@ module.exports.get = async (event, context, cb) => {
   try {
     var response = await getState(id);
 
+    if (!response) {
+      return cb(null, {
+        statusCode: 404,
+        headers: corsHeaders
+      })
+    }
+
+  } catch (error) {
+    console.log(error)
+    return cb(null, {
+      statusCode: 500,
+      body: JSON.stringify({ message:'Error executing request', error }),
+      headers: corsHeaders
+    })
+  }
+
+  return cb(null, {
+    statusCode: 200,
+    body: JSON.stringify( response ),
+    headers: corsHeaders
+  })
+
+}
+
+
+/*
+ GET completed games
+*/
+
+module.exports.getCompletedGames = async (event, context, cb) => {
+
+  try {
+    var response = await getCompletedGames();
     if (!response) {
       return cb(null, {
         statusCode: 404,

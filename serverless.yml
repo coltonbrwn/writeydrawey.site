@@ -30,15 +30,15 @@ lambdaGetState:
     runtime: nodejs12.x
     region: us-east-1
 
-lambdaCors:
+lambdaGetCompletedGames:
   component: "@serverless/aws-lambda"
-  name: writey-drawey-api-cors
+  name: writey-drawey-completed-games
   inputs:
-    description: "general purpose CORS endpoint"
-    memory: 128
-    timeout: 20
+    description: "get completed games for shits n giggles"
+    memory: 1024
+    timeout: 4
     code: ./backend
-    handler: index.cors
+    handler: index.getCompletedGames
     runtime: nodejs12.x
     region: us-east-1
 
@@ -54,9 +54,9 @@ gameApiGateway:
       - path: /state
         method: GET
         function: ${lambdaGetState.arn}
-      - path: /api
-        method: OPTIONS
-        function: ${lambdaCors.arn}
+      - path: /completed-games
+        method: GET
+        function: ${lambdaGetCompletedGames.arn}
 
 gamesTable:
   component: '@serverless/aws-dynamodb'

@@ -27,3 +27,10 @@ functions:
           path: /state
           method: GET
           cors: true
+  getCompletedGames:
+    handler: ./index.getCompletedGames
+    events:
+      - http:
+          path: '/completed-games'
+          method: GET
+          cors: true
