@@ -1,37 +1,35 @@
-import Link from 'next/link'
-import Draggable from 'react-draggable';
+import Router from 'next/router';
+import Layout from '../components/layout';
+import { get } from 'dotty';
+import { debounce } from 'throttle-debounce'
 
-import Page from '../components/Page'
-import Layout from '../components/Layout'
+import "../styles/styles.scss";
 
-const DraggableImg = props => (
-  <Draggable>
-    <div>
-      <img src={ props.src } />
-    </div>
-  </Draggable>
-)
+export default class Home extends React.Component {
 
-export default class Home extends Page {
+  onUndoClick = () => {
+    document.getElementById('drawingCanvas').contentWindow.globals.undo()
+  }
 
-  static slug = 'home'
+  onPhotoClick = () => {
+    const dataURL = document.getElementById('drawingCanvas').contentWindow.document.getElementById('myCanvas').toDataURL("image/png");
+    document.location = dataURL;
+  }
 
   render() {
     return (
-      <Layout { ...this.props }>
-        <div className="logo">
-          <Link href="/">VOLLEY STUDIO</Link>
+      <Layout theme="light">
+        <div className="buttons">
+          <button onClick={ this.onUndoClick }>
+            Undo
+          </button>
+          <button onClick={ this.onPhotoClick }>
+            Photo
+          </button>
         </div>
-
-        <h1 className="home-copy">
-          We are an industry-leading architectural visualization and creative studio specializing in the crafting of stunning imagery that evokes the best possibilities of our clients’ designs.
-        </h1>
-
-
-        <DraggableImg src="/static/demo-images/02_Tribune_white.jpg" />
-
-
+        <iframe id="drawingCanvas" src="/canvas/index.html" />
       </Layout>
-    )
+    );
   }
+
 }

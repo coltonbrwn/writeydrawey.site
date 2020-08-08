@@ -1,0 +1,89 @@
+@font-face {
+  font-family: 'Basis';
+  font-weight: 400;
+  src: url('/BasisGrotesque-Regular.ttf')  format('truetype');
+}
+@font-face {
+  font-family: 'Basis';
+  font-weight: 600;
+  src: url('/BasisGrotesque-Bold.ttf')  format('truetype');
+}
+@font-face {
+  font-family: 'Basis';
+  font-weight: 500;
+  src: url('/BasisGrotesque-Medium.ttf')  format('truetype');
+}
+@font-face {
+  font-family: 'Basis-Mono';
+  src: url('/BasisGrotesque-Mono.ttf')  format('truetype');
+}
+
+html {
+  font-size: 14.5px;
+  color: var(--black-ln);
+  @media (max-width: $break_lg) {
+    font-size: 13px;
+  }
+  @media (max-width: $break_med) {
+    font-size: 11.5px;
+  }
+}
+body {
+  margin: 0;
+  font-family: 'Basis', sans-serif;
+  letter-spacing: 0.06em;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+h1, h2, h3, h4, p {
+  line-height: 1.4em;
+  font-weight: normal;
+  margin: 0 0 0.6rem;
+  letter-spacing: 0.02em;
+}
+h1 {
+  font-size: 3.5rem;
+  line-height: 0.96em;
+  font-weight: 300;
+}
+h2 {
+  font-size: 2.2rem;
+  font-weight: 400;
+  line-height: 1.2em;
+  letter-spacing: 0.03em;
+}
+h3 {
+  font-size: 1.7rem;
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+h4 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+p {
+  font-size: 1.1rem;
+  margin: 0;
+  padding-bottom: 0.5em;
+  line-height: 1.5em;
+}
+a {
+  color: var(--black-ln);
+  text-decoration: none;
+}
+.uppercase {
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+.bold {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.mono {
+  font-family: 'Basis-Mono';
+  font-size: 0.95em;
+}
