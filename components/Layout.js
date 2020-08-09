@@ -1,28 +1,27 @@
-import Head from 'next/head'
-import Nav from './Nav.js';
-import Footer from './Footer.js';
+import classname from 'classnames';
+import Head from 'next/head';
+import { get } from 'dotty';
+import {
+  COLORS,
+  THEME_LIGHT,
+  THEME_DARK,
+} from '../lib/util';
 
-const social_img_url = '';
-const title = '';
-const description = '';
+const social_img_url = '/favicon-xxxl.png';
+const title = 'Writey Drawey';
 const ga_id = ''
+const url = 'https://writeydrawey.site'
 
-export default class Home extends React.Component {
+export default class Layout extends React.Component {
 
-  constructor() {
-    super();
-    this.state = {
-      isNavOpen: false
-    }
-  }
-
-  toggleNav = () => {
-    this.setState({
-      isNavOpen: !this.state.isNavOpen
-    });
+  static defaultProps = {
+    srollPos: 0,
+    theme: THEME_LIGHT
   }
 
   render () {
+    const description = this.props.description;
+    const themeColor = name => get(COLORS, [this.props.theme, name]);
     return (
       <div>
         <Head>
@@ -38,10 +37,14 @@ export default class Home extends React.Component {
             `
           }}/>
 
+          <link rel="shortcut icon" href="/favicon-32.png" />
+          <link rel="icon" type="image/png" href="/favicon-196.png" />
+          <link rel="apple-touch-icon" href="/favicon-180.png" />
+
           <meta name="description" content={ description } />
-          <meta itemprop="name" content={ title } />
-          <meta itemprop="description" content={ description } />
-          <meta itemprop="image" content={ social_img_url } />
+          <meta itemProp="name" content={ title } />
+          <meta itemProp="description" content={ description } />
+          <meta itemProp="image" content={ social_img_url } />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:site" content="" />
           <meta name="twitter:title" content={ title } />
@@ -50,21 +53,35 @@ export default class Home extends React.Component {
           <meta property="og:title" content={ title } />
           <meta property="og:image" content={ social_img_url } />
           <meta property="og:description" content={ description } />
+          <meta property="og:type" content="website" />
+          <meta property="og:image:height" content={ 1000 } />
+          <meta property="og:image:width" content={ 1000 } />
+          <meta property="og:description" content={ description } />
           <meta property="og:site_name" content={ title } />
-          <meta property="og:url" content="https://fey-arts.com" />
+          <meta property="og:url" content={ url } />
+
+          <meta name="robots" content="noindex" />
 
           <title>{ title }</title>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="stylesheet" href="/static/style.css" />
 
+          <style>
+            {`
+              :root {
+                --black-ln: ${ themeColor('stroke') };
+                --white: ${ themeColor('background') };
+                --gray: ${ themeColor('backgroundAlt') };
+                --trackbar: ${ themeColor('trackbar') };
+                --white-permanent: ${ themeColor('white') };
+                --black-permanent: ${ themeColor('black') };
+              }
+            `}
+          </style>
         </Head>
-        <div id="main" className={ this.state.isNavOpen && 'nav--open' }>
-          <Nav { ...this.props } />
-          <div className="content-main">
-            <div className="content-inner">
-              { this.props.children }
-            </div>
+        <div id="main">
+          <div className="content-container">
+            { this.props.children }
           </div>
         </div>
       </div>

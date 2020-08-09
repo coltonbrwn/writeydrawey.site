@@ -1,23 +1,35 @@
-import Link from 'next/link'
+import Router from 'next/router';
+import Layout from '../components/layout';
+import { get } from 'dotty';
+import { debounce } from 'throttle-debounce'
 
-import Page from '../components/Page'
-import Layout from '../components/Layout'
+import "../styles/styles.scss";
 
-export default class Home extends Page {
+export default class Home extends React.Component {
 
-  static slug = 'home'
+  onUndoClick = () => {
+    document.getElementById('drawingCanvas').contentWindow.globals.undo()
+  }
+
+  onPhotoClick = () => {
+    const dataURL = document.getElementById('drawingCanvas').contentWindow.document.getElementById('myCanvas').toDataURL("image/png");
+    document.location = dataURL;
+  }
 
   render() {
     return (
-      <Layout { ...this.props }>
-        <div className="logo">
-          <Link href="/">VOLLEY STUDIO</Link>
+      <Layout theme="light">
+        <div className="buttons">
+          <button onClick={ this.onUndoClick }>
+            Undo
+          </button>
+          <button onClick={ this.onPhotoClick }>
+            Photo
+          </button>
         </div>
-
-        <h1 className="home-copy">
-          We are an industry-leading architectural visualization and creative studio specializing in the crafting of stunning imagery that evokes the best possibilities of our clients’ designs.
-        </h1>
+        <iframe id="drawingCanvas" src="/canvas/index.html" />
       </Layout>
-    )
+    );
   }
+
 }

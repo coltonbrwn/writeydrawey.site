@@ -1,5 +1,5 @@
 {
   "version": 2,
-  "name": "fey-2019",
+  "name": "volley-studio",
   "builds": [{ "src": "next.config.js", "use": "@now/next" }]
 }
