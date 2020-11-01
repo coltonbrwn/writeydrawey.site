@@ -24,11 +24,13 @@ module.exports = async function(id) {
   }
 
   return {
-    id: gameState.id,
-    round: gameState.round,
-    state: gameState.state,
     admin: gameState.admin,
+    id: gameState.id,
+    options: gameState.options,
     players: sort( gameState.players ),
-    playerInput: sort( gameState.playerInput )
+    playerInput: sort( gameState.playerInput ),
+    round: gameState.round,
+    rounds: gameState.rounds,
+    state: gameState.state
   };
 }

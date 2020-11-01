@@ -4,14 +4,14 @@ var AWS = require('aws-sdk')
 var uniqBy = require('lodash.uniqby')
 
 var convertImage = require('./convert-image');
-var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE } = require('../constants')
+var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE, DEFAULT_TURN_DELAY } = require('../constants')
 
 var dynamodb = new AWS.DynamoDB.DocumentClient()
 
 module.exports = function(method, payload, viewer) {
   switch (method) {
     case API_METHODS.CREATE_GAME:
-      return createGame(viewer)
+      return createGame(payload, viewer)
     case API_METHODS.ADD_PLAYER:
       return addPlayer(payload, viewer)
     case API_METHODS.PLAYER_INPUT:
@@ -30,7 +30,7 @@ module.exports = function(method, payload, viewer) {
 /*
   CREATE_GAME
  */
-function createGame(viewer) {
+function createGame({ options }, viewer) {
 
   const newGameId = shortid.generate()
   return dynamodb.put({
@@ -39,7 +39,8 @@ function createGame(viewer) {
       ...INITIAL_STATE,
       id: newGameId,
       state: GAME_STATE.STARTING,
-      admin: viewer.userId
+      admin: viewer.userId,
+      options: options
     }
   }).promise().then( res => ({
     id: newGameId
@@ -135,18 +136,20 @@ async function startGame({ gameId }, viewer) {
     Key: {
       id: gameId
     },
-    UpdateExpression: 'set #game_state = :state_playing, #round = :one',
+    UpdateExpression: 'set #game_state = :state_playing',
     ExpressionAttributeNames: {
-      '#game_state': 'state',
-      '#round': 'round'
+      '#game_state': 'state'
     },
     ExpressionAttributeValues: {
       ':state_playing': GAME_STATE.PLAYING,
-      ':one': 1
     }
   }).promise()
+
 }
 
+/*
+ END GAME
+ */
 async function endGame({ gameId }, viewer) {
   return dynamodb.update({
     TableName: TABLES.GAMES,
@@ -163,18 +166,50 @@ async function endGame({ gameId }, viewer) {
   }).promise()
 }
 
+/*
+ NEXT ROUND
+ */
 async function nextRound({ gameId }) {
-  return dynamodb.update({
+  // return dynamodb.update({
+  //   TableName: TABLES.GAMES,
+  //   Key: {
+  //     id: gameId
+  //   },
+  //   UpdateExpression: 'set #a = #a + :one',
+  //   ExpressionAttributeNames: {
+  //     '#a' : 'round'
+  //   },
+  //   ExpressionAttributeValues: {
+  //     ':one' : 1
+  //   }
+  // }).promise()
+
+  const gameState = await dynamodb.get({
     TableName: TABLES.GAMES,
     Key: {
       id: gameId
-    },
-    UpdateExpression: 'set #a = #a + :one',
-    ExpressionAttributeNames: {
-      '#a' : 'round'
-    },
-    ExpressionAttributeValues: {
-      ':one' : 1
     }
   }).promise()
+
+  const currentRound = gameState.Item.round;
+  const roundList = gameState.Item.rounds;
+  const fiveSecondsFromNow = new Date().getTime() + 5000;
+  const roundOver = fiveSecondsFromNow + gameState.Item.options.time_limit * 1000
+
+  roundList.push({
+    id: uuid.v4(),
+    num: currentRound + 1,
+    start: fiveSecondsFromNow,
+    end: roundOver
+  })
+
+  const newGameState = {
+    ...gameState.Item,
+    round: currentRound + 1,
+    rounds: roundList
+  }
+  return dynamodb.put({
+    TableName: TABLES.GAMES,
+    Item: newGameState
+  }).promise().then( res => newGameState)
 }

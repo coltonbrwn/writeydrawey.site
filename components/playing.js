@@ -1,5 +1,6 @@
 import * as api from '../lib/api'
-import Nav from './nav'
+import GameNav from './game-nav'
+import TurnTimer from './turn-timer'
 import Button from './button'
 
 export default class Home extends React.Component {
@@ -8,15 +9,23 @@ export default class Home extends React.Component {
     super()
     this.state = {
       description: '',
-      startedDrawing: false,
-      time: 590
+      startedDrawing: false
     }
   }
 
   componentDidMount() {
-    const isDrawingRound = Boolean(this.props.gameState.round % 2)
-    if (!isDrawingRound) {
-      this.countdown()
+
+  }
+
+  componentDidUpdate(props, state) {
+    const currentRound = props.gameState.rounds.find( item => item.num === props.gameState.round );
+    if (new Date().getTime() > currentRound.end) {
+      const isDrawingRound = Boolean(this.props.gameState.round % 2)
+      if (isDrawingRound) {
+        this.onDrawingSubmit()
+      } else {
+        this.onPhraseSubmit()
+      }
     }
   }
 
@@ -39,18 +48,6 @@ export default class Home extends React.Component {
     return leftHandPlayerInput || {}
   }
 
-  countdown = () => {
-    // this.interval = window.setInterval(() => {
-    //   this.setState({
-    //     time: this.state.time - 1
-    //   })
-    //   if (this.state.time <= 1) {
-    //     window.clearInterval(this.interval)
-    //     return this.onDrawingSubmit()
-    //   }
-    // }, 1000)
-  }
-
   onDescriptionChange = e => {
     this.setState({
       description: e.target.value
@@ -58,7 +55,6 @@ export default class Home extends React.Component {
   }
 
   onStartDrawingClick = () => {
-    this.countdown();
     this.setState({
       startedDrawing: true
     })
@@ -118,13 +114,27 @@ export default class Home extends React.Component {
       )
     }
 
+    const currentRound = this.props.gameState.rounds.find( item => item.num === this.props.gameState.round );
+    if (new Date().getTime() < currentRound.start) {
+      return (
+        <div>
+          <h2>
+            Next round starting!
+          </h2>
+          <h1>
+            <TurnTimer gameState={ this.props.gameState } countTo={ currentRound.start } />
+          </h1>
+        </div>
+      )
+    }
+
     const myId = this.props.viewer.userId
     const isDrawingRound = Boolean(this.props.gameState.round % 2)
     const leftHandPlayerInput = this.getLeftHandPlayer()
     const startedDrawing = this.state.startedDrawing
     return (
       <div className="playing full-height">
-        <Nav textOverride={ `round ${ this.props.gameState.round }` }/>
+        <GameNav gameState={ this.props.gameState } />
         {
           isDrawingRound
             ? (

@@ -5,11 +5,11 @@ module.exports.GAME_STATE = {
 }
 
 module.exports.TABLES = {
-  GAMES: 'writey-drawey-games'
+  GAMES: 'writey_drawey_dev'
 }
 
 module.exports.BUCKETS = {
-  IMAGES: 'writey-drawey-images'
+  IMAGES: 'writey-drawey-images-dev'
 }
 
 module.exports.API_METHODS = {
@@ -21,10 +21,16 @@ module.exports.API_METHODS = {
   NEXT_ROUND: 'nextRound'
 }
 
+module.exports.DEFAULT_TURN_DELAY = 5000;
+
 module.exports.INITIAL_STATE = {
   id: null,
   state: null,
+  options: {
+    time_limit: 0
+  },
   players: [],
   playerInput: [],
   round: 0,
+  rounds: []
 }

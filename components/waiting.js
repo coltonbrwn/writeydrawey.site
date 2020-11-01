@@ -1,5 +1,5 @@
 import Button from './button'
-import Nav from './nav'
+import GameNav from './game-nav'
 import * as api from '../lib/api'
 import { GAME_STATE } from '../backend/constants'
 
@@ -9,16 +9,18 @@ export default class Starting extends React.Component {
     super()
   }
 
-  onStartClick = () => {
-    api.startGame({
+  onStartClick = async () => {
+    await api.startGame({
+      gameId: this.props.gameState.id
+    })
+    await api.nextRound({
       gameId: this.props.gameState.id
     })
   }
 
   onNextRoundClick = () => {
     api.nextRound({
-      gameId: this.props.gameState.id,
-      round: this.props.gameState.round + 1
+      gameId: this.props.gameState.id
     })
   }
 
@@ -46,7 +48,7 @@ export default class Starting extends React.Component {
 
     return (
       <div className="content-container">
-        <Nav noHome textOverride="waiting for others..." />
+        <GameNav gameState={ gameState } />
         <div className="waiting flex-container">
           <div className="players">
             {

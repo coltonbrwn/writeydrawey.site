@@ -11,6 +11,8 @@ import * as api from '../lib/api'
 
 import "../styles/styles.scss"
 
+const UPDATE_INTERVAL = 2000;
+
 function playerHasContributed(gameState, viewer) {
   try {
     const playerContribution = gameState.playerInput.find( input => (
@@ -80,7 +82,7 @@ export default class Main extends React.Component {
         })
         window.clearInterval(this.interval);
       }
-    }, 2000)
+    }, UPDATE_INTERVAL)
   }
 
   updateGameState = gameState => {

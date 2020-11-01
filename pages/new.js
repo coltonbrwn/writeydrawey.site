@@ -23,7 +23,11 @@ class New extends React.Component {
   onNewGameClick = async () => {
     let id;
     try {
-      const {response:{id}} = await api.createNewGame();
+      const {response:{id}} = await api.createNewGame({
+        options: {
+          time_limit: 60
+        }
+      });
       this.setState({
         newGameId: id
       })
