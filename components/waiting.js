@@ -1,5 +1,6 @@
 import Button from './button'
-import GameNav from './game-nav'
+import Logo from './svg/logo'
+import TurnTimer from './turn-timer'
 import * as api from '../lib/api'
 import { GAME_STATE } from '../backend/constants'
 
@@ -13,14 +14,12 @@ export default class Starting extends React.Component {
     await api.startGame({
       gameId: this.props.gameState.id
     })
-    await api.nextRound({
-      gameId: this.props.gameState.id
-    })
   }
 
   onNextRoundClick = () => {
     api.nextRound({
-      gameId: this.props.gameState.id
+      gameId: this.props.gameState.id,
+      round: this.props.gameState.round
     })
   }
 
@@ -31,24 +30,38 @@ export default class Starting extends React.Component {
   }
 
   render() {
-    const { gameState, viewer } = this.props;
-    const isAdminPlayer = gameState.admin === viewer.userId;
-    let playersReadyMap = {}, numPlayersReady = 0;
+    const { gameState, viewer } = this.props
+    const numRounds = gameState.options.rounds
+    const isAdminPlayer = gameState.admin === viewer.userId
+    let playersReadyMap = {}, numPlayersReady = 0
     gameState.players.forEach( p => {
       const isPlayerReady = gameState.playerInput.find( item => (
         item.playerId === p.playerId && item.round === gameState.round
       ))
       if(isPlayerReady) {
-        numPlayersReady++;
+        numPlayersReady++
       }
       playersReadyMap[ p.playerId ] = isPlayerReady
     })
 
-    const allPlayersReady = numPlayersReady === gameState.players.length;
+    const allPlayersReady = numPlayersReady === gameState.players.length
 
     return (
       <div className="content-container">
-        <GameNav gameState={ gameState } />
+        <div className="nav">
+          <div className="logo">
+            <a href="/">
+              <Logo />
+            </a>
+          </div>
+          <div className="text">
+            <p>
+              time limit &nbsp;&nbsp;&nbsp; <TurnTimer defaultTime={ gameState.options.time_limit }/>
+              <br/>
+              round &nbsp;&nbsp;&nbsp;&nbsp; { gameState.round } / { numRounds }
+            </p>
+          </div>
+        </div>
         <div className="waiting flex-container">
           <div className="players">
             {

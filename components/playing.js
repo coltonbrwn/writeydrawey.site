@@ -1,25 +1,22 @@
 import * as api from '../lib/api'
-import GameNav from './game-nav'
+import Logo from './svg/logo'
 import TurnTimer from './turn-timer'
 import Button from './button'
 
 export default class Home extends React.Component {
 
-  constructor() {
+  constructor({gameState, viewer }) {
     super()
+    const currentTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === viewer.userId);
     this.state = {
       description: '',
-      startedDrawing: false
+      startedTimer: Boolean(currentTimer)
     }
   }
 
-  componentDidMount() {
-
-  }
-
   componentDidUpdate(props, state) {
-    const currentRound = props.gameState.rounds.find( item => item.num === props.gameState.round );
-    if (new Date().getTime() > currentRound.end) {
+    const currentTimer = this.props.gameState.timers.find( item => item.round === this.props.gameState.round && item.playerId === this.props.viewer.userId);
+    if (currentTimer && new Date().getTime() > currentTimer.end) {
       const isDrawingRound = Boolean(this.props.gameState.round % 2)
       if (isDrawingRound) {
         this.onDrawingSubmit()
@@ -54,9 +51,14 @@ export default class Home extends React.Component {
     })
   }
 
-  onStartDrawingClick = () => {
+  onStartTimerClick = async () => {
+    await api.playerInputStartTimer({
+      playerId: this.props.viewer.userId,
+      gameId: this.props.gameState.id,
+      round: this.props.gameState.round
+    })
     this.setState({
-      startedDrawing: true
+      startedTimer: true
     })
   }
 
@@ -101,7 +103,9 @@ export default class Home extends React.Component {
 
   render() {
 
-    if (!(this.props.viewer && this.props.gameState.players.find( p => p.playerId === this.props.viewer.userId ))) {
+    const { gameState, viewer } = this.props;
+
+    if (!(viewer && gameState.players.find( p => p.playerId === this.props.viewer.userId ))) {
       return (
         <div>
           <h1>This game is currently being played</h1>
@@ -114,31 +118,48 @@ export default class Home extends React.Component {
       )
     }
 
-    const currentRound = this.props.gameState.rounds.find( item => item.num === this.props.gameState.round );
-    if (new Date().getTime() < currentRound.start) {
+    const roundTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === '0');
+    if (roundTimer && new Date().getTime() < roundTimer.end) {
       return (
-        <div>
-          <h2>
-            Next round starting!
-          </h2>
-          <h1>
-            <TurnTimer gameState={ this.props.gameState } countTo={ currentRound.start } />
-          </h1>
+        <div className="full-height">
+          <div className="flex-container">
+            <h2>
+              Next round starting!
+            </h2>
+            <h1>
+              <TurnTimer timer={ roundTimer } />
+            </h1>
+          </div>
         </div>
       )
     }
 
-    const myId = this.props.viewer.userId
-    const isDrawingRound = Boolean(this.props.gameState.round % 2)
+    const numRounds = gameState.players.length
+    const isDrawingRound = Boolean(gameState.round % 2)
     const leftHandPlayerInput = this.getLeftHandPlayer()
-    const startedDrawing = this.state.startedDrawing
+    const startedTimer = this.state.startedTimer
+    const playerTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === viewer.userId)
+
     return (
       <div className="playing full-height">
-        <GameNav gameState={ this.props.gameState } />
+        <div className="nav">
+          <div className="logo">
+            <a href="/">
+              <Logo />
+            </a>
+          </div>
+          <div className="text">
+            <p>
+              time limit &nbsp;&nbsp;&nbsp;<TurnTimer timer={ playerTimer } defaultTime={ gameState.options.time_limit }/>
+              <br/>
+              round &nbsp;&nbsp;&nbsp;&nbsp; { gameState.round } / { numRounds }
+            </p>
+          </div>
+        </div>
         {
           isDrawingRound
             ? (
-                startedDrawing ? (
+                this.state.startedTimer ? (
                   <div className="flex-container">
                     <iframe
                       id="drawingCanvas"
@@ -155,32 +176,43 @@ export default class Home extends React.Component {
                 ) : (
                   <div className="flex-container">
                     <h1>Draw "{ leftHandPlayerInput.phrase }"</h1>
-                    <Button onClick={ this.onStartDrawingClick }>
+                    <Button onClick={ this.onStartTimerClick }>
                       Start
                     </Button>
                   </div>
                 )
             ) : (
-              <div className="flex-container">
-                <img
-                  className="playerDrawing"
-                  src={ leftHandPlayerInput.drawing } />
-                <div className="bottom-margin">
-                  <span className="input-wrapper">
-                    <h3>
-                      describe this:
-                    </h3>
-                    <input
-                      onChange={ this.onDescriptionChange }
-                      value={ this.state.description }
-                    />
-                  </span>
-                  <Button onClick={ this.onPhraseSubmit } type="4">
-                    Okay
+              this.state.startedTimer ? (
+                <div className="flex-container">
+                  <img
+                    className="playerDrawing"
+                    src={ leftHandPlayerInput.drawing } />
+                  <div className="bottom-margin">
+                    <span className="input-wrapper">
+                      <h3>
+                        describe this:
+                      </h3>
+                      <input
+                        onChange={ this.onDescriptionChange }
+                        value={ this.state.description }
+                      />
+                    </span>
+                    <Button onClick={ this.onPhraseSubmit } type="4">
+                      Okay
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex-container">
+                  <img
+                    className="playerDrawing preview"
+                    src={ leftHandPlayerInput.drawing } />
+                  <Button onClick={ this.onStartTimerClick } className="preview--button">
+                    Describe This
                   </Button>
                 </div>
-              </div>
-            )
+              )
+          )
         }
       </div>
     )

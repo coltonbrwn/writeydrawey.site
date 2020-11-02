@@ -190,6 +190,14 @@ img.playerDrawing {
   max-width: 100%;
   object-fit: contain;
   scale: 0.85;
+  &.preview {
+    filter: blur(6px);
+  }
+}
+
+button.preview--button {
+  position: absolute;
+  background: white;
 }
 
 ol {

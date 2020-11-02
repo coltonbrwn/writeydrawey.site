@@ -4,7 +4,7 @@ var AWS = require('aws-sdk')
 var uniqBy = require('lodash.uniqby')
 
 var convertImage = require('./convert-image');
-var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE, DEFAULT_TURN_DELAY } = require('../constants')
+var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE, DEFAULT_TURN_DELAY, TURN_LIMIT } = require('../constants')
 
 var dynamodb = new AWS.DynamoDB.DocumentClient()
 
@@ -16,6 +16,8 @@ module.exports = function(method, payload, viewer) {
       return addPlayer(payload, viewer)
     case API_METHODS.PLAYER_INPUT:
       return playerInput(payload, viewer)
+    case API_METHODS.PLAYER_INPUT_START_TIMER:
+      return playerInputStartTimer(payload, viewer)
     case API_METHODS.START_GAME:
       return startGame(payload, viewer)
     case API_METHODS.NEXT_ROUND:
@@ -123,6 +125,36 @@ async function playerInput({ gameId, phrase, drawing, round }, viewer) {
 }
 
 /*
+ PLAYER_INPUT_START_TIMER
+ */
+async function playerInputStartTimer({ gameId, round }, viewer) {
+
+  if (!(viewer && viewer.userId)) {
+    return Promise.reject('Invalid Viewer')
+  }
+
+  return dynamodb.update({
+    TableName: TABLES.GAMES,
+    Key: {
+      id: gameId
+    },
+    UpdateExpression: 'set #timers = list_append(#timers, :values)',
+    ExpressionAttributeNames: {
+      '#timers': 'timers'
+    },
+    ExpressionAttributeValues: {
+      ':values': [
+        {
+          playerId: viewer.userId,
+          round: round,
+          end: new Date().getTime() + TURN_LIMIT
+        }
+      ]
+    }
+  }).promise()
+}
+
+/*
  START GAME
  */
 async function startGame({ gameId }, viewer) {
@@ -136,12 +168,22 @@ async function startGame({ gameId }, viewer) {
     Key: {
       id: gameId
     },
-    UpdateExpression: 'set #game_state = :state_playing',
+    UpdateExpression: 'set #game_state = :state_playing, #round = #round + :one, #timers = list_append(#timers, :timers)',
     ExpressionAttributeNames: {
-      '#game_state': 'state'
+      '#game_state': 'state',
+      '#round': 'round',
+      '#timers': 'timers'
     },
     ExpressionAttributeValues: {
       ':state_playing': GAME_STATE.PLAYING,
+      ':one': 1,
+      ':timers': [
+        {
+          playerId: '0',
+          round: 1,
+          end: new Date().getTime() + 5000
+        }
+      ]
     }
   }).promise()
 
@@ -169,47 +211,28 @@ async function endGame({ gameId }, viewer) {
 /*
  NEXT ROUND
  */
-async function nextRound({ gameId }) {
-  // return dynamodb.update({
-  //   TableName: TABLES.GAMES,
-  //   Key: {
-  //     id: gameId
-  //   },
-  //   UpdateExpression: 'set #a = #a + :one',
-  //   ExpressionAttributeNames: {
-  //     '#a' : 'round'
-  //   },
-  //   ExpressionAttributeValues: {
-  //     ':one' : 1
-  //   }
-  // }).promise()
+async function nextRound({ gameId, round }) {
 
-  const gameState = await dynamodb.get({
+  return dynamodb.update({
     TableName: TABLES.GAMES,
     Key: {
       id: gameId
+    },
+    UpdateExpression: 'set #round = #round + :one, #timers = list_append(#timers, :timers)',
+    ExpressionAttributeNames: {
+      '#round': 'round',
+      '#timers': 'timers'
+    },
+    ExpressionAttributeValues: {
+      ':one': 1,
+      ':timers': [
+        {
+          playerId: '0',
+          round: round + 1,
+          end: new Date().getTime() + 5000
+        }
+      ]
     }
   }).promise()
 
-  const currentRound = gameState.Item.round;
-  const roundList = gameState.Item.rounds;
-  const fiveSecondsFromNow = new Date().getTime() + 5000;
-  const roundOver = fiveSecondsFromNow + gameState.Item.options.time_limit * 1000
-
-  roundList.push({
-    id: uuid.v4(),
-    num: currentRound + 1,
-    start: fiveSecondsFromNow,
-    end: roundOver
-  })
-
-  const newGameState = {
-    ...gameState.Item,
-    round: currentRound + 1,
-    rounds: roundList
-  }
-  return dynamodb.put({
-    TableName: TABLES.GAMES,
-    Item: newGameState
-  }).promise().then( res => newGameState)
 }

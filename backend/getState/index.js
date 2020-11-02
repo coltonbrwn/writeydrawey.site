@@ -2,7 +2,7 @@ var { TABLES, API_METHODS } = require('../constants');
 var AWS = require('aws-sdk');
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
-function sort(array) {
+function sortByTimestamp(array) {
   if (!Array.isArray(array)) {
     return array;
   }
@@ -26,11 +26,14 @@ module.exports = async function(id) {
   return {
     admin: gameState.admin,
     id: gameState.id,
-    options: gameState.options,
-    players: sort( gameState.players ),
-    playerInput: sort( gameState.playerInput ),
+    options: {
+      rounds: gameState.players.length,
+      ...gameState.options
+    },
+    players: sortByTimestamp( gameState.players ),
+    playerInput: sortByTimestamp( gameState.playerInput ),
     round: gameState.round,
-    rounds: gameState.rounds,
+    timers: gameState.timers,
     state: gameState.state
   };
 }
