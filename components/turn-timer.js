@@ -12,16 +12,16 @@ const formatTime = seconds => {
 
 export default class TurnTimer extends React.Component {
 
-  constructor({ timer, defaultTime }) {
+  constructor({ timer, defaultTimeMs }) {
     super();
     this.state = {
-      seconds: this.getSeconds(timer, defaultTime)
+      seconds: this.getSeconds(timer, defaultTimeMs)
     }
   }
 
-  getSeconds = ( timer, defaultTime ) => {
+  getSeconds = ( timer, defaultTimeMs ) => {
     if (!timer) {
-      return defaultTime
+      return defaultTimeMs / 1000
     }
     const now = new Date().getTime()
     return Math.floor( (timer.end - now) / 1000 )
@@ -33,7 +33,7 @@ export default class TurnTimer extends React.Component {
         return window.clearInterval(this.interval)
       }
       this.setState({
-        seconds: this.getSeconds(this.props.timer, this.props.defaultTime)
+        seconds: this.getSeconds(this.props.timer, this.props.defaultTimeMs)
       })
     }, 500)
   }

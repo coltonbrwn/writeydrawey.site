@@ -25,7 +25,7 @@ class New extends React.Component {
     try {
       const {response:{id}} = await api.createNewGame({
         options: {
-          time_limit: 60
+          time_limit: true
         }
       });
       this.setState({

@@ -18,18 +18,18 @@ module.exports.API_METHODS = {
   START_GAME: 'startGame',
   END_GAME: 'endGame',
   PLAYER_INPUT: 'playerInput',
-  PLAYER_INPUT_START_TIMER: 'playerInputStartTimer',
+  SET_TIMER: 'setTimer',
   NEXT_ROUND: 'nextRound'
 }
 
 module.exports.DEFAULT_TURN_DELAY = 5000;
-module.exports.TURN_LIMIT = 60000;
+module.exports.TURN_LIMIT = 10000;
 
 module.exports.INITIAL_STATE = {
   id: null,
   state: null,
   options: {
-    time_limit: 0
+    time_limit: false
   },
   players: [],
   playerInput: [],

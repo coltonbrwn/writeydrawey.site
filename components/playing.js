@@ -2,6 +2,7 @@ import * as api from '../lib/api'
 import Logo from './svg/logo'
 import TurnTimer from './turn-timer'
 import Button from './button'
+import { TURN_LIMIT } from '../backend/constants'
 
 export default class Home extends React.Component {
 
@@ -52,27 +53,31 @@ export default class Home extends React.Component {
   }
 
   onStartTimerClick = async () => {
-    await api.playerInputStartTimer({
-      playerId: this.props.viewer.userId,
-      gameId: this.props.gameState.id,
-      round: this.props.gameState.round
-    })
-    this.setState({
-      startedTimer: true
-    })
+    try {
+      await api.setTimer({
+        playerId: this.props.viewer.userId,
+        gameId: this.props.gameState.id,
+        round: this.props.gameState.round
+      })
+        .then(this.props.onUpdateState)
+        .then(() => {
+          this.setState({
+            startedTimer: true
+          })
+        })
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   onPhraseSubmit = async () => {
     try {
-      const { data: { response: newGameState } } = await api.playerInput({
+      await api.playerInput({
         playerId: this.props.viewer.userId,
         gameId: this.props.gameState.id,
         round: this.props.gameState.round,
         phrase: this.state.description
-      })
-      if (this.props.onUpdateState) {
-        this.props.onUpdateState(newGameState)
-      }
+      }).then(this.propsOnUpdateState)
     } catch (e) {
       console.log(e)
     }
@@ -85,17 +90,12 @@ export default class Home extends React.Component {
         .contentWindow.document
         .getElementById('myCanvas')
         .toDataURL("image/png");
-      const { data: { response: newGameState } } = await api.playerInput({
+      await api.playerInput({
         playerId: this.props.viewer.userId,
         gameId: this.props.gameState.id,
         round: this.props.gameState.round,
         drawing: dataUrl
-      })
-
-      if (this.props.onUpdateState) {
-        this.props.onUpdateState(newGameState)
-      }
-
+      }).then(this.propsOnUpdateState)
     } catch (e) {
       console.log(e)
     }
@@ -150,7 +150,7 @@ export default class Home extends React.Component {
           </div>
           <div className="text">
             <p>
-              time limit &nbsp;&nbsp;&nbsp;<TurnTimer timer={ playerTimer } defaultTime={ gameState.options.time_limit }/>
+              time limit &nbsp;&nbsp;&nbsp;<TurnTimer timer={ playerTimer } defaultTimeMs={ gameState.options.time_limit ? TURN_LIMIT : 'none' }/>
               <br/>
               round &nbsp;&nbsp;&nbsp;&nbsp; { gameState.round } / { numRounds }
             </p>

@@ -2,31 +2,29 @@ import Button from './button'
 import Logo from './svg/logo'
 import TurnTimer from './turn-timer'
 import * as api from '../lib/api'
-import { GAME_STATE } from '../backend/constants'
+import { GAME_STATE, TURN_LIMIT } from '../backend/constants'
 
 export default class Starting extends React.Component {
 
-  constructor() {
-    super()
-  }
-
-  onStartClick = async () => {
-    await api.startGame({
-      gameId: this.props.gameState.id
-    })
-  }
-
   onNextRoundClick = () => {
-    api.nextRound({
-      gameId: this.props.gameState.id,
-      round: this.props.gameState.round
-    })
+    try {
+      api.nextRound({
+        gameId: this.props.gameState.id,
+        round: this.props.gameState.round
+      }).then( this.props.onUpdateState )
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   onEndGameClick = () => {
-    api.endGame({
-      gameId: this.props.gameState.id
-    })
+    try {
+      api.endGame({
+        gameId: this.props.gameState.id
+      }).then( this.props.onUpdateState )
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   render() {
@@ -56,7 +54,7 @@ export default class Starting extends React.Component {
           </div>
           <div className="text">
             <p>
-              time limit &nbsp;&nbsp;&nbsp; <TurnTimer defaultTime={ gameState.options.time_limit }/>
+              time limit &nbsp;&nbsp;&nbsp; <TurnTimer defaultTimeMs={ gameState.options.time_limit ? TURN_LIMIT : 'none' } />
               <br/>
               round &nbsp;&nbsp;&nbsp;&nbsp; { gameState.round } / { numRounds }
             </p>
@@ -80,7 +78,7 @@ export default class Starting extends React.Component {
             {
               isAdminPlayer &&
               this.props.gameState.state === GAME_STATE.STARTING && (
-                <Button onClick={ this.onStartClick } type="3">
+                <Button onClick={ this.onNextRoundClick } type="3">
                   Start Game
                 </Button>
               )

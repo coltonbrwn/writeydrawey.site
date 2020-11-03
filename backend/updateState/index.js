@@ -16,8 +16,8 @@ module.exports = function(method, payload, viewer) {
       return addPlayer(payload, viewer)
     case API_METHODS.PLAYER_INPUT:
       return playerInput(payload, viewer)
-    case API_METHODS.PLAYER_INPUT_START_TIMER:
-      return playerInputStartTimer(payload, viewer)
+    case API_METHODS.SET_TIMER:
+      return setTimer(payload, viewer)
     case API_METHODS.START_GAME:
       return startGame(payload, viewer)
     case API_METHODS.NEXT_ROUND:
@@ -42,7 +42,8 @@ function createGame({ options }, viewer) {
       id: newGameId,
       state: GAME_STATE.STARTING,
       admin: viewer.userId,
-      options: options
+      options: options,
+      created: new Date().getTime()
     }
   }).promise().then( res => ({
     id: newGameId
@@ -58,27 +59,26 @@ async function addPlayer({ player, gameId }, viewer) {
     return Promise.reject('Invalid Viewer')
   }
 
-  const gameState = await dynamodb.get({
+  return dynamodb.update({
     TableName: TABLES.GAMES,
     Key: {
       id: gameId
-    }
+    },
+    UpdateExpression: 'set #players = list_append(#players, :vals)',
+    ExpressionAttributeNames: {
+      '#players': 'players'
+    },
+    ExpressionAttributeValues: {
+      ':vals': [
+        {
+          ...player,
+          playerId: viewer.userId,
+          ts: new Date().getTime()
+        }
+      ]
+    },
+    ReturnValues: 'ALL_NEW'
   }).promise()
-  const players = gameState.Item.players || []
-  players.push({
-    ...player,
-    playerId: viewer.userId,
-    ts: new Date().getTime()
-  });
-  const uniqPlayers = uniqBy(players, item => item.playerId)
-  const newGameState = {
-    ...gameState.Item,
-    players: uniqPlayers
-  }
-  return dynamodb.put({
-    TableName: TABLES.GAMES,
-    Item: newGameState
-  }).promise().then( res => newGameState)
 }
 
 /*
@@ -91,15 +91,7 @@ async function playerInput({ gameId, phrase, drawing, round }, viewer) {
   }
 
   const playerId = viewer.userId
-  const gameState = await dynamodb.get({
-    TableName: TABLES.GAMES,
-    Key: {
-      id: gameId
-    }
-  }).promise()
-  const playerInput = gameState.Item.playerInput || []
-
-  let imageUrl;
+  let imageUrl
   if (drawing) {
     imageUrl = await convertImage.convertB64Image({
       rawImage: drawing,
@@ -107,27 +99,35 @@ async function playerInput({ gameId, phrase, drawing, round }, viewer) {
     })
   }
 
-  playerInput.push({
-    playerId,
-    phrase,
-    drawing: imageUrl,
-    round,
-    ts: new Date().getTime(),
-  })
-  const newGameState = {
-    ...gameState.Item,
-    playerInput
-  }
-  return dynamodb.put({
+  return dynamodb.update({
     TableName: TABLES.GAMES,
-    Item: newGameState
-  }).promise().then( res => newGameState)
+    Key: {
+      id: gameId
+    },
+    UpdateExpression: 'set #playerInput = list_append(#playerInput, :vals)',
+    ExpressionAttributeNames: {
+      '#playerInput': 'playerInput'
+    },
+    ExpressionAttributeValues: {
+      ':vals': [
+        {
+          playerId,
+          phrase,
+          drawing: imageUrl,
+          round,
+          ts: new Date().getTime(),
+        }
+      ]
+    },
+    ReturnValues: 'ALL_NEW'
+  }).promise()
+
 }
 
 /*
- PLAYER_INPUT_START_TIMER
+ SET_TIMER
  */
-async function playerInputStartTimer({ gameId, round }, viewer) {
+async function setTimer({ gameId, round }, viewer) {
 
   if (!(viewer && viewer.userId)) {
     return Promise.reject('Invalid Viewer')
@@ -150,43 +150,9 @@ async function playerInputStartTimer({ gameId, round }, viewer) {
           end: new Date().getTime() + TURN_LIMIT
         }
       ]
-    }
-  }).promise()
-}
-
-/*
- START GAME
- */
-async function startGame({ gameId }, viewer) {
-
-  if (!(viewer && viewer.userId)) {
-    return Promise.reject('Invalid Viewer')
-  }
-
-  return dynamodb.update({
-    TableName: TABLES.GAMES,
-    Key: {
-      id: gameId
     },
-    UpdateExpression: 'set #game_state = :state_playing, #round = #round + :one, #timers = list_append(#timers, :timers)',
-    ExpressionAttributeNames: {
-      '#game_state': 'state',
-      '#round': 'round',
-      '#timers': 'timers'
-    },
-    ExpressionAttributeValues: {
-      ':state_playing': GAME_STATE.PLAYING,
-      ':one': 1,
-      ':timers': [
-        {
-          playerId: '0',
-          round: 1,
-          end: new Date().getTime() + 5000
-        }
-      ]
-    }
+    ReturnValues: 'ALL_NEW'
   }).promise()
-
 }
 
 /*
@@ -204,7 +170,8 @@ async function endGame({ gameId }, viewer) {
     },
     ExpressionAttributeValues: {
       ':state_done': GAME_STATE.DONE
-    }
+    },
+    ReturnValues: 'ALL_NEW'
   }).promise()
 }
 
@@ -218,13 +185,15 @@ async function nextRound({ gameId, round }) {
     Key: {
       id: gameId
     },
-    UpdateExpression: 'set #round = #round + :one, #timers = list_append(#timers, :timers)',
+    UpdateExpression: 'set #round = #round + :one, #game_state = :playing_state, #timers = list_append(#timers, :timers)',
     ExpressionAttributeNames: {
       '#round': 'round',
-      '#timers': 'timers'
+      '#timers': 'timers',
+      '#game_state': 'state'
     },
     ExpressionAttributeValues: {
       ':one': 1,
+      ':playing_state': GAME_STATE.PLAYING,
       ':timers': [
         {
           playerId: '0',
@@ -232,7 +201,8 @@ async function nextRound({ gameId, round }) {
           end: new Date().getTime() + 5000
         }
       ]
-    }
+    },
+    ReturnValues: 'ALL_NEW'
   }).promise()
 
 }
