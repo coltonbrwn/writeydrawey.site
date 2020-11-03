@@ -1,3 +1,4 @@
+import onetime from 'onetime'
 import Layout from '../components/layout'
 import Nav from '../components/nav'
 import Button from '../components/button'
@@ -20,7 +21,7 @@ class New extends React.Component {
     }
   }
 
-  onNewGameClick = async () => {
+  onNewGameClick = onetime( async () => {
     let id;
     try {
       const {response:{id}} = await api.createNewGame({
@@ -34,7 +35,7 @@ class New extends React.Component {
     } catch (err) {
       console.log(err)
     }
-  }
+  })
 
   onJoinGameClick = () => {
     document.location = `http://${ baseUrl() }/${ this.state.newGameId }`

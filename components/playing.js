@@ -1,3 +1,4 @@
+import onetime from 'onetime'
 import * as api from '../lib/api'
 import Logo from './svg/logo'
 import TurnTimer from './turn-timer'
@@ -52,7 +53,7 @@ export default class Home extends React.Component {
     })
   }
 
-  onStartTimerClick = async () => {
+  onStartTimerClick = onetime( async () => {
     try {
       await api.setTimer({
         playerId: this.props.viewer.userId,
@@ -68,9 +69,9 @@ export default class Home extends React.Component {
     } catch (e) {
       console.log(e)
     }
-  }
+  })
 
-  onPhraseSubmit = async () => {
+  onPhraseSubmit = onetime( async () => {
     try {
       await api.playerInput({
         playerId: this.props.viewer.userId,
@@ -81,9 +82,9 @@ export default class Home extends React.Component {
     } catch (e) {
       console.log(e)
     }
-  }
+  })
 
-  onDrawingSubmit = async () => {
+  onDrawingSubmit = onetime( async () => {
     try {
       const dataUrl = document
         .getElementById('drawingCanvas')
@@ -99,10 +100,9 @@ export default class Home extends React.Component {
     } catch (e) {
       console.log(e)
     }
-  }
+  })
 
   render() {
-
     const { gameState, viewer } = this.props;
 
     if (!(viewer && gameState.players.find( p => p.playerId === this.props.viewer.userId ))) {

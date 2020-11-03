@@ -22,6 +22,7 @@
     "email-validator": "^2.0.4",
     "next": "^9.4.2",
     "node-sass": "^4.14.1",
+    "onetime": "^5.1.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "serverless-next.js": "^1.6.0",

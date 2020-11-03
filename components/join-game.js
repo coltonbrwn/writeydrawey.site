@@ -1,4 +1,5 @@
 import { v4 } from 'uuid';
+import onetime from 'onetime';
 import Nav from './nav';
 import * as api from '../lib/api';
 import Button from './button';
@@ -38,7 +39,7 @@ export default class AddPlayer extends React.Component {
     })
   }
 
-  onSubmit = async () => {
+  onSubmit = onetime(async () => {
     try {
       const player = {
         playerName: this.state.playerName
@@ -57,7 +58,7 @@ export default class AddPlayer extends React.Component {
     } catch (e) {
       console.log(e)
     }
-  }
+  })
 
   render() {
     return (
