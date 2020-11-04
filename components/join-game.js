@@ -48,13 +48,12 @@ export default class AddPlayer extends React.Component {
       await api.addPlayer({
         gameId: this.props.gameState.id,
         player
-      }).then(
-        api.playerInput({
-          gameId: this.props.gameState.id,
-          phrase: this.state.phrase,
-          round: 0
-        })
-      ).then( this.onUpdateState )
+      })
+      api.playerInput({
+        gameId: this.props.gameState.id,
+        phrase: this.state.phrase,
+        round: 0
+      }).then( this.onUpdateState )
     } catch (e) {
       console.log(e)
     }

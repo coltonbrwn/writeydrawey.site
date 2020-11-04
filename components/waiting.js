@@ -1,3 +1,4 @@
+import RoughNotation from './rough-notation'
 import Button from './button'
 import Logo from './svg/logo'
 import TurnTimer from './turn-timer'
@@ -66,12 +67,15 @@ export default class Starting extends React.Component {
             {
               this.props.gameState.players
                 .map( p => (
-                  <h3
-                    title={ playersReadyMap[ p.playerId ] ? 'ready' : 'waiting' }
-                    className={ playersReadyMap[ p.playerId ] ? '' : 'player--notready' }
-                    key={ p.playerId }>
-                      { p.playerName }
-                  </h3>
+                  <RoughNotation
+                    style="strike-through"
+                    toggle={ playersReadyMap[ p.playerId ]}
+                    key={ p.playerId + playersReadyMap[p.playerId ]}
+                  >
+                    <h3>
+                        { p.playerName }
+                    </h3>
+                  </RoughNotation>
                 ))
             }
           </div>
