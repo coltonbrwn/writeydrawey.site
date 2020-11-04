@@ -4,9 +4,10 @@ var AWS = require('aws-sdk')
 var uniqBy = require('lodash.uniqby')
 
 var convertImage = require('./convert-image');
-var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE } = require('../constants')
+var { TABLES, GAME_QUEUE, API_METHODS, GAME_STATE, INITIAL_STATE } = require('../constants')
 
 var dynamodb = new AWS.DynamoDB.DocumentClient()
+var sqs = new AWS.SQS();
 
 module.exports = function(method, payload, viewer) {
   switch (method) {
@@ -148,6 +149,19 @@ async function startGame({ gameId }, viewer) {
 }
 
 async function endGame({ gameId }, viewer) {
+
+  sqs.sendMessage({
+    QueueUrl: GAME_QUEUE.URL,
+    MessageBody: JSON.stringify({
+      topic: GAME_QUEUE.TOPIC,
+      data: {
+        gameId
+      }
+    })
+  }, function(err, data) {
+    console.log(err, data)
+  })
+
   return dynamodb.update({
     TableName: TABLES.GAMES,
     Key: {

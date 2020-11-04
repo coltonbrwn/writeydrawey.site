@@ -21,6 +21,11 @@ module.exports.API_METHODS = {
   NEXT_ROUND: 'nextRound'
 }
 
+module.exports.GAME_QUEUE = {
+  URL: '',
+  TOPIC: ''
+}
+
 module.exports.INITIAL_STATE = {
   id: null,
   state: null,

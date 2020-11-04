@@ -1,0 +1,17 @@
+{
+  "name": "l7oygb-mnekam",
+  "hash": "38I8DjP6CmqFLOy3n9qraYG/amh5Fh34nuB+M+lQk2M=",
+  "description": "processes the completed games queue",
+  "memory": 128,
+  "timeout": 20,
+  "code": "./backend",
+  "shims": [],
+  "handler": "index.archive",
+  "runtime": "nodejs12.x",
+  "env": {},
+  "role": {
+    "arn": "arn:aws:iam::680198729557:role/l7oygb-oo2vjs"
+  },
+  "arn": "arn:aws:lambda:us-east-1:680198729557:function:l7oygb-mnekam",
+  "region": "us-east-1"
+}

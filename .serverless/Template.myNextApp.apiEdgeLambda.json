@@ -1,13 +1,13 @@
 {
   "name": "l7oygb-hl4zvpv",
-  "hash": "xOuP9MvRUPiP8nWajbq60mLY/GdRHo2KOKPfVz4Xl68=",
+  "hash": "Zdpc9vf0LRyylDaISOQS0YnJROohthSO8h9cNyMkjhw=",
   "description": "API Lambda@Edge for Next CloudFront distribution",
   "memory": 512,
   "timeout": 10,
   "code": "/Users/colton/Documents/Dev/repos/writey-drawey/.serverless_nextjs/api-lambda",
   "shims": [],
   "handler": "index.handler",
-  "runtime": "nodejs10.x",
+  "runtime": "nodejs12.x",
   "env": {},
   "role": {
     "arn": "arn:aws:iam::680198729557:role/l7oygb-xs8w50m"

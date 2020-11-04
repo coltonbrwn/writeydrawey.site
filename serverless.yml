@@ -1,7 +1,7 @@
 name: writey-drawey-site
 
 myNextApp:
-  component: serverless-next.js
+  component: '@sls-next/serverless-component'
   inputs:
     domain: ["www", "writeydrawey.site"]
     bucketName: writey-drawey-next-js
@@ -86,3 +86,25 @@ imageBucket:
         AllowedOrigins:
         - http://writeydrawey.site
         MaxAgeSeconds: 3000
+
+completedGameArchiver:
+  component: '@serverless/aws-lambda'
+  name: writey-drawer-archiver
+  inputs:
+    description: "processes the completed games queue"
+    memory: 128
+    timeout: 20
+    code: ./backend
+    handler: index.archive
+    runtime: nodejs12.x
+    region: us-east-1
+
+completedGamesQueue:
+  component: '@serverless/aws-sqs'
+  inputs:
+    name: wd-games
+    visibilityTimeout: '30'
+    maximumMessageSize: '262144'
+    messageRetentionPeriod: '345600'
+    delaySeconds: '0'
+    receiveMessageWaitTimeSeconds: '0'

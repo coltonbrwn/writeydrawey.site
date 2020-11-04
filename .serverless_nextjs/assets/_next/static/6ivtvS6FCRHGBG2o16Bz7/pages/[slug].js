@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{Fz11:function(n,t,u){(window.__NEXT_P=window.__NEXT_P||[]).push(["/[slug]",function(){return u("Ritt")}])},Ritt:function(n,t,u){"use strict";u.r(t);var i=u("KnIj");u.d(t,"default",(function(){return i.default}))}},[["Fz11",0,1,3,2,5,6,7,4]]]);
