@@ -6,7 +6,8 @@ $(function() {
 })
 
 window.globals = {
-  onUndoClick: function() {}
+  onUndoClick: function() {},
+  getPath: function() {}
 }
 
 function onPhotoClick() {

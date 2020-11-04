@@ -43,6 +43,7 @@ export default class Starting extends React.Component {
     })
 
     const allPlayersReady = numPlayersReady === gameState.players.length
+    const roundTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === '0');
 
     return (
       <div className="content-container">
@@ -97,6 +98,15 @@ export default class Starting extends React.Component {
                 <Button onClick={ this.onEndGameClick } type="5">
                   End Game
                 </Button>
+              )
+            }
+          </div>
+          <div>
+            {
+              roundTimer && roundTimer.end > new Date().getTime() && (
+                <h2>
+                  Next round in <TurnTimer timer={ roundTimer } />
+                </h2>
               )
             }
           </div>

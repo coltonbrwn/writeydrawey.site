@@ -18,7 +18,7 @@ function playerHasContributed(gameState, viewer) {
     const playerContribution = gameState.playerInput.find( input => (
       input.round === gameState.round && input.playerId === viewer.userId
     ))
-    return Boolean(playerContribution);
+    return Boolean(playerContribution)
   } catch (e) {
     return false;
   }
@@ -44,7 +44,7 @@ export default class Main extends React.Component {
       }
     }
     try {
-      const { gameState, viewer } = await api.getGameState({ gameId: query.slug }, req);
+      const { gameState, viewer } = await api.getGameState({ gameId: query.slug }, req)
       return {
         gameState,
         viewer,
@@ -61,18 +61,18 @@ export default class Main extends React.Component {
 
   componentDidMount() {
     this.interval = window.setInterval(async () => {
-      const gameId = Router.query.slug;
+      const gameId = Router.query.slug
       if (!gameId) {
         return;
       }
       try {
-        const { gameState, viewer } = await api.getGameState({ gameId });
+        const { gameState, viewer } = await api.getGameState({ gameId })
         this.setState({
           gameState,
           viewer
         })
         if (gameState.state === GAME_STATE.DONE) {
-          window.clearInterval(this.interval);
+          window.clearInterval(this.interval)
         }
       } catch (e) {
         console.log(e)
@@ -80,7 +80,7 @@ export default class Main extends React.Component {
           gameState: INITIAL_STATE,
           statusCode: get(e, 'request.status')
         })
-        window.clearInterval(this.interval);
+        window.clearInterval(this.interval)
       }
     }, UPDATE_INTERVAL)
   }
@@ -92,10 +92,13 @@ export default class Main extends React.Component {
   }
 
   getComponent() {
-    const { gameState, viewer } = this.state;
+    const { gameState, viewer } = this.state
+    const roundTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === '0')
+    const hasValidTimer = roundTimer && roundTimer.end > new Date().getTime()
+
     if (gameState.state === GAME_STATE.DONE) {
       return Done
-    } else if (playerHasContributed(gameState, viewer)) {
+    } else if (playerHasContributed(gameState, viewer) || hasValidTimer) {
       return Waiting
     } else if (gameState.state === GAME_STATE.STARTING) {
       return JoinGame

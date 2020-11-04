@@ -16,6 +16,13 @@ export default class Home extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const isDrawingRound = Boolean(this.props.gameState.round % 2)
+    if (!isDrawingRound) {
+      this.startTimer()
+    }
+  }
+
   componentDidUpdate(props, state) {
     const currentTimer = this.props.gameState.timers.find( item => item.round === this.props.gameState.round && item.playerId === this.props.viewer.userId);
     if (currentTimer && new Date().getTime() > currentTimer.end) {
@@ -53,7 +60,7 @@ export default class Home extends React.Component {
     })
   }
 
-  onStartTimerClick = onetime( async () => {
+  startTimer = onetime( async () => {
     try {
       await api.setTimer({
         playerId: this.props.viewer.userId,
@@ -118,22 +125,6 @@ export default class Home extends React.Component {
       )
     }
 
-    const roundTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === '0');
-    if (roundTimer && new Date().getTime() < roundTimer.end) {
-      return (
-        <div className="full-height">
-          <div className="flex-container">
-            <h2>
-              Next round starting!
-            </h2>
-            <h1>
-              <TurnTimer timer={ roundTimer } />
-            </h1>
-          </div>
-        </div>
-      )
-    }
-
     const numRounds = gameState.players.length
     const isDrawingRound = Boolean(gameState.round % 2)
     const leftHandPlayerInput = this.getLeftHandPlayer()
@@ -176,42 +167,31 @@ export default class Home extends React.Component {
                 ) : (
                   <div className="flex-container">
                     <h1>Draw "{ leftHandPlayerInput.phrase }"</h1>
-                    <Button onClick={ this.onStartTimerClick }>
+                    <Button onClick={ this.startTimer }>
                       Start
                     </Button>
                   </div>
                 )
             ) : (
-              this.state.startedTimer ? (
-                <div className="flex-container">
-                  <img
-                    className="playerDrawing"
-                    src={ leftHandPlayerInput.drawing } />
-                  <div className="bottom-margin">
-                    <span className="input-wrapper">
-                      <h3>
-                        describe this:
-                      </h3>
-                      <input
-                        onChange={ this.onDescriptionChange }
-                        value={ this.state.description }
-                      />
-                    </span>
-                    <Button onClick={ this.onPhraseSubmit } type="4">
-                      Okay
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex-container">
-                  <img
-                    className="playerDrawing preview"
-                    src={ leftHandPlayerInput.drawing } />
-                  <Button onClick={ this.onStartTimerClick } className="preview--button">
-                    Describe This
+              <div className="flex-container">
+                <img
+                  className="playerDrawing"
+                  src={ leftHandPlayerInput.drawing } />
+                <div className="bottom-margin">
+                  <span className="input-wrapper">
+                    <h3>
+                      describe this:
+                    </h3>
+                    <input
+                      onChange={ this.onDescriptionChange }
+                      value={ this.state.description }
+                    />
+                  </span>
+                  <Button onClick={ this.onPhraseSubmit } type="4">
+                    Okay
                   </Button>
                 </div>
-              )
+              </div>
           )
         }
       </div>

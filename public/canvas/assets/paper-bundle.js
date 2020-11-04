@@ -67,5 +67,8 @@ function undo() {
 }
 
 window.globals = {
-  undo: undo
+  undo: undo,
+  getPath: function() {
+    return path
+  }
 }
