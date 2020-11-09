@@ -5,11 +5,13 @@ module.exports.GAME_STATE = {
 }
 
 module.exports.TABLES = {
-  GAMES: 'writey_drawey_dev'
+  GAMES: 'writey-drawey-games',
+  GAMES_DEV: 'writey_drawey_dev'
 }
 
 module.exports.BUCKETS = {
-  IMAGES: 'writey-drawey-images-dev'
+  IMAGES: 'writey-drawey-images',
+  IMAGES_DEV: 'writey-drawey-images-dev'
 }
 
 module.exports.API_METHODS = {
@@ -19,11 +21,6 @@ module.exports.API_METHODS = {
   END_GAME: 'endGame',
   PLAYER_INPUT: 'playerInput',
   NEXT_ROUND: 'nextRound'
-}
-
-module.exports.GAME_QUEUE = {
-  URL: 'https://sqs.us-east-1.amazonaws.com/680198729557/wd-games',
-  TOPIC: 'gameComplete'
 }
 
 module.exports.INITIAL_STATE = {

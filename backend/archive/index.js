@@ -1,4 +1,3 @@
-var sharp = require('sharp')
 var axios = require('axios')
 var fs = require('fs')
 var Path = require('path')
@@ -34,7 +33,7 @@ const downloadTask = task =>
 module.exports.handler = async function(event, context, cb) {
 
   const { Items } = await dynamodb.scan({
-    TableName: TABLES.GAMES,
+    TableName: TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES'],
     ScanFilter: {
       'state': {
         AttributeValueList: [ GAME_STATE.DONE ],

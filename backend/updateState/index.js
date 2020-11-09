@@ -5,10 +5,11 @@ var uniqBy = require('lodash.uniqby')
 
 var convertImage = require('./convert-image')
 var archiveGame = require('../archive')
-var { TABLES, GAME_QUEUE, API_METHODS, GAME_STATE, INITIAL_STATE } = require('../constants')
+var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE } = require('../constants')
 
 var dynamodb = new AWS.DynamoDB.DocumentClient()
 var sqs = new AWS.SQS();
+const TableName = TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES'],
 
 module.exports = function(method, payload, viewer) {
   switch (method) {
@@ -36,7 +37,7 @@ function createGame(viewer) {
 
   const newGameId = shortid.generate()
   return dynamodb.put({
-    TableName: TABLES.GAMES,
+    TableName,
     Item: {
       ...INITIAL_STATE,
       id: newGameId,
@@ -58,7 +59,7 @@ async function addPlayer({ player, gameId }, viewer) {
   }
 
   const gameState = await dynamodb.get({
-    TableName: TABLES.GAMES,
+    TableName,
     Key: {
       id: gameId
     }
@@ -75,7 +76,7 @@ async function addPlayer({ player, gameId }, viewer) {
     players: uniqPlayers
   }
   return dynamodb.put({
-    TableName: TABLES.GAMES,
+    TableName,
     Item: newGameState
   }).promise().then( res => newGameState)
 }
@@ -91,7 +92,7 @@ async function playerInput({ gameId, phrase, drawing, round }, viewer) {
 
   const playerId = viewer.userId
   const gameState = await dynamodb.get({
-    TableName: TABLES.GAMES,
+    TableName,
     Key: {
       id: gameId
     }
@@ -118,7 +119,7 @@ async function playerInput({ gameId, phrase, drawing, round }, viewer) {
     playerInput
   }
   return dynamodb.put({
-    TableName: TABLES.GAMES,
+    TableName,
     Item: newGameState
   }).promise().then( res => newGameState)
 }
@@ -133,7 +134,7 @@ async function startGame({ gameId }, viewer) {
   }
 
   return dynamodb.update({
-    TableName: TABLES.GAMES,
+    TableName,
     Key: {
       id: gameId
     },
@@ -152,7 +153,7 @@ async function startGame({ gameId }, viewer) {
 async function endGame({ gameId }, viewer) {
 
   return dynamodb.update({
-    TableName: TABLES.GAMES,
+    TableName,
     Key: {
       id: gameId
     },
@@ -168,7 +169,7 @@ async function endGame({ gameId }, viewer) {
 
 async function nextRound({ gameId }) {
   return dynamodb.update({
-    TableName: TABLES.GAMES,
+    TableName,
     Key: {
       id: gameId
     },
