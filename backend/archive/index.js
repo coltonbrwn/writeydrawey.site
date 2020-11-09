@@ -12,6 +12,7 @@ var dynamodb = new AWS.DynamoDB.DocumentClient({
   secretAccessKey: process.env.S1rXysbDt9RIuW5IG4,
   region: process.env.AWS_REGION
 })
+let directory = __dirname;
 
 const downloadTask = task =>
   new Promise((resolve, reject) => {
@@ -20,8 +21,7 @@ const downloadTask = task =>
         return reject(err)
       }
       const path = Path.resolve(
-        __dirname,
-        'test-images',
+        directory,
         `${ task.createdTime }_${ task.player }.png`
       )
       request(task.url)
@@ -36,8 +36,14 @@ const downloadTask = task =>
 
 module.exports.handler = async function(event, context, cb) {
 
-  console.log('Archive starting')
-  console.log(`Environment is '${ process.env.NODE_ENV || 'prod' }'`)
+  const startDate = new Date().getTime();
+  console.log(`+-- Archive starting [${ new Date().toUTCString() }]`)
+  console.log(`+   Environment is '${ process.env.NODE_ENV || 'prod' }'`)
+
+  if (process.argv[2]) {
+    directory = process.argv[2]
+  }
+  console.log(`+   Image directory is '${ directory }'`)
 
   try {
 
@@ -55,7 +61,7 @@ module.exports.handler = async function(event, context, cb) {
       Limit: BATCH_SIZE_GAMES
     }).promise()
 
-    console.log(`${ Items.length } games fetched ...`)
+    console.log(`+   ${ Items.length } games fetched ...`)
 
     const tasks = []
     Items.forEach( game => {
@@ -76,9 +82,8 @@ module.exports.handler = async function(event, context, cb) {
       tasks.map( downloadTask )
     )
 
-    console.log(`${ archiveResults.length } games archived ...`)
-
-    console.log('Done')
+    console.log(`+   ${ archiveResults.length } images archived ...`)
+    console.log(`+-- Done [${ new Date().getTime() - startDate }ms elapsed]\n`)
 
   } catch (e) {
     console.log(e)
