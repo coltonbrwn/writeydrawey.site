@@ -36,7 +36,8 @@ const downloadTask = task =>
 
 module.exports.handler = async function(event, context, cb) {
 
-  const startDate = new Date().getTime();
+  const tableName = TABLES[ process.env.NODE_ENV === 'dev' ? 'GAMES_DEV' : 'GAMES']
+  const startDate = new Date().getTime()
   console.log(`+-- Archive starting [${ new Date().toUTCString() }]`)
   console.log(`+   Environment is '${ process.env.NODE_ENV || 'prod' }'`)
 
@@ -48,7 +49,7 @@ module.exports.handler = async function(event, context, cb) {
   try {
 
     const { Items } = await dynamodb.scan({
-      TableName: TABLES[ process.env.NODE_ENV === 'dev' ? 'GAMES_DEV' : 'GAMES'],
+      TableName: tableName,
       ScanFilter: {
         'state': {
           AttributeValueList: [ GAME_STATE.DONE ],
@@ -62,6 +63,11 @@ module.exports.handler = async function(event, context, cb) {
     }).promise()
 
     console.log(`+   ${ Items.length } games fetched ...`)
+
+    if (!Items.length) {
+      console.log(`+-- Done, none archived [${ new Date().getTime() - startDate }ms elapsed]\n`)
+      return;
+    }
 
     const tasks = []
     Items.forEach( game => {
@@ -83,6 +89,20 @@ module.exports.handler = async function(event, context, cb) {
     )
 
     console.log(`+   ${ archiveResults.length } images archived ...`)
+
+    await dynamodb.batchWrite({
+      RequestItems: {
+        [tableName]: Items.map( item => ({
+          PutRequest: {
+            Item: {
+              id: item.id,
+              archived: new Date().toUTCString()
+            }
+          }
+        }))
+      }
+    }).promise()
+
     console.log(`+-- Done [${ new Date().getTime() - startDate }ms elapsed]\n`)
 
   } catch (e) {
