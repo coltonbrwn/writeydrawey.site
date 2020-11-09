@@ -3,7 +3,8 @@ var shortid = require('shortid')
 var AWS = require('aws-sdk')
 var uniqBy = require('lodash.uniqby')
 
-var convertImage = require('./convert-image');
+var convertImage = require('./convert-image')
+var archiveGame = require('../archive')
 var { TABLES, GAME_QUEUE, API_METHODS, GAME_STATE, INITIAL_STATE } = require('../constants')
 
 var dynamodb = new AWS.DynamoDB.DocumentClient()
@@ -149,18 +150,6 @@ async function startGame({ gameId }, viewer) {
 }
 
 async function endGame({ gameId }, viewer) {
-
-  sqs.sendMessage({
-    QueueUrl: GAME_QUEUE.URL,
-    MessageBody: JSON.stringify({
-      topic: GAME_QUEUE.TOPIC,
-      data: {
-        gameId
-      }
-    })
-  }, function(err, data) {
-    console.log(err, data)
-  })
 
   return dynamodb.update({
     TableName: TABLES.GAMES,

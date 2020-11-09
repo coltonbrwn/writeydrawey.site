@@ -1,5 +1,6 @@
 var getState = require('./getState/index.js')
 var updateState = require('./updateState/index.js')
+var constants = require('./constants.js')
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',

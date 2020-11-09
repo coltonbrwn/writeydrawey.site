@@ -27,3 +27,5 @@ functions:
           path: /state
           method: GET
           cors: true
+  archiver:
+    handler: ./archive/index.handler

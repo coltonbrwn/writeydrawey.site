@@ -95,16 +95,6 @@ completedGameArchiver:
     memory: 128
     timeout: 20
     code: ./backend
-    handler: index.archive
+    handler: archive.handler
     runtime: nodejs12.x
     region: us-east-1
-
-completedGamesQueue:
-  component: '@serverless/aws-sqs'
-  inputs:
-    name: wd-games
-    visibilityTimeout: '30'
-    maximumMessageSize: '262144'
-    messageRetentionPeriod: '345600'
-    delaySeconds: '0'
-    receiveMessageWaitTimeSeconds: '0'

@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[12],{HOlU:function(n,w,o){(window.__NEXT_P=window.__NEXT_P||[]).push(["/main",function(){return o("KnIj")}])}},[["HOlU",0,1,2,3,5,6,7,4]]]);

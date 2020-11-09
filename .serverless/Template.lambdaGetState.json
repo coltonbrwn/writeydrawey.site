@@ -1,6 +1,6 @@
 {
   "name": "l7oygb-0tt5f5n",
-  "hash": "38I8DjP6CmqFLOy3n9qraYG/amh5Fh34nuB+M+lQk2M=",
+  "hash": "mynhIfsnbJPomjBjAaLAUIedNmv/OQmjozFErXhh6u0=",
   "description": "polling endpoint for fetching game state",
   "memory": 1024,
   "timeout": 4,
