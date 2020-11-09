@@ -13,7 +13,7 @@ function sort(array) {
 
 module.exports = async function(id) {
   const { Item: gameState } = await dynamodb.get({
-    TableName: TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES'],
+    TableName: TABLES[ process.env.NODE_ENV === 'dev' ? 'GAMES_DEV' : 'GAMES'],
     Key: {
       id
     }

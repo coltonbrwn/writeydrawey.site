@@ -9,7 +9,7 @@ var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE } = require('../constants')
 
 var dynamodb = new AWS.DynamoDB.DocumentClient()
 var sqs = new AWS.SQS();
-const TableName = TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES'],
+const TableName = TABLES[ process.env.NODE_ENV === 'dev' ? 'GAMES_DEV' : 'GAMES'],
 
 module.exports = function(method, payload, viewer) {
   switch (method) {
