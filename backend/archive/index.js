@@ -32,37 +32,50 @@ const downloadTask = task =>
 
 module.exports.handler = async function(event, context, cb) {
 
-  const { Items } = await dynamodb.scan({
-    TableName: TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES'],
-    ScanFilter: {
-      'state': {
-        AttributeValueList: [ GAME_STATE.DONE ],
-        ComparisonOperator: 'EQ'
-      },
-      'archived': {
-        ComparisonOperator: 'NULL'
-      }
-    },
-    Limit: BATCH_SIZE_GAMES
-  }).promise()
+  try {
 
-  const tasks = []
-  Items.forEach( game => {
-    const gameId = game.id
-    const players = game.players
-    game.playerInput.filter( item => item.drawing ).map(drawing => {
-      let d = new Date(drawing.ts)
-      tasks.push({
-        createdTime: `${ d.getDate() }-${ d.getMonth() }-${ d.getFullYear() }-${ d.getHours() }${ d.getMinutes() }${ d.getSeconds() }`,
-        url: drawing.drawing,
-        player: players.find( p => p.playerId === drawing.playerId ).playerName,
-        game: gameId
+
+    const { Items } = await dynamodb.scan({
+      TableName: TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES'],
+      ScanFilter: {
+        'state': {
+          AttributeValueList: [ GAME_STATE.DONE ],
+          ComparisonOperator: 'EQ'
+        },
+        'archived': {
+          ComparisonOperator: 'NULL'
+        }
+      },
+      Limit: BATCH_SIZE_GAMES
+    }).promise()
+
+    console.log(`${ Items.length } games fetched ...`)
+
+    const tasks = []
+    Items.forEach( game => {
+      const gameId = game.id
+      const players = game.players
+      game.playerInput.filter( item => item.drawing ).map(drawing => {
+        let d = new Date(drawing.ts)
+        tasks.push({
+          createdTime: `${ d.getDate() }-${ d.getMonth() }-${ d.getFullYear() }-${ d.getHours() }${ d.getMinutes() }${ d.getSeconds() }`,
+          url: drawing.drawing,
+          player: players.find( p => p.playerId === drawing.playerId ).playerName,
+          game: gameId
+        })
       })
     })
-  })
 
-  const archiveResults = await Promise.allSettled(
-    tasks.map( downloadTask )
-  )
+    const archiveResults = await Promise.allSettled(
+      tasks.map( downloadTask )
+    )
+
+    console.log(`${ archiveResults.length } games archived ...`)
+
+    console.log('Done')
+
+  } catch (e) {
+    console.log(e)
+  }
 
 }
