@@ -9,8 +9,6 @@
   "author": "Colton Brown <coltonTB@me.com> (http://coltontbrown.com/)",
   "license": "ISC",
   "dependencies": {
-    "lodash.uniqby": "^4.7.0",
-    "shortid": "^2.2.15",
-    "uuid": "^7.0.2"
+    "serverless-offline": "6.1.2"
   }
 }

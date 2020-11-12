@@ -23,6 +23,7 @@
     "dotenv": "^8.2.0",
     "dotty": "^0.1.0",
     "email-validator": "^2.0.4",
+    "lodash.uniqby": "^4.7.0",
     "next": "^9.4.2",
     "node-sass": "^4.14.1",
     "react": "^16.10.2",
