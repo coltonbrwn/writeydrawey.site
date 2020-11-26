@@ -1,4 +1,4 @@
-.join {
+.join, .new-game {
   .input-container {
     max-width: 30rem;
     text-align: left;
@@ -14,10 +14,6 @@
     margin-bottom: 0.4rem;
   }
   .subtext {
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 2rem;
     text-align: center;
     font-family: 'Relative Mono';
     font-size: 0.65rem;

@@ -1,3 +1,9 @@
+module.exports.baseUrlFrontend = () =>
+  process.env.NODE_ENV === 'development'
+    ? "localhost:3030"
+    : "writeydrawey.site"
+
+
 module.exports.GAME_STATE = {
   STARTING: 'starting',
   PLAYING: 'playing',
@@ -24,6 +30,7 @@ module.exports.API_METHODS = {
 
 module.exports.DEFAULT_TURN_DELAY = 5000;
 module.exports.TURN_LIMIT = 10000;
+module.exports.MIN_NUM_PLAYERS = 3; 
 
 module.exports.INITIAL_STATE = {
   id: null,

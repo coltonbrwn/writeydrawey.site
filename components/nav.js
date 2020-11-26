@@ -1,4 +1,5 @@
 import Logo from './svg/logo'
+import { FeedbackFish } from '@feedback-fish/react'
 
 export default class Nav extends React.Component {
 
@@ -17,7 +18,7 @@ export default class Nav extends React.Component {
                 <Logo />
               </a>
             </div>
-          )
+          ) 
         }
         {
           this.props.textOverride
@@ -31,7 +32,9 @@ export default class Nav extends React.Component {
                   <a href="/new">new game</a>
                 </h2>
                 <h2>
-                  <a href="/rules">rules</a>
+                <FeedbackFish projectId="b14626c0ba245e">
+                  <a href="javascript:void()">feedback</a>
+                </FeedbackFish>
                 </h2>
                 {
                   !this.props.noHome && (

@@ -13,17 +13,6 @@ import "../styles/styles.scss"
 
 const UPDATE_INTERVAL = 2000;
 
-function playerHasContributed(gameState, viewer) {
-  try {
-    const playerContribution = gameState.playerInput.find( input => (
-      input.round === gameState.round && input.playerId === viewer.userId
-    ))
-    return Boolean(playerContribution)
-  } catch (e) {
-    return false;
-  }
-}
-
 export default class Main extends React.Component {
 
   constructor({ gameState, viewer, statusCode }) {
@@ -33,6 +22,18 @@ export default class Main extends React.Component {
       viewer,
       error: null,
       statusCode
+    }
+  }
+
+  playerHasContributed() {
+    const { gameState, viewer } = this.state
+    try {
+      const playerContribution = gameState.playerInput.find( input => (
+        input.round === gameState.round && input.playerId === viewer.userId
+      ))
+      return Boolean(playerContribution)
+    } catch (e) {
+      return false;
     }
   }
 
@@ -98,10 +99,10 @@ export default class Main extends React.Component {
 
     if (gameState.state === GAME_STATE.DONE) {
       return Done
-    } else if (playerHasContributed(gameState, viewer) || hasValidTimer) {
-      return Waiting
     } else if (gameState.state === GAME_STATE.STARTING) {
       return JoinGame
+    } else if (this.playerHasContributed() || hasValidTimer) {
+      return Waiting
     } else if (gameState.state === GAME_STATE.PLAYING) {
       return Playing
     } else {
@@ -120,7 +121,11 @@ export default class Main extends React.Component {
             </div>
           )
         }
-        <Component { ...this.state } onUpdateState={ this.updateGameState }/>
+        <Component
+          { ...this.state }
+          onUpdateState={ this.updateGameState }
+          playerHasContributed={ this.playerHasContributed() }
+        />
       </Layout>
     );
   }
