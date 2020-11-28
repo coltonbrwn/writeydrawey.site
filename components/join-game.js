@@ -1,10 +1,18 @@
 import onetime from 'onetime'
 import Nav from './nav'
 import * as api from '../lib/api'
-import PlayerInput from './player-input'
+import Button from './button'
 import GameStartingPlayerList from './game-starting-player-list'
 
-export default class AddPlayer extends React.Component {
+export default class JoinGame extends React.Component {
+
+  constructor() {
+    super()
+    this.state = {
+      playerName: '',
+      phrase: ''
+    }
+  }
 
   onNameInputChanage = e => {
     this.setState({
@@ -18,19 +26,19 @@ export default class AddPlayer extends React.Component {
     })
   }
 
-  onSubmit = onetime(async ({ playerName, phrase }) => {
-    if (!playerName || !phrase) {
+  onSubmit = onetime(async () => {
+    if (!this.state.playerName || !this.state.phrase) {
       return
     }
     await api.addPlayer({
       gameId: this.props.gameState.id,
       player: {
-        playerName
+        playerName: this.state.playerName
       }
     })
     const gameState = await api.playerInput({
       gameId: this.props.gameState.id,
-      phrase,
+      phrase: this.state.phrase,
       round: 0
     })
     this.props.onUpdateState(gameState)
@@ -43,14 +51,32 @@ export default class AddPlayer extends React.Component {
         {
           this.props.playerHasContributed ? (
             <GameStartingPlayerList
+              onUpdateState={ this.props.onUpdateState }
               gameState={ this.props.gameState }
             />
           ) : (
-            <PlayerInput
-              parentComponentType="join-game"
-              onSubmit={ this.onSubmit }
-              gameState={ this.props.gameState }
-            />
+            <div className="join flex-container">
+              <div className="input-container">
+                  <div className="input-container-flex">
+                      <h3 className="mono">your name:</h3>
+                      <span className="input-wrapper">
+                      <input onChange={ this.onNameInputChanage } />
+                      </span>
+                  </div>
+                  <div className="input-container-flex">
+                      <h3 className="mono">a phrase:</h3>
+                      <span className="input-wrapper">
+                      <input onChange={ this.onPhraseInputChange } />
+                      <span className="subtext">
+                          (anything)
+                      </span>
+                      </span>
+                  </div>
+              </div>
+              <Button onClick={ this.onSubmit }>
+                Join Game
+              </Button>
+            </div>
           )
         }
       </div>

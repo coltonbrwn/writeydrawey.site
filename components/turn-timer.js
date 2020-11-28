@@ -1,14 +1,4 @@
-
-const formatTime = seconds => {
-  if (seconds === null) {
-    return ''
-  }
-  let m = Math.floor(seconds / 60)
-  let s = (seconds < 1) ? seconds : seconds
-  s = Math.abs(s % 60)
-  s = s < 10 ? `0${ s }` : s
-  return `${ m }:${ s }`
-}
+import { formatTime } from '../lib/util'
 
 export default class TurnTimer extends React.Component {
 

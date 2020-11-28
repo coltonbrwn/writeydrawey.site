@@ -1,9 +1,3 @@
-module.exports.baseUrlFrontend = () =>
-  process.env.NODE_ENV === 'development'
-    ? "localhost:3030"
-    : "writeydrawey.site"
-
-
 module.exports.GAME_STATE = {
   STARTING: 'starting',
   PLAYING: 'playing',

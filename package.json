@@ -27,6 +27,7 @@
     "onetime": "^5.1.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-toggle": "^4.1.1",
     "rough-notation": "^0.5.1",
     "serverless-next.js": "^1.6.0",
     "shortid": "^2.2.15",

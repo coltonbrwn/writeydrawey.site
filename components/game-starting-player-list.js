@@ -1,7 +1,8 @@
 import copy from 'copy-to-clipboard'
 import Button from './button'
-import { MIN_NUM_PLAYERS, baseUrlFrontend } from '../backend/constants'
-import { startGame } from '../lib/api'
+import { MIN_NUM_PLAYERS } from '../backend/constants'
+import { nextRound } from '../lib/api'
+import { baseUrlFrontend } from '../lib/util'
 
 export default class GameStartingPlayerList extends React.Component {
 
@@ -13,8 +14,11 @@ export default class GameStartingPlayerList extends React.Component {
     }
 
     onStartClick = async () => {
-        const gameState = await startGame({ gameId: this.props.gameState.id })
-        this.props.onUpdatestate(gameState)
+        const gameState = await nextRound({
+            gameId: this.props.gameState.id,
+            round: 0
+        })
+        this.props.onUpdateState(gameState)
     }
 
     onCopyClick = () => {

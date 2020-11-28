@@ -19,9 +19,7 @@ module.exports = function(method, payload, viewer) {
     case API_METHODS.SET_TIMER:
       return setTimer(payload, viewer)
     case API_METHODS.START_GAME:
-      return startGame(payload, viewer)
-    case API_METHODS.NEXT_ROUND:
-      return nextRound(payload, viewer)
+      return startGame(payload, viewer):
     case API_METHODS.END_GAME:
       return endGame(payload, viewer)
     default:
