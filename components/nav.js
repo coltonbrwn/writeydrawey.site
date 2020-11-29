@@ -31,11 +31,6 @@ export default class Nav extends React.Component {
                 <h2>
                   <a href="/new">new game</a>
                 </h2>
-                <h2>
-                <FeedbackFish projectId="b14626c0ba245e">
-                  <a href="javascript:void()">feedback</a>
-                </FeedbackFish>
-                </h2>
                 {
                   !this.props.noHome && (
                     <h2>

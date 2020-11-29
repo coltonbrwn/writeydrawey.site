@@ -1,21 +1,67 @@
 .join, .new-game {
   .input-container {
-    max-width: 30rem;
     text-align: left;
     margin-bottom: 1rem;
-    input, h3 {
+    width: 26rem;
+    max-width: 80vw;
+    input, .input-label {
       display: inline-block;
       white-space: nowrap;
+    }
+    .input-label {
+      margin-right: 0.2rem;
+      z-index: 1;
+      font-size: 0.8em;
+      bottom: 0.1em;
     }
   }
   .input-container-flex {
     display: flex;
-    align-items: center;
-    margin-bottom: 0.4rem;
+    align-items: flex-end;
+    margin-bottom: 0.8rem;
+    width: 100%;
+    position: relative;
   }
   .subtext {
-    text-align: center;
     font-family: 'Relative Mono';
     font-size: 0.65rem;
+    text-align: center;
+  }
+  label.toggle {
+    text-align: right;
+    margin-top: 0.4em;
+    .label-text {
+      font-size: 0.8em;
+      margin-right: 1em;
+    }
+    .react-toggle {
+      position: relative;
+      top: 5px;
+    }
+  }
+  .input-wrapper {
+    flex: 1;
+    position: relative;
+    text-align: center;
+    input {
+      border: none;
+      border-bottom: 0.05rem solid var(--black-ln);
+      color: var(--black-ln);
+      font-size: $h3fontsize;
+      width: 100%;
+      // text-align: right;
+      &.text--left {
+        text-align: left;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  input {
+    border-radius: 0;
+    &[disabled] {
+      background: white;
+    }
   }
 }

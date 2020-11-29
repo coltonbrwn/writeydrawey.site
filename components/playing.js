@@ -1,9 +1,9 @@
 import onetime from 'onetime'
+
 import * as api from '../lib/api'
-import Logo from './svg/logo'
-import TurnTimer from './turn-timer'
+import Logo from './logo'
 import Button from './button'
-import { TURN_LIMIT } from '../backend/constants'
+import GameOverviewNav from './game-overview-nav'
 
 export default class Home extends React.Component {
 
@@ -61,6 +61,9 @@ export default class Home extends React.Component {
   }
 
   startTimer = onetime( async () => {
+    if (!this.props.gameState.options.time_limit) {
+      return
+    }
     try {
       await api.setTimer({
         playerId: this.props.viewer.userId,
@@ -111,6 +114,8 @@ export default class Home extends React.Component {
 
   render() {
     const { gameState, viewer } = this.props;
+    const isDrawingRound = Boolean(gameState.round % 2)
+    const leftHandPlayerInput = this.getLeftHandPlayer()
 
     if (!(viewer && gameState.players.find( p => p.playerId === this.props.viewer.userId ))) {
       return (
@@ -124,28 +129,12 @@ export default class Home extends React.Component {
         </div>
       )
     }
-
-    const numRounds = gameState.players.length
-    const isDrawingRound = Boolean(gameState.round % 2)
-    const leftHandPlayerInput = this.getLeftHandPlayer()
-    const startedTimer = this.state.startedTimer
-    const playerTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === viewer.userId)
-
+  
     return (
       <div className="playing full-height">
         <div className="nav">
-          <div className="logo">
-            <a href="/">
-              <Logo />
-            </a>
-          </div>
-          <div className="text">
-            <p>
-              time limit &nbsp;&nbsp;&nbsp;<TurnTimer timer={ playerTimer } defaultTimeMs={ gameState.options.time_limit ? TURN_LIMIT : 'none' }/>
-              <br/>
-              round &nbsp;&nbsp;&nbsp;&nbsp; { gameState.round } / { numRounds }
-            </p>
-          </div>
+          <Logo />
+          <GameOverviewNav { ...this.props } />
         </div>
         {
           isDrawingRound

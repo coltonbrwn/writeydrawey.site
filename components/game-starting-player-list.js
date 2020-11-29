@@ -44,31 +44,28 @@ export default class GameStartingPlayerList extends React.Component {
                     {
                         playerList.map( (player, i) => (
                             <div className="input-container-flex" key={ player.playerId }>
-                                <h3 className="mono">{ i+1 }.</h3>
+                                <h3 className="mono input-label">{ i+1 }.</h3>
                                 <span className="input-wrapper">
-                                <input disabled value={ player.playerName } />
+                                <input className="text--left" disabled value={ player.playerName } />
                                 </span>
                             </div>
                         ))
                     }
-                </div>
-                <div>
-                    <span className="subtext">
+                    <div className="subtext">
                         need { MIN_NUM_PLAYERS } or more players to start
-                    </span>
-                </div>
-                <div className="buttons-row">
-                    <Button onClick={ this.onCopyClick }>
-                        Copy Game Link
-                    </Button>
-                    <Button
-                        onClick={ this.onStartClick }
-                        disabled={ this.props.gameState.players.length < MIN_NUM_PLAYERS }
-                    >
-                        Start Game
-                    </Button>
-                </div>
- 
+                    </div>
+                    <div className="buttons-row display--flex">
+                        <Button onClick={ this.onCopyClick }>
+                            Copy Game Link
+                        </Button>
+                        <Button
+                            onClick={ this.onStartClick }
+                            disabled={ this.props.gameState.players.length < MIN_NUM_PLAYERS }
+                        >
+                            Start Game
+                        </Button>
+                    </div>
+                </div> 
             </div>
         )
     }

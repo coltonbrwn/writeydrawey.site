@@ -1,8 +1,7 @@
-import onetime from 'onetime'
 import Toggle from 'react-toggle'
 
 import Layout from './layout'
-import Nav from './nav'
+import Logo from './logo'
 import Button from './button'
 import * as api from '../lib/api'
 import { TURN_LIMIT } from '../backend/constants'
@@ -69,28 +68,29 @@ class New extends React.Component {
     return (
       <Layout theme="light">
         <div className="full-height">
-          <Nav noHome />
+          <div className="nav">
+            <Logo />
+          </div>
           <div className="join flex-container">
             <div className="input-container">
                 <div className="input-container-flex">
-                    <h3 className="mono">your name:</h3>
+                    <h3 className="mono input-label">your name:</h3>
                     <span className="input-wrapper">
                     <input onChange={ this.onNameInputChanage } />
                     </span>
                 </div>
                 <div className="input-container-flex">
-                    <h3 className="mono">a phrase:</h3>
+                    <h3 className="mono input-label">a phrase:</h3>
                     <span className="input-wrapper">
                     <input onChange={ this.onPhraseInputChange } />
-                    <span className="subtext">
-                        (anything)
-                    </span>
                     </span>
                 </div>
                 <div className="input-container-flex">
-                    <h3 className="mono">time limit:</h3>
-                    <label className="toggle">
-                        <span>{ this.state.timeLimit ? formatTime( TURN_LIMIT / 1000 ) : 'off'}</span>
+                    <h3 className="mono input-label">time limit:</h3>
+                    <label className="toggle input-wrapper">
+                        <span className="label-text">
+                          { this.state.timeLimit ? formatTime( TURN_LIMIT / 1000 ) : 'off'}
+                        </span>
                         <Toggle
                             defaultChecked={this.state.timeLimit}
                             icons={false}
@@ -98,11 +98,11 @@ class New extends React.Component {
                         />
                     </label>
                 </div>
+                <Button onClick={ this.onSubmit }>
+                    New Game
+                </Button>
             </div>
-            <Button onClick={ this.onSubmit }>
-              New Game
-            </Button>
-        </div>
+          </div>
         </div>
       </Layout>
     )

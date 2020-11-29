@@ -1,9 +1,10 @@
 import RoughNotation from './rough-notation'
 import Button from './button'
-import Logo from './svg/logo'
+import Logo from './logo'
 import TurnTimer from './turn-timer'
 import * as api from '../lib/api'
 import { GAME_STATE, TURN_LIMIT } from '../backend/constants'
+import GameOverviewNav from './game-overview-nav'
 
 export default class Starting extends React.Component {
 
@@ -49,33 +50,26 @@ export default class Starting extends React.Component {
     return (
       <div className="content-container">
         <div className="nav">
-          <div className="logo">
-            <a href="/">
-              <Logo />
-            </a>
-          </div>
-          <div className="text">
-            <p>
-              time limit &nbsp;&nbsp;&nbsp; <TurnTimer defaultTimeMs={ gameState.options.time_limit ? TURN_LIMIT : 'none' } />
-              <br/>
-              round &nbsp;&nbsp;&nbsp;&nbsp; { gameState.round } / { numRounds }
-            </p>
-          </div>
+          <Logo />
+          <GameOverviewNav {...this.props} />
         </div>
         <div className="waiting flex-container">
           <div className="players">
             {
               this.props.gameState.players
                 .map( p => (
-                  <RoughNotation
-                    style="strike-through"
-                    toggle={ playersReadyMap[ p.playerId ]}
-                    key={ p.playerId + playersReadyMap[p.playerId ]}
-                  >
-                    <h3>
-                        { p.playerName }
-                    </h3>
-                  </RoughNotation>
+                  <div className="rough-notation-wrapper">
+                    <RoughNotation
+                      className="TEST"
+                      style="strike-through"
+                      toggle={ playersReadyMap[ p.playerId ]}
+                      key={ p.playerId + playersReadyMap[p.playerId ]}
+                    >
+                      <h3>
+                          { p.playerName }
+                      </h3>
+                    </RoughNotation>
+                  </div>
                 ))
             }
           </div>
