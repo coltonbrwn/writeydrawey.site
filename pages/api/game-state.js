@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import { baseUrlBackend, parseCookie } from '../../lib/util'
 
-function getState(req, res) {
+export default function getState(req, res) {
   if (!req.query.id) {
     return Promise.reject(`Invalid gameId`)
   }
@@ -25,9 +25,4 @@ function getState(req, res) {
       console.log(err)
       res.status(get(err, 'response.status') || 500).end()
     })
-}
-
-
-export default (req, res) => {
-  getState(req, res);
 }

@@ -6,7 +6,7 @@ import axios from 'axios'
 import { baseUrlBackend, parseCookie } from '../../lib/util'
 import { API_METHODS } from '../../backend/constants'
 
-function updateState(req, res) {
+export default function updateState(req, res) {
 
   /*
     Look for or create userId
@@ -53,8 +53,4 @@ function updateState(req, res) {
       console.log(err)
       res.status(get(err, 'response.status') || 500).end()
     })
-}
-
-export default (req, res) => {
-  updateState(req, res);
 }
