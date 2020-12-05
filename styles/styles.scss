@@ -17,7 +17,7 @@ body {
 }
 
 #main {
-  padding: 1.2rem 0 4em 0;
+  padding: 1.2rem 0;
   height: 100vh;
   box-sizing: border-box;
   @media (max-size: $break_sm) {
@@ -32,14 +32,18 @@ body {
 .full-height {
   height: 100%;
 }
+.ctr-adjust-pad {
+  padding-bottom: 4rem;
+}
 .bottom-margin {
-  align-items: center;
+  align-items: flex-end;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   padding: 1.2rem 1.4rem 0;
   width: 100%;
   button {
+    flex: 0;
     font-size: 1rem;
     margin: 0 0 0 6vw;
     padding: 0.6rem 1em;
@@ -87,6 +91,7 @@ body {
     }
   }
 }
+
 .playing {
   h2, h3 {
     flex: 1;
@@ -101,9 +106,6 @@ body {
 .waiting {
   button {
     margin: 1rem;
-  }
-  .player--notready {
-    font-style: italic;
   }
 }
 .game-over {
@@ -171,6 +173,26 @@ button {
   span.text {
     display: inline-block;
     transform: rotate(-1deg);
+  }
+}
+
+input {
+  border: none;
+  border-radius: 0;
+  border-bottom: 0.05rem solid var(--black-ln);
+  color: var(--black-ln);
+  font-size: $h3fontsize;
+  width: 100%;
+  padding-left: 0.1em;
+  margin-left: 0.1em;
+  &.text--left {
+    text-align: left;
+  }
+  &:focus {
+    outline: none;
+  }
+  &[disabled] {
+    background: white;
   }
 }
 

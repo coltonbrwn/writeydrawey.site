@@ -70,13 +70,13 @@ export default class JoinGame extends React.Component {
                     <br/>
                   </h3>
                   <div className="input-container-flex">
-                      <h3 className="mono input-label">your name:</h3>
+                      <h3 className="mono input-label">your name</h3>
                       <span className="input-wrapper">
                       <input onChange={ this.onNameInputChanage } />
                       </span>
                   </div>
                   <div className="input-container-flex">
-                      <h3 className="mono input-label">a phrase:</h3>
+                      <h3 className="mono input-label">a phrase</h3>
                       <span className="input-wrapper">
                       <input onChange={ this.onPhraseInputChange } />
                       </span>

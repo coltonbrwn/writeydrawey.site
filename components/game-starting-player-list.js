@@ -56,7 +56,11 @@ export default class GameStartingPlayerList extends React.Component {
                     </div>
                     <div className="buttons-row display--flex">
                         <Button onClick={ this.onCopyClick }>
-                            Copy Game Link
+                            {
+                                this.state.isCopied
+                                    ? 'Copied!'
+                                    : 'Copy Game Link'
+                            }
                         </Button>
                         <Button
                             onClick={ this.onStartClick }

@@ -4,6 +4,8 @@ import * as api from '../lib/api'
 import Logo from './logo'
 import Button from './button'
 import GameOverviewNav from './game-overview-nav'
+import DrawingCanvas from './drawing-canvas'
+import { isGameOver, areAllPlayersReady } from '../lib/util'
 
 export default class Home extends React.Component {
 
@@ -16,13 +18,6 @@ export default class Home extends React.Component {
     }
   }
 
-  componentDidMount() {
-    const isDrawingRound = Boolean(this.props.gameState.round % 2)
-    if (!isDrawingRound) {
-      this.startTimer()
-    }
-  }
-
   componentDidUpdate(props, state) {
     const currentTimer = this.props.gameState.timers.find( item => item.round === this.props.gameState.round && item.playerId === this.props.viewer.userId);
     if (currentTimer && new Date().getTime() > currentTimer.end) {
@@ -32,12 +27,6 @@ export default class Home extends React.Component {
       } else {
         this.onPhraseSubmit()
       }
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.interval) {
-      window.clearInterval(this.interval);
     }
   }
 
@@ -65,17 +54,15 @@ export default class Home extends React.Component {
       return
     }
     try {
-      await api.setTimer({
+      const updatedState = await api.setTimer({
         playerId: this.props.viewer.userId,
         gameId: this.props.gameState.id,
         round: this.props.gameState.round
       })
-        .then(this.props.onUpdateState)
-        .then(() => {
-          this.setState({
-            startedTimer: true
-          })
-        })
+      this.props.onUpdateState(updatedState)
+      this.setState({
+        startedTimer: true
+      })
     } catch (e) {
       console.log(e)
     }
@@ -83,12 +70,13 @@ export default class Home extends React.Component {
 
   onPhraseSubmit = onetime( async () => {
     try {
-      await api.playerInput({
+      let updatedState = await api.playerInput({
         playerId: this.props.viewer.userId,
         gameId: this.props.gameState.id,
         round: this.props.gameState.round,
         phrase: this.state.description
-      }).then(this.propsOnUpdateState)
+      })
+      this.processGameStateAfterSubmission(updatedState)
     } catch (e) {
       console.log(e)
     }
@@ -101,34 +89,37 @@ export default class Home extends React.Component {
         .contentWindow.document
         .getElementById('myCanvas')
         .toDataURL("image/png");
-      await api.playerInput({
+      const updatedState = await api.playerInput({
         playerId: this.props.viewer.userId,
         gameId: this.props.gameState.id,
         round: this.props.gameState.round,
         drawing: dataUrl
-      }).then(this.propsOnUpdateState)
+      })
+      this.processGameStateAfterSubmission(updatedState)
     } catch (e) {
       console.log(e)
     }
   })
 
+  async processGameStateAfterSubmission(gameState) {
+    let updatedState = gameState
+    if (isGameOver(updatedState)) {
+      updatedState = await api.endGame({
+        gameId: this.props.gameState.id,
+      })
+    } else if (areAllPlayersReady(updatedState)) {
+      updatedState = await api.nextRound({
+        gameId: this.props.gameState.id,
+        round: this.props.gameState.round
+      })
+    }
+    this.props.onUpdateState(updatedState)
+  }
+
   render() {
     const { gameState, viewer } = this.props;
     const isDrawingRound = Boolean(gameState.round % 2)
     const leftHandPlayerInput = this.getLeftHandPlayer()
-
-    if (!(viewer && gameState.players.find( p => p.playerId === this.props.viewer.userId ))) {
-      return (
-        <div>
-          <h1>This game is currently being played</h1>
-          <a href="/">
-            <Button type="2">
-              Go Home
-            </Button>
-          </a>
-        </div>
-      )
-    }
   
     return (
       <div className="playing full-height">
@@ -139,28 +130,20 @@ export default class Home extends React.Component {
         {
           isDrawingRound
             ? (
-                this.state.startedTimer ? (
-                  <div className="flex-container">
-                    <iframe
-                      id="drawingCanvas"
-                      src="/canvas/index.html" />
-                    <div className="bottom-margin">
-                      <h3>
-                        "{ leftHandPlayerInput.phrase }"
-                      </h3>
-                      <Button onClick={ this.onDrawingSubmit } type="4">
-                        Done
-                      </Button>
-                    </div>
+              <div className="flex-container">
+                <DrawingCanvas onInteractionStart={ this.startTimer } />
+                <div className="bottom-margin">
+                  <div className="mono">
+                    draw&nbsp;
                   </div>
-                ) : (
-                  <div className="flex-container">
-                    <h1>Draw "{ leftHandPlayerInput.phrase }"</h1>
-                    <Button onClick={ this.startTimer }>
-                      Start
-                    </Button>
-                  </div>
-                )
+                  <h3>
+                    "{ leftHandPlayerInput.phrase }"
+                  </h3>
+                  <Button onClick={ this.onDrawingSubmit } type="4">
+                    Done
+                  </Button>
+                </div>
+              </div>
             ) : (
               <div className="flex-container">
                 <img
@@ -169,9 +152,10 @@ export default class Home extends React.Component {
                 <div className="bottom-margin">
                   <span className="input-wrapper">
                     <h3>
-                      describe this:
+                      describe this
                     </h3>
                     <input
+                      onFocus={ this.startTimer }
                       onChange={ this.onDescriptionChange }
                       value={ this.state.description }
                     />

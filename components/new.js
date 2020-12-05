@@ -67,26 +67,26 @@ class New extends React.Component {
   render() {
     return (
       <Layout theme="light">
-        <div className="full-height">
+        <div className="content-container ctr-adjust-pad">
           <div className="nav">
             <Logo />
           </div>
           <div className="join flex-container">
             <div className="input-container">
                 <div className="input-container-flex">
-                    <h3 className="mono input-label">your name:</h3>
+                    <h3 className="mono input-label">your name</h3>
                     <span className="input-wrapper">
                     <input onChange={ this.onNameInputChanage } />
                     </span>
                 </div>
                 <div className="input-container-flex">
-                    <h3 className="mono input-label">a phrase:</h3>
+                    <h3 className="mono input-label">a phrase</h3>
                     <span className="input-wrapper">
                     <input onChange={ this.onPhraseInputChange } />
                     </span>
                 </div>
                 <div className="input-container-flex">
-                    <h3 className="mono input-label">time limit:</h3>
+                    <h3 className="mono input-label">time limit</h3>
                     <label className="toggle input-wrapper">
                         <span className="label-text">
                           { this.state.timeLimit ? formatTime( TURN_LIMIT / 1000 ) : 'off'}

@@ -43,25 +43,5 @@
     flex: 1;
     position: relative;
     text-align: center;
-    input {
-      border: none;
-      border-bottom: 0.05rem solid var(--black-ln);
-      color: var(--black-ln);
-      font-size: $h3fontsize;
-      width: 100%;
-      // text-align: right;
-      &.text--left {
-        text-align: left;
-      }
-      &:focus {
-        outline: none;
-      }
-    }
-  }
-  input {
-    border-radius: 0;
-    &[disabled] {
-      background: white;
-    }
   }
 }

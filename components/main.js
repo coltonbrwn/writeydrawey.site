@@ -5,6 +5,8 @@ import Home from '../components/home'
 import Waiting from '../components/waiting'
 import Playing from '../components/playing'
 import JoinGame from '../components/join-game'
+import GameInProgress from '../components/game-in-progress'
+import NextRoundCountdown from '../components/next-round-countdown'
 import Done from '../components/done'
 import { GAME_STATE, INITIAL_STATE } from '../backend/constants'
 import * as api from '../lib/api'
@@ -87,6 +89,10 @@ export default class Main extends React.Component {
   }
 
   updateGameState = gameState => {
+    if (!gameState) {
+      console.log('Failed to update state - gameState was empty')
+      return
+    }
     this.setState({
       gameState
     })
@@ -96,15 +102,22 @@ export default class Main extends React.Component {
     const { gameState, viewer } = this.state
     const roundTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === '0')
     const hasValidTimer = roundTimer && roundTimer.end > new Date().getTime()
+    const viewerIsPartOfGame = gameState.players.find( p => p.playerId === viewer.userId )
 
     if (gameState.state === GAME_STATE.DONE) {
       return Done
     } else if (gameState.state === GAME_STATE.STARTING) {
       return JoinGame
-    } else if (this.playerHasContributed() || hasValidTimer) {
-      return Waiting
     } else if (gameState.state === GAME_STATE.PLAYING) {
-      return Playing
+      if ( !viewerIsPartOfGame ) {
+        return GameInProgress
+      } else if (hasValidTimer) {
+        return NextRoundCountdown
+      } else if (this.playerHasContributed()) {
+        return Waiting
+      } else {
+        return Playing
+      }
     } else {
       return Home
     }

@@ -198,7 +198,7 @@ async function nextRound({ gameId, round }) {
         {
           playerId: '0',
           round: round + 1,
-          end: new Date().getTime() + 5000
+          end: new Date().getTime() + 15000
         }
       ]
     },
