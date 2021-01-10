@@ -11,7 +11,6 @@ import Done from '../components/done'
 import { GAME_STATE, INITIAL_STATE } from '../backend/constants'
 import * as api from '../lib/api'
 
-import "../styles/styles.scss"
 const UPDATE_INTERVAL = 2000;
 
 export default class Main extends React.Component {

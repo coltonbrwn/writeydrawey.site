@@ -23,7 +23,7 @@
     "lodash.uniqby": "^4.7.0",
     "next": "^10.0.5",
     "onetime": "^5.1.2",
-    "react": "^16.10.2",
+    "react": "^16.14.0",
     "react-dom": "^16.10.2",
     "react-toggle": "^4.1.1",
     "rough-notation": "^0.5.1",

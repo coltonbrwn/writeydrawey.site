@@ -8,8 +8,6 @@ var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE, DEFAULT_TURN_DELAY, TURN_L
 const TableName = TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES']
 
 var dynamodb = new AWS.DynamoDB.DocumentClient()
-var sqs = new AWS.SQS();
-const TableName = TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES'],
 
 module.exports = function(method, payload, viewer) {
   switch (method) {
