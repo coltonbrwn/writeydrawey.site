@@ -9,7 +9,7 @@ provider:
   name: aws
   runtime: nodejs12.x
   environment:
-    NODE_ENV: dev
+    node_env: dev
 
 functions:
   gameApi:

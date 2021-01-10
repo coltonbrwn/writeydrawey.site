@@ -1,5 +1,7 @@
-import Nav from './nav';
-import createCardStacks from '../lib/create-card-stacks';
+import Button from './button'
+import Logo from './logo'
+import UserInfo from './user-info'
+import createCardStacks from '../lib/create-card-stacks'
 
 export default class Home extends React.Component {
 
@@ -12,7 +14,13 @@ export default class Home extends React.Component {
 
     return (
       <div className="game-over content-container">
-        <Nav textOverride="game over!"/>
+        <div className="nav">
+          <Logo />
+          <div className="text">
+            <h3>game over!</h3>
+          </div>
+          <UserInfo />
+        </div>
         <div className="full-height center">
           {
             cardStacks.map( c => (

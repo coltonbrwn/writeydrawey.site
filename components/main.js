@@ -5,22 +5,14 @@ import Home from '../components/home'
 import Waiting from '../components/waiting'
 import Playing from '../components/playing'
 import JoinGame from '../components/join-game'
+import GameInProgress from '../components/game-in-progress'
+import NextRoundCountdown from '../components/next-round-countdown'
 import Done from '../components/done'
 import { GAME_STATE, INITIAL_STATE } from '../backend/constants'
 import * as api from '../lib/api'
 
 import "../styles/styles.scss"
-
-function playerHasContributed(gameState, viewer) {
-  try {
-    const playerContribution = gameState.playerInput.find( input => (
-      input.round === gameState.round && input.playerId === viewer.userId
-    ))
-    return Boolean(playerContribution);
-  } catch (e) {
-    return false;
-  }
-}
+const UPDATE_INTERVAL = 2000;
 
 export default class Main extends React.Component {
 
@@ -34,6 +26,18 @@ export default class Main extends React.Component {
     }
   }
 
+  playerHasContributed() {
+    const { gameState, viewer } = this.state
+    try {
+      const playerContribution = gameState.playerInput.find( input => (
+        input.round === gameState.round && input.playerId === viewer.userId
+      ))
+      return Boolean(playerContribution)
+    } catch (e) {
+      return false;
+    }
+  }
+
   static async getInitialProps({ req, query }) {
     if (!query.slug) {
       return {
@@ -42,7 +46,7 @@ export default class Main extends React.Component {
       }
     }
     try {
-      const { gameState, viewer } = await api.getGameState({ gameId: query.slug }, req);
+      const { gameState, viewer } = await api.getGameState({ gameId: query.slug }, req)
       return {
         gameState,
         viewer,
@@ -59,18 +63,18 @@ export default class Main extends React.Component {
 
   componentDidMount() {
     this.interval = window.setInterval(async () => {
-      const gameId = Router.query.slug;
+      const gameId = Router.query.slug
       if (!gameId) {
         return;
       }
       try {
-        const { gameState, viewer } = await api.getGameState({ gameId });
+        const { gameState, viewer } = await api.getGameState({ gameId })
         this.setState({
           gameState,
           viewer
         })
         if (gameState.state === GAME_STATE.DONE) {
-          window.clearInterval(this.interval);
+          window.clearInterval(this.interval)
         }
       } catch (e) {
         console.log(e)
@@ -78,27 +82,41 @@ export default class Main extends React.Component {
           gameState: INITIAL_STATE,
           statusCode: get(e, 'request.status')
         })
-        window.clearInterval(this.interval);
+        window.clearInterval(this.interval)
       }
-    }, 2000)
+    }, UPDATE_INTERVAL)
   }
 
   updateGameState = gameState => {
+    if (!gameState) {
+      console.log('Failed to update state - gameState was empty')
+      return
+    }
     this.setState({
       gameState
     })
   }
 
   getComponent() {
-    const { gameState, viewer } = this.state;
+    const { gameState, viewer } = this.state
+    const roundTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === '0')
+    const hasValidTimer = roundTimer && roundTimer.end > new Date().getTime()
+    const viewerIsPartOfGame = gameState.players.find( p => p.playerId === viewer.userId )
+
     if (gameState.state === GAME_STATE.DONE) {
       return Done
-    } else if (playerHasContributed(gameState, viewer)) {
-      return Waiting
     } else if (gameState.state === GAME_STATE.STARTING) {
       return JoinGame
     } else if (gameState.state === GAME_STATE.PLAYING) {
-      return Playing
+      if ( !viewerIsPartOfGame ) {
+        return GameInProgress
+      } else if (hasValidTimer) {
+        return NextRoundCountdown
+      } else if (this.playerHasContributed()) {
+        return Waiting
+      } else {
+        return Playing
+      }
     } else {
       return Home
     }
@@ -108,14 +126,11 @@ export default class Main extends React.Component {
     const Component = this.getComponent();
     return (
       <Layout theme="light">
-        {
-          this.state.viewer && (
-            <div style={{textAlign: 'left', position: 'absolute'}}>
-              { this.state.viewer.name }
-            </div>
-          )
-        }
-        <Component { ...this.state } onUpdateState={ this.updateGameState }/>
+        <Component
+          { ...this.state }
+          onUpdateState={ this.updateGameState }
+          playerHasContributed={ this.playerHasContributed() }
+        />
       </Layout>
     );
   }

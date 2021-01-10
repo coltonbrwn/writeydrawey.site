@@ -1,6 +1,6 @@
 {
-  "name": "l7oygb-5mhhsv",
-  "arn": "arn:aws:iam::680198729557:role/l7oygb-5mhhsv",
+  "name": "6r0fe4q-f9e0hxm",
+  "arn": "arn:aws:iam::680198729557:role/6r0fe4q-f9e0hxm",
   "service": "lambda.amazonaws.com",
   "policy": {
     "arn": "arn:aws:iam::aws:policy/AdministratorAccess"

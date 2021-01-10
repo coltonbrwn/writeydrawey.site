@@ -4,7 +4,7 @@
     position: fixed;
     left: 0;
     top: 0;
-    padding: 1.4rem;
+    padding: 1.2rem;
   }
   .links, .text {
     position: fixed;
@@ -22,5 +22,21 @@
   }
   .text {
     padding: 1.2rem 1.4rem;
+  }
+  .game-overview-nav {
+    position: fixed;
+    padding: 1.6rem;
+    right: 0;
+    top: 0;
+  }
+  .user-info {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    button {
+      margin: 1rem;
+      background: rgb(226, 226, 226);
+      border-radius: 0.4em;
+    }
   }
 }

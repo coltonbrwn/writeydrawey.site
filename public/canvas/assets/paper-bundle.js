@@ -22,15 +22,22 @@ function onMouseDrag(event) {
     type: 'catmull-rom',
     factor: 0.4
   });
+  paths.push(path)
+  if (paths.length) {
+    window.top.dispatchEvent(new CustomEvent('drawing-in-progress'))
+  }
 }
 
 // When the mouse is released, we simplify the path:
 function onMouseUp(event) {
-  path.smooth({
-    type: 'catmull-rom',
-    factor: 0.4
-  });
-  paths.push(path);
+  // path.smooth({
+  //   type: 'catmull-rom',
+  //   factor: 0.4
+  // });
+  // paths.push(path);
+  // if (paths.length) {
+  //   window.top.dispatchEvent(new CustomEvent('drawing-in-progress'))
+  // }
 }
 
 function onFrame(e) {
@@ -67,5 +74,8 @@ function undo() {
 }
 
 window.globals = {
-  undo: undo
+  undo: undo,
+  getPath: function() {
+    return path
+  }
 }

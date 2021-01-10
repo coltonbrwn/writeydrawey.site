@@ -1,28 +1,33 @@
+import onetime from 'onetime'
+
 import * as api from '../lib/api'
-import Nav from './nav'
+import Logo from './logo'
 import Button from './button'
+import GameOverviewNav from './game-overview-nav'
+import DrawingCanvas from './drawing-canvas'
+import { isGameOver, areAllPlayersReady } from '../lib/util'
 
 export default class Home extends React.Component {
 
-  constructor() {
+  constructor({gameState, viewer }) {
     super()
+    const currentTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === viewer.userId);
     this.state = {
       description: '',
-      startedDrawing: false,
-      time: 590
+      startedTimer: Boolean(currentTimer),
+      startedDrawing: false
     }
   }
 
-  componentDidMount() {
-    const isDrawingRound = Boolean(this.props.gameState.round % 2)
-    if (!isDrawingRound) {
-      this.countdown()
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.interval) {
-      window.clearInterval(this.interval);
+  componentDidUpdate(props, state) {
+    const currentTimer = this.props.gameState.timers.find( item => item.round === this.props.gameState.round && item.playerId === this.props.viewer.userId);
+    if (currentTimer && new Date().getTime() > currentTimer.end) {
+      const isDrawingRound = Boolean(this.props.gameState.round % 2)
+      if (isDrawingRound) {
+        this.submitDrawing()
+      } else {
+        this.submitPhrase()
+      }
     }
   }
 
@@ -39,117 +44,133 @@ export default class Home extends React.Component {
     return leftHandPlayerInput || {}
   }
 
-  countdown = () => {
-    // this.interval = window.setInterval(() => {
-    //   this.setState({
-    //     time: this.state.time - 1
-    //   })
-    //   if (this.state.time <= 1) {
-    //     window.clearInterval(this.interval)
-    //     return this.onDrawingSubmit()
-    //   }
-    // }, 1000)
-  }
-
   onDescriptionChange = e => {
     this.setState({
       description: e.target.value
     })
   }
 
-  onStartDrawingClick = () => {
-    this.countdown();
+  onDescriptionKeyDown = e => {
+    console.log(e.key)
+    if (e.key === 'Enter') {
+      this.onDescriptionDoneClick()
+    }
+  }
+
+  onDrawingInteractionStart = () => {
     this.setState({
       startedDrawing: true
     })
+    this.startTimer()
   }
 
-  onPhraseSubmit = async () => {
+  onDescriptionDoneClick = () => {
+    if (this.state.description) {
+      this.submitPhrase()
+    }
+  }
+
+  onDrawingDoneClick = () => {
+    if (this.state.startedDrawing) {
+      this.submitDrawing()
+    }
+  }
+
+  startTimer = onetime( async () => {
+    if (!this.props.gameState.options.time_limit) {
+      return
+    }
     try {
-      const { data: { response: newGameState } } = await api.playerInput({
+      const updatedState = await api.setTimer({
+        playerId: this.props.viewer.userId,
+        gameId: this.props.gameState.id,
+        round: this.props.gameState.round
+      })
+      this.props.onUpdateState(updatedState)
+      this.setState({
+        startedTimer: true
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  })
+
+  submitPhrase = onetime( async () => {
+    try {
+      let updatedState = await api.playerInput({
         playerId: this.props.viewer.userId,
         gameId: this.props.gameState.id,
         round: this.props.gameState.round,
         phrase: this.state.description
       })
-      if (this.props.onUpdateState) {
-        this.props.onUpdateState(newGameState)
-      }
+      this.processGameStateAfterSubmission(updatedState)
     } catch (e) {
       console.log(e)
     }
-  }
+  })
 
-  onDrawingSubmit = async () => {
+  submitDrawing = onetime( async () => {
     try {
       const dataUrl = document
         .getElementById('drawingCanvas')
         .contentWindow.document
         .getElementById('myCanvas')
         .toDataURL("image/png");
-      const { data: { response: newGameState } } = await api.playerInput({
+      const updatedState = await api.playerInput({
         playerId: this.props.viewer.userId,
         gameId: this.props.gameState.id,
         round: this.props.gameState.round,
         drawing: dataUrl
       })
-
-      if (this.props.onUpdateState) {
-        this.props.onUpdateState(newGameState)
-      }
-
+      this.processGameStateAfterSubmission(updatedState)
     } catch (e) {
       console.log(e)
     }
+  })
+
+  async processGameStateAfterSubmission(gameState) {
+    let updatedState = gameState
+    if (isGameOver(updatedState)) {
+      updatedState = await api.endGame({
+        gameId: this.props.gameState.id,
+      })
+    } else if (areAllPlayersReady(updatedState)) {
+      updatedState = await api.nextRound({
+        gameId: this.props.gameState.id,
+        round: this.props.gameState.round
+      })
+    }
+    this.props.onUpdateState(updatedState)
   }
 
   render() {
-
-    if (!(this.props.viewer && this.props.gameState.players.find( p => p.playerId === this.props.viewer.userId ))) {
-      return (
-        <div>
-          <h1>This game is currently being played</h1>
-          <a href="/">
-            <Button type="2">
-              Go Home
-            </Button>
-          </a>
-        </div>
-      )
-    }
-
-    const myId = this.props.viewer.userId
-    const isDrawingRound = Boolean(this.props.gameState.round % 2)
+    const { gameState, viewer } = this.props;
+    const isDrawingRound = Boolean(gameState.round % 2)
     const leftHandPlayerInput = this.getLeftHandPlayer()
-    const startedDrawing = this.state.startedDrawing
+  
     return (
       <div className="playing full-height">
-        <Nav textOverride={ `round ${ this.props.gameState.round }` }/>
+        <div className="nav">
+          <Logo />
+          <GameOverviewNav { ...this.props } />
+        </div>
         {
           isDrawingRound
             ? (
-                startedDrawing ? (
-                  <div className="flex-container">
-                    <iframe
-                      id="drawingCanvas"
-                      src="/canvas/index.html" />
-                    <div className="bottom-margin">
-                      <h3>
-                        "{ leftHandPlayerInput.phrase }"
-                      </h3>
-                      <Button onClick={ this.onDrawingSubmit } type="4">
-                        Done
-                      </Button>
-                    </div>
+              <div className="flex-container">
+                <DrawingCanvas onInteractionStart={ this.onDrawingInteractionStart } />
+                <div className="bottom-margin">
+                  <div className="mono">
+                    draw&nbsp;
                   </div>
-                ) : (
-                  <div className="flex-container">
-                    <h1>Draw "{ leftHandPlayerInput.phrase }"</h1>
-                    <Button onClick={ this.onStartDrawingClick }>
-                      Start
-                    </Button>
-                  </div>
-                )
+                  <h3>
+                    "{ leftHandPlayerInput.phrase }"
+                  </h3>
+                  <Button onClick={ this.onDrawingDoneClick } type="4">
+                    Done
+                  </Button>
+                </div>
+              </div>
             ) : (
               <div className="flex-container">
                 <img
@@ -158,19 +179,21 @@ export default class Home extends React.Component {
                 <div className="bottom-margin">
                   <span className="input-wrapper">
                     <h3>
-                      describe this:
+                      describe this
                     </h3>
                     <input
+                      onFocus={ this.startTimer }
                       onChange={ this.onDescriptionChange }
+                      onKeyDown={ this.onDescriptionKeyDown }
                       value={ this.state.description }
                     />
                   </span>
-                  <Button onClick={ this.onPhraseSubmit } type="4">
+                  <Button onClick={ this.onDescriptionDoneClick } type="4">
                     Okay
                   </Button>
                 </div>
               </div>
-            )
+          )
         }
       </div>
     )

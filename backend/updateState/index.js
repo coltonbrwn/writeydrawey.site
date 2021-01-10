@@ -4,8 +4,8 @@ var AWS = require('aws-sdk')
 var uniqBy = require('lodash.uniqby')
 
 var convertImage = require('./convert-image')
-var archiveGame = require('../archive')
-var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE } = require('../constants')
+var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE, DEFAULT_TURN_DELAY, TURN_LIMIT } = require('../constants')
+const TableName = TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES']
 
 var dynamodb = new AWS.DynamoDB.DocumentClient()
 var sqs = new AWS.SQS();
@@ -14,26 +14,28 @@ const TableName = TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES'
 module.exports = function(method, payload, viewer) {
   switch (method) {
     case API_METHODS.CREATE_GAME:
-      return createGame(viewer)
+      return createGame(payload, viewer)
     case API_METHODS.ADD_PLAYER:
       return addPlayer(payload, viewer)
     case API_METHODS.PLAYER_INPUT:
       return playerInput(payload, viewer)
+    case API_METHODS.SET_TIMER:
+      return setTimer(payload, viewer)
     case API_METHODS.START_GAME:
       return startGame(payload, viewer)
-    case API_METHODS.NEXT_ROUND:
-      return nextRound(payload, viewer)
     case API_METHODS.END_GAME:
       return endGame(payload, viewer)
+    case API_METHODS.NEXT_ROUND:
+      return nextRound(payload, viewer)
     default:
-      return null;
+      return Promise.reject(new Error(`Method ${ method } not found`))
   }
 }
 
 /*
   CREATE_GAME
  */
-function createGame(viewer) {
+function createGame({ options }, viewer) {
 
   const newGameId = shortid.generate()
   return dynamodb.put({
@@ -42,7 +44,9 @@ function createGame(viewer) {
       ...INITIAL_STATE,
       id: newGameId,
       state: GAME_STATE.STARTING,
-      admin: viewer.userId
+      admin: viewer.userId,
+      options: options,
+      created: new Date().getTime()
     }
   }).promise().then( res => ({
     id: newGameId
@@ -58,27 +62,26 @@ async function addPlayer({ player, gameId }, viewer) {
     return Promise.reject('Invalid Viewer')
   }
 
-  const gameState = await dynamodb.get({
+  return dynamodb.update({
     TableName,
     Key: {
       id: gameId
-    }
+    },
+    UpdateExpression: 'set #players = list_append(#players, :vals)',
+    ExpressionAttributeNames: {
+      '#players': 'players'
+    },
+    ExpressionAttributeValues: {
+      ':vals': [
+        {
+          ...player,
+          playerId: viewer.userId,
+          ts: new Date().getTime()
+        }
+      ]
+    },
+    ReturnValues: 'ALL_NEW'
   }).promise()
-  const players = gameState.Item.players || []
-  players.push({
-    ...player,
-    playerId: viewer.userId,
-    ts: new Date().getTime()
-  });
-  const uniqPlayers = uniqBy(players, item => item.playerId)
-  const newGameState = {
-    ...gameState.Item,
-    players: uniqPlayers
-  }
-  return dynamodb.put({
-    TableName,
-    Item: newGameState
-  }).promise().then( res => newGameState)
 }
 
 /*
@@ -91,15 +94,7 @@ async function playerInput({ gameId, phrase, drawing, round }, viewer) {
   }
 
   const playerId = viewer.userId
-  const gameState = await dynamodb.get({
-    TableName,
-    Key: {
-      id: gameId
-    }
-  }).promise()
-  const playerInput = gameState.Item.playerInput || []
-
-  let imageUrl;
+  let imageUrl
   if (drawing) {
     imageUrl = await convertImage.convertB64Image({
       rawImage: drawing,
@@ -107,27 +102,35 @@ async function playerInput({ gameId, phrase, drawing, round }, viewer) {
     })
   }
 
-  playerInput.push({
-    playerId,
-    phrase,
-    drawing: imageUrl,
-    round,
-    ts: new Date().getTime(),
-  })
-  const newGameState = {
-    ...gameState.Item,
-    playerInput
-  }
-  return dynamodb.put({
+  return dynamodb.update({
     TableName,
-    Item: newGameState
-  }).promise().then( res => newGameState)
+    Key: {
+      id: gameId
+    },
+    UpdateExpression: 'set #playerInput = list_append(#playerInput, :vals)',
+    ExpressionAttributeNames: {
+      '#playerInput': 'playerInput'
+    },
+    ExpressionAttributeValues: {
+      ':vals': [
+        {
+          playerId,
+          phrase,
+          drawing: imageUrl,
+          round,
+          ts: new Date().getTime(),
+        }
+      ]
+    },
+    ReturnValues: 'ALL_NEW'
+  }).promise()
+
 }
 
 /*
- START GAME
+ SET_TIMER
  */
-async function startGame({ gameId }, viewer) {
+async function setTimer({ gameId, round }, viewer) {
 
   if (!(viewer && viewer.userId)) {
     return Promise.reject('Invalid Viewer')
@@ -138,18 +141,26 @@ async function startGame({ gameId }, viewer) {
     Key: {
       id: gameId
     },
-    UpdateExpression: 'set #game_state = :state_playing, #round = :one',
+    UpdateExpression: 'set #timers = list_append(#timers, :values)',
     ExpressionAttributeNames: {
-      '#game_state': 'state',
-      '#round': 'round'
+      '#timers': 'timers'
     },
     ExpressionAttributeValues: {
-      ':state_playing': GAME_STATE.PLAYING,
-      ':one': 1
-    }
+      ':values': [
+        {
+          playerId: viewer.userId,
+          round: round,
+          end: new Date().getTime() + TURN_LIMIT
+        }
+      ]
+    },
+    ReturnValues: 'ALL_NEW'
   }).promise()
 }
 
+/*
+ END GAME
+ */
 async function endGame({ gameId }, viewer) {
 
   return dynamodb.update({
@@ -163,22 +174,39 @@ async function endGame({ gameId }, viewer) {
     },
     ExpressionAttributeValues: {
       ':state_done': GAME_STATE.DONE
-    }
+    },
+    ReturnValues: 'ALL_NEW'
   }).promise()
 }
 
-async function nextRound({ gameId }) {
+/*
+ NEXT ROUND
+ */
+async function nextRound({ gameId, round }) {
+
   return dynamodb.update({
     TableName,
     Key: {
       id: gameId
     },
-    UpdateExpression: 'set #a = #a + :one',
+    UpdateExpression: 'set #round = #round + :one, #game_state = :playing_state, #timers = list_append(#timers, :timers)',
     ExpressionAttributeNames: {
-      '#a' : 'round'
+      '#round': 'round',
+      '#timers': 'timers',
+      '#game_state': 'state'
     },
     ExpressionAttributeValues: {
-      ':one' : 1
-    }
+      ':one': 1,
+      ':playing_state': GAME_STATE.PLAYING,
+      ':timers': [
+        {
+          playerId: '0',
+          round: round + 1,
+          end: new Date().getTime() + DEFAULT_TURN_DELAY
+        }
+      ]
+    },
+    ReturnValues: 'ALL_NEW'
   }).promise()
+
 }

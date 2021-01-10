@@ -1,11 +1,5 @@
 name: writey-drawey-site
 
-myNextApp:
-  component: '@sls-next/serverless-component'
-  inputs:
-    domain: ["www", "writeydrawey.site"]
-    bucketName: writey-drawey-next-js
-
 lambdaUpdateState:
   component: "@serverless/aws-lambda"
   name: writey-drawey-update-game
@@ -13,7 +7,7 @@ lambdaUpdateState:
     description: "post endpoint for updating game state"
     memory: 128
     timeout: 20
-    code: ./backend
+    src: ./backend
     handler: index.update
     runtime: nodejs12.x
     region: us-east-1
@@ -25,7 +19,7 @@ lambdaGetState:
     description: "polling endpoint for fetching game state"
     memory: 1024
     timeout: 4
-    code: ./backend
+    src: ./backend
     handler: index.get
     runtime: nodejs12.x
     region: us-east-1
@@ -37,7 +31,7 @@ lambdaCors:
     description: "general purpose CORS endpoint"
     memory: 128
     timeout: 20
-    code: ./backend
+    src: ./backend
     handler: index.cors
     runtime: nodejs12.x
     region: us-east-1
@@ -57,44 +51,3 @@ gameApiGateway:
       - path: /api
         method: OPTIONS
         function: ${lambdaCors.arn}
-
-gamesTable:
-  component: '@serverless/aws-dynamodb'
-  inputs:
-    name: writey-drawey-games # optional
-    attributeDefinitions:
-      - AttributeName: id
-        AttributeType: S
-    keySchema:
-      - AttributeName: id
-        KeyType: HASH
-    region: us-east-1
-
-imageBucket:
-  component: "@serverless/aws-s3"
-  inputs:
-    name: writey-drawey-images
-    region: us-east-1
-    cors:
-      CORSRules:
-      - AllowedHeaders:
-        - "*"
-        AllowedMethods:
-        - PUT
-        - POST
-        - DELETE
-        AllowedOrigins:
-        - http://writeydrawey.site
-        MaxAgeSeconds: 3000
-
-completedGameArchiver:
-  component: '@serverless/aws-lambda'
-  name: writey-drawer-archiver
-  inputs:
-    description: "processes the completed games queue"
-    memory: 128
-    timeout: 20
-    code: ./backend
-    handler: archive.handler
-    runtime: nodejs12.x
-    region: us-east-1

@@ -24,6 +24,7 @@ module.exports.update = async (event, context, cb) => {
   try {
     var { method, payload, viewer } = JSON.parse(event.body)
   } catch (e) {
+    console.log(e)
     return cb(null, {
       statusCode: 400,
       body: JSON.stringify({ message:'Error parsing request'}),
