@@ -1,4 +1,4 @@
-import { GAME_STATE, TURN_LIMIT, MIN_NUM_PLAYERS } from "../backend/constants"
+import { GAME_STATE, TURN_LIMIT, MIN_NUM_PLAYERS } from "../lib/constants"
 import { formatTime } from '../lib/util'
 import TurnTimer from './turn-timer'
 

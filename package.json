@@ -8,10 +8,8 @@
   "dependencies": {
     "@babel/core": "^7.6.4",
     "@feedback-fish/react": "^1.2.0",
-    "@serverless/aws-api-gateway": "^4.1.0",
-    "@serverless/aws-lambda": "^3.0.0",
-    "@sls-next/serverless-component": "^1.18.0",
     "@zeit/next-sass": "^1.0.1",
+    "aws-sdk": "^2.824.0",
     "axios": "^0.21.1",
     "babel-plugin-inline-react-svg": "^1.1.0",
     "basic-ftp": "^4.6.3",
@@ -28,14 +26,10 @@
     "react-toggle": "^4.1.1",
     "rough-notation": "^0.5.1",
     "sass": "^1.32.2",
-    "serverless-next.js": "^1.6.0",
     "shortid": "^2.2.15",
     "uuid": "^7.0.2",
     "webdav": "^3.6.1",
     "webpack": "^4.34.0"
-  },
-  "devDependencies": {
-    "serverless-offline": "^6.1.2"
   },
   "scripts": {
     "dev": "next -p 3030",

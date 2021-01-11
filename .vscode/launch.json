@@ -6,12 +6,6 @@
             "request": "launch",
             "command": "npm run dev",
             "cwd": "${workspaceFolder}"
-        }, {
-            "type": "node-terminal",
-            "name": "serverless",
-            "request": "launch",
-            "command": "serverless offline",
-            "cwd": "${workspaceFolder}/backend"
         }
     ]
 }

@@ -1,12 +1,11 @@
-import { get } from 'dotty'
 import cookie from 'cookie'
 import { v4 } from 'uuid'
-import axios from 'axios'
+import updateStateBackend from '../../backend/update-state'
 
-import { baseUrlBackend, parseCookie } from '../../lib/util'
-import { API_METHODS } from '../../backend/constants'
+import { parseCookie } from '../../lib/util'
+import { API_METHODS } from '../../lib/constants'
 
-export default function updateState(req, res) {
+export default async function updateState(req, res) {
 
   /*
     Look for or create userId
@@ -18,11 +17,14 @@ export default function updateState(req, res) {
       // can create new user tokens here
       if (!userId) {
         userId = v4();
+        res.setHeader(
+          'Set-Cookie',
+          cookie.serialize('cookiedrawey', userId, {
+            maxAge: 9999,
+            path: '/'
+          })
+        )
       }
-      setCookie = cookie.serialize('cookiedrawey', userId, {
-        maxAge: 9999,
-        path: '/'
-      })
       break;
     default:
       if (!userId) {
@@ -30,27 +32,15 @@ export default function updateState(req, res) {
       }
   }
 
-  const { method, payload } = req.body;
+  const { method, payload } = req.body
+  const viewer = { userId }
+  const { Attributes: updatedState } = await updateStateBackend({ method, payload, viewer })
 
-  return axios.post(`${ baseUrlBackend() }/api`, {
-      method,
-      payload,
-      viewer: {
-        userId
-      }
-    }).then(response => {
-      if (setCookie) {
-        res.setHeader('Set-Cookie', setCookie)
-      }
-      res.status(response.status).json({
-        response: response.data.response,
-        viewer: {
-          userId
-        }
-      })
-    })
-    .catch( err => {
-      console.log(err)
-      res.status(get(err, 'response.status') || 500).end()
-    })
+  res.status(200).json({
+    gameState: updatedState,
+    viewer: {
+      userId
+    }
+  });
+  
 }

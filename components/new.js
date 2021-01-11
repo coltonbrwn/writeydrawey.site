@@ -5,7 +5,7 @@ import Logo from './logo'
 import Button from './button'
 import UserInfo from './user-info'
 import * as api from '../lib/api'
-import { TURN_LIMIT } from '../backend/constants'
+import { TURN_LIMIT } from '../lib/constants'
 import { baseUrlFrontend, formatTime } from '../lib/util'
 
 class New extends React.Component {
@@ -23,7 +23,7 @@ class New extends React.Component {
     if (!this.state.playerName || !this.state.phrase) {
       return
     }
-    const { response:{ id } } = await api.createNewGame({
+    const { gameState: { id } } = await api.createNewGame({
       options: {
         time_limit: this.state.timeLimit
       }

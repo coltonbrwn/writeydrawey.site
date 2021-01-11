@@ -1,8 +1,0 @@
-{
-  "components": {
-    "lambdaUpdateState": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.3/node_modules/@serverless/aws-lambda",
-    "lambdaGetState": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.3/node_modules/@serverless/aws-lambda",
-    "lambdaCors": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-lambda@3.0.3/node_modules/@serverless/aws-lambda",
-    "gameApiGateway": "/Users/colton/.serverless/components/registry/npm/@serverless/aws-api-gateway@4.1.0/node_modules/@serverless/aws-api-gateway"
-  }
-}

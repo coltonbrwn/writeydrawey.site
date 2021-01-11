@@ -1,28 +1,36 @@
-import { get } from 'dotty'
-import axios from 'axios'
+import { parseCookie, sortByTimestamp } from '../../lib/util'
+import backendGetState from '../../backend/get-state'
 
-import { baseUrlBackend, parseCookie } from '../../lib/util'
-
-export default function getState(req, res) {
+export default async function getState(req, res) {
+  const userId = parseCookie(req)
   if (!req.query.id) {
-    return Promise.reject(`Invalid gameId`)
+    res.status(400).send()
   }
-  let setCookie, userId = parseCookie(req)
-  const url = `${ baseUrlBackend() }/state?id=${ req.query.id }`
-  return axios.get(url)
-    .then( response => {
-      if (setCookie) {
-        res.setHeader('Set-Cookie', setCookie)
-      }
-      res.status(response.status).json({
-        gameState: response.data,
-        viewer: {
-          userId
-        }
-      });
-    })
-    .catch( err => {
-      console.log(err)
-      res.status(get(err, 'response.status') || 500).end()
-    })
+
+  const { Item: gameState } = await backendGetState({ id: req.query.id })
+
+  if (!gameState) {
+    return res.status(404).send()
+  }
+
+  const transformedGameState =  {
+    admin: gameState.admin,
+    id: gameState.id,
+    options: {
+      rounds: gameState.players.length,
+      ...gameState.options
+    },
+    players: sortByTimestamp( gameState.players ),
+    playerInput: sortByTimestamp( gameState.playerInput ),
+    round: gameState.round,
+    timers: gameState.timers,
+    state: gameState.state
+  };
+
+  res.status(200).json({
+    gameState: transformedGameState,
+    viewer: {
+      userId
+    }
+  });
 }

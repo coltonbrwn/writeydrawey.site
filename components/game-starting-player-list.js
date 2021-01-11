@@ -1,6 +1,6 @@
 import copy from 'copy-to-clipboard'
 import Button from './button'
-import { MIN_NUM_PLAYERS } from '../backend/constants'
+import { MIN_NUM_PLAYERS } from '../lib/constants'
 import { nextRound } from '../lib/api'
 import { baseUrlFrontend } from '../lib/util'
 
@@ -25,7 +25,7 @@ export default class GameStartingPlayerList extends React.Component {
         if (this.state.isCopied) {
             return;
         }
-        copy(`http://${ baseUrlFrontend() }/${ this.props.gameState.id }`)
+        copy(`https://${ baseUrlFrontend() }/${ this.props.gameState.id }`)
         this.setState({
             isCopied: true
         })

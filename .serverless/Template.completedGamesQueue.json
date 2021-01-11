@@ -1,5 +1,0 @@
-{
-  "name": "wd-games",
-  "arn": "arn:aws:sqs:us-east-1:680198729557:wd-games",
-  "url": "https://sqs.us-east-1.amazonaws.com/680198729557/wd-games"
-}

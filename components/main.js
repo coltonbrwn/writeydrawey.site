@@ -8,7 +8,7 @@ import JoinGame from '../components/join-game'
 import GameInProgress from '../components/game-in-progress'
 import NextRoundCountdown from '../components/next-round-countdown'
 import Done from '../components/done'
-import { GAME_STATE, INITIAL_STATE } from '../backend/constants'
+import { GAME_STATE, INITIAL_STATE } from '../lib/constants'
 import * as api from '../lib/api'
 
 const UPDATE_INTERVAL = 2000;

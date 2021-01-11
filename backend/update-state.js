@@ -1,33 +1,36 @@
-var uuid = require('uuid')
-var shortid = require('shortid')
-var AWS = require('aws-sdk')
-var uniqBy = require('lodash.uniqby')
+import AWS from 'aws-sdk'
+import shortid from 'shortid'
 
-var convertImage = require('./convert-image')
-var { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE, DEFAULT_TURN_DELAY, TURN_LIMIT } = require('../constants')
+import { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE, DEFAULT_TURN_DELAY, TURN_LIMIT } from '../lib/constants'
+import convertImage from '../lib/convert-image'
+
+AWS.config = {
+  accessKeyId: process.env.AWS_ID,
+  secretAccessKey: process.env.AWS_KEY,
+  region: process.env.AWS_REG
+}
+var dynamodb = new AWS.DynamoDB.DocumentClient();
 const TableName = TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES']
 
-var dynamodb = new AWS.DynamoDB.DocumentClient()
-
-module.exports = function(method, payload, viewer) {
-  switch (method) {
-    case API_METHODS.CREATE_GAME:
-      return createGame(payload, viewer)
-    case API_METHODS.ADD_PLAYER:
-      return addPlayer(payload, viewer)
-    case API_METHODS.PLAYER_INPUT:
-      return playerInput(payload, viewer)
-    case API_METHODS.SET_TIMER:
-      return setTimer(payload, viewer)
-    case API_METHODS.START_GAME:
-      return startGame(payload, viewer)
-    case API_METHODS.END_GAME:
-      return endGame(payload, viewer)
-    case API_METHODS.NEXT_ROUND:
-      return nextRound(payload, viewer)
-    default:
-      return Promise.reject(new Error(`Method ${ method } not found`))
-  }
+export default async ({ method, payload, viewer }) => {
+    switch (method) {
+        case API_METHODS.CREATE_GAME:
+          return createGame(payload, viewer)
+        case API_METHODS.ADD_PLAYER:
+          return addPlayer(payload, viewer)
+        case API_METHODS.PLAYER_INPUT:
+          return playerInput(payload, viewer)
+        case API_METHODS.SET_TIMER:
+          return setTimer(payload, viewer)
+        case API_METHODS.START_GAME:
+          return startGame(payload, viewer)
+        case API_METHODS.END_GAME:
+          return endGame(payload, viewer)
+        case API_METHODS.NEXT_ROUND:
+          return nextRound(payload, viewer)
+        default:
+          return Promise.reject(new Error(`Method ${ method } not found`))
+    }
 }
 
 /*
@@ -47,7 +50,11 @@ function createGame({ options }, viewer) {
       created: new Date().getTime()
     }
   }).promise().then( res => ({
-    id: newGameId
+    Attributes: {
+        gameState: {
+            id: newGameId
+        }
+    }
   }))
 }
 
