@@ -7,17 +7,19 @@ $h1fontsize: 2.4rem;
 $h2fontsize: 1.7rem;
 $h3fontsize: 1.3rem;
 
+$lightgray: #FAFAFA;
+
 @import './typography';
 @import './nav.scss';
 @import './join.scss';
 @import './react-toggle.scss';
+@import './homepage-bg.scss';
 
 body {
 
 }
 
 #main {
-  padding: 1.2rem 0;
   height: 100vh;
   box-sizing: border-box;
   @media (max-size: $break_sm) {
@@ -56,6 +58,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  position: relative;
 }
 .display--flex {
   display: flex;
@@ -76,6 +79,7 @@ body {
 .home {
   .logo {
     height: 6rem;
+    position: fixed;
   }
 }
 .rules {

@@ -1,0 +1,63 @@
+@keyframes raindrop {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
+    }   
+    to {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+}
+
+.homepage-background {
+    position: absolute;
+    top: 0;
+    width: 96vw;
+    height: 40rem;
+    img, .rain {
+        position: fixed;
+    }
+    .hpb-hills {
+        width: 100%;
+    }
+    .hpb-sun {
+        width: 16%;
+    }
+    .hpb-plane {
+        width: 17%;
+    }
+    .hpb-dog-cloud {
+        width: 18%;
+    }
+    .hpb-dog {
+        width: 10%;
+    }
+    .hpb-bear {
+        width: 8%;
+    }
+    .hpb-snake {
+        width: 28%;
+    }
+    .hpb-doug {
+        width: 10%;
+    }
+    .rain {
+        @for $i from 1 through 11 {
+            path:nth-of-type(#{$i}n) {
+                animation: 3s ease-in #{$i * 300}ms infinite reverse both running raindrop;
+            }
+        }
+    }
+}
+
+.home.mural {
+    height: 300vh;
+}
+
+.home.federer-dialogue {
+    background: $lightgray;
+}
+
+.home.three-steps {
+    
+}
