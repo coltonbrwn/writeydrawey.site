@@ -1,29 +1,21 @@
-import Logo from './svg/logo'
-import Rain from './svg/rain'
+import Logo from '../svg/logo'
+import Rain from '../svg/rain'
+import Border from '../svg/border'
+
+import interpolatePosition from './interpolatePosition'
 
 export default class HomepageBackground extends React.Component {
 
-    interpolatePosition(initial, _final) {
-        const final = _final || initial
-        const {top: initTop, right: initRight, bottom: initBottom, left: initLeft, zoom: initZoom=1, rotation: initRot=0} = initial
-        const {top: finalTop, right: finalRight, bottom: finalBottom, left: finalLeft, zoom: finalZoom=1, rotation: finalRot=0} = final
-        const r = this.props.completionRatio
-        return {
-            top: initTop + (finalTop - initTop) * r + '%',
-            right: initRight + (finalRight - initRight) * r + '%',
-            bottom: initBottom + (finalBottom - initBottom) * r + '%',
-            left: initLeft + (finalLeft - initLeft) * r + '%',
-            transform: `scale(${ initZoom + (finalZoom - initZoom) * r }) rotate(${ initRot + (finalRot - initRot) * r }deg)`
-        }
-    }
+    interpolatePosition = interpolatePosition.bind(this)
 
     render() {
+        const isFixedPosition = this.props.completionRatio < 0.66666;
         return (
-            <div className="homepage-background">
+            <div className="homepage-background" style={{ position: isFixedPosition ? 'fixed' : 'relative'}}>
                 <div
                     style={ this.interpolatePosition(
                         { top: 40, left: 40, zoom: 0.95},
-                        { top: 40, left: 40, zoom: 1}
+                        { top: 40, left: 40, zoom: 1.1}
                     )}
                     className="logo"
                 >
@@ -46,14 +38,24 @@ export default class HomepageBackground extends React.Component {
                 />
                 <img
                     style={ this.interpolatePosition(
-                        { bottom: -15, left: 0}
+                        { bottom: 0, left: 0},
+                        { bottom: 5, left: -10}
                     )}
                     className="hpb-hills"
-                    src="/homepg-images/hills.png"
+                    src="/homepg-images/hill-left.png"
+                />
+                <img
+                    style={ this.interpolatePosition(
+                        { bottom: 0, right: 0},
+                        { bottom: 5, right: -10 }
+                    )}
+                    className="hpb-hills"
+                    src="/homepg-images/hill-right.png"
                 />
                 <div
                     style={ this.interpolatePosition(
-                        { top: 42, right: 12 }
+                        { top: 42, right: 12 },
+                        { top: 42, right: 6 },
                     )}
                     className="rain"
                 >
@@ -61,8 +63,8 @@ export default class HomepageBackground extends React.Component {
                 </div>
                 <img
                     style={ this.interpolatePosition(
-                        { left: 20, top: 10},
-                        { left: 50, top: 2},
+                        { left: 30, top: 10, rotation: 4},
+                        { left: 40, top: 2, rotation: -2},
                     )}
                     className="hpb-plane"
                     src="/homepg-images/snake-plane.png"
@@ -70,21 +72,23 @@ export default class HomepageBackground extends React.Component {
                 <img
                     style={ this.interpolatePosition(
                         { right: 8, top: 24 },
-                        { right: 7.5, top: 24 }
+                        { right: 2, top: 24 }
                     )}
                     className="hpb-dog-cloud"
                     src="/homepg-images/dog-cloud.png"
                 />
                 <img
                     style={ this.interpolatePosition(
-                        { left: 14, bottom: 15 }
+                        { left: 14, bottom: 15 },
+                        { left: 3, bottom: 15 }
                     ) }
                     className="hpb-bear"
                     src="/homepg-images/bear.png"
                 />
                 <img
                     style={ this.interpolatePosition(
-                        { left: 24, bottom: 6 }
+                        { left: 24, bottom: 6 },
+                        { left: 14, bottom: 6 }
                     )}
                     className="hpb-dog"
                     src="/homepg-images/dog.png"
@@ -92,11 +96,14 @@ export default class HomepageBackground extends React.Component {
                 <img
                     style={ this.interpolatePosition(
                         { bottom: 2, right: 2,  rotation: 0},
-                        { bottom: 2, right: 2, rotation: 2 }
+                        { bottom: 2, right: -8, rotation: 2 }
                     )}
                     className="hpb-snake"
                     src="/homepg-images/long-snake.png"
                 />
+                <div className="border">
+                    <Border />
+                </div>
             </div>
         )
     }

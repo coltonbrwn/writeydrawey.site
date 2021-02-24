@@ -1,0 +1,111 @@
+@keyframes raindrop {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
+    }   
+    to {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+}
+
+.homepage-background {
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    img, .rain, .logo {
+        position: absolute;
+    }
+    .hpb-hills {
+        width: 60%;
+    }
+    .hpb-sun {
+        width: 16%;
+    }
+    .hpb-plane {
+        width: 17%;
+    }
+    .hpb-dog-cloud {
+        width: 18%;
+    }
+    .hpb-dog {
+        width: 10%;
+    }
+    .hpb-bear {
+        width: 8%;
+    }
+    .hpb-snake {
+        width: 28%;
+    }
+    .hpb-doug {
+        width: 10%;
+    }
+    .rain {
+        @for $i from 1 through 11 {
+            path:nth-of-type(#{$i}n) {
+                animation: 3s ease-in #{$i * 300}ms infinite reverse both running raindrop;
+            }
+        }
+    }
+}
+
+.home.mural {
+    padding: 0;
+    height: 300vh;
+    justify-content: flex-end;
+}
+
+.home.federer-dialogue {
+    background: $lightgray;
+    padding: 6em 0;
+    text-align: center;
+}
+
+.three-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &__step {
+        width: 40rem;
+        display: flex;
+        margin: 4rem 0;
+        img {
+            width: 20em;
+        }
+    }
+}
+
+.social {
+    background: #FAFAFA;
+    position: absolute;
+    left: 0;
+    top: 0;
+    h3 {
+    }
+    .social-image {
+        width: 40rem;
+        margin-top: 4rem;
+        img {
+            width: 100%;
+        }
+    }
+}
+.social-background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    img {
+        position: absolute;
+        height: 10rem;
+    }
+    .hps-fastfood {
+        height: 6rem;
+    }
+    .hps-rose {
+        height: 7rem;
+    }
+}
