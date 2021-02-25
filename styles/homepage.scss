@@ -41,6 +41,10 @@
     img, .rain, .logo {
         position: absolute;
     }
+    .logo {
+        width: 100%;
+        height: 15%;
+    }
     .hpb-hills {
         width: 60%;
     }
@@ -51,7 +55,7 @@
         width: 17%;
     }
     .hpb-dog-cloud {
-        width: 18%;
+        width: 20%;
     }
     .hpb-dog {
         width: 10%;

@@ -1,3 +1,47 @@
+.input-container {
+    text-align: center;
+    margin-bottom: 1rem;
+    width: 30rem;
+    max-width: 80vw;
+}
+.subtext {
+    font-family: 'Relative Mono';
+    font-size: 0.65rem;
+    text-align: center;
+}
+label.toggle {
+    text-align: right;
+    margin-top: 0.4em;
+    .label-text {
+        font-size: 0.8em;
+        margin-right: 1em;
+    }
+    .react-toggle {
+        position: relative;
+        top: 5px;
+    }
+}
+
+  
+input {
+    border: none;
+    border-radius: 0;
+    color: var(--black-ln);
+    font-size: $h3fontsize;
+    width: 100%;
+    padding-left: 0.1em;
+    margin-left: 0.1em;
+    &.text--left {
+      text-align: left;
+    }
+    &:focus {
+      outline: none;
+    }
+    &[disabled] {
+      background: white;
+    }
+}
+
 .input-container-flex {
     display: flex;
     align-items: flex-end;
@@ -18,7 +62,7 @@
     .input-wrapper {
       flex: 1;
       position: relative;
-      text-align: center;
+      text-align: right;
       margin-left: 0.5em;
       .input-drawnline {
         position: absolute;
@@ -31,4 +75,4 @@
         width: 100%;
       }
     }
-  }
+}

@@ -23,10 +23,12 @@ export default class GameStartingPlayerList extends React.Component {
     }
 
     onCopyClick = () => {
+        console.log('hi')
         if (this.state.isCopied) {
             return;
         }
-        copy(`https://${ baseUrlFrontend() }/${ this.props.gameState.id }`)
+        console.log('hi2')
+        copy(`${ baseUrlFrontend() }/${ this.props.gameState.id }`)
         this.setState({
             isCopied: true
         })
@@ -47,7 +49,7 @@ export default class GameStartingPlayerList extends React.Component {
                     {
                         playerList.map( (player, i) => (
                             <Input
-                                key={ player.playerId || i}
+                                key={ player.playerId || i }
                                 label={`${ i+1 }.`}
                                 disabled
                                 value={ player.playerName }
@@ -66,7 +68,7 @@ export default class GameStartingPlayerList extends React.Component {
                             {
                                 this.state.isCopied
                                     ? 'Copied!'
-                                    : 'Copy Game Link'
+                                    : 'Copy Link'
                             }
                         </Button>
                         <Button

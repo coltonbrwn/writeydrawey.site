@@ -157,7 +157,7 @@ export default class Home extends React.Component {
         {
           isDrawingRound
             ? (
-              <div className="flex-container">
+              <div className="flex-container full-height small-pad">
                 <DrawingCanvas onInteractionStart={ this.onDrawingInteractionStart } />
                 <div className="bottom-margin">
                   <div className="mono">
@@ -166,13 +166,13 @@ export default class Home extends React.Component {
                   <h3>
                     "{ leftHandPlayerInput.phrase }"
                   </h3>
-                  <Button onClick={ this.onDrawingDoneClick } type="4">
+                  <Button onClick={ this.onDrawingDoneClick }>
                     Done
                   </Button>
                 </div>
               </div>
             ) : (
-              <div className="flex-container">
+              <div className="flex-container full-height small-pad">
                 <img
                   className="playerDrawing"
                   src={ leftHandPlayerInput.drawing } />
@@ -188,7 +188,7 @@ export default class Home extends React.Component {
                       value={ this.state.description }
                     />
                   </span>
-                  <Button onClick={ this.onDescriptionDoneClick } type="4">
+                  <Button onClick={ this.onDescriptionDoneClick }>
                     Okay
                   </Button>
                 </div>

@@ -6,7 +6,9 @@ export default class Home extends React.Component {
 
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      scrollRatio: 0
+    }
   }
 
   componentDidMount() {
@@ -92,11 +94,12 @@ export default class Home extends React.Component {
             Start A Game
           </Button>
           <h3>
-            Follow us on twitter @writeydrawey
+            <br/>
+            Follow us @writeydrawey
           </h3>
         </div>
         <div className="footer">
-          
+
         </div>
       </div>
     )

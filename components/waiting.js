@@ -15,7 +15,7 @@ export default class Starting extends React.Component {
           <Logo />
           <GameOverviewNav {...this.props} />
         </div>
-        <div className="waiting flex-container">
+        <div className="waiting flex-container full-height">
           <div className="players">
             {
               this.props.gameState.players

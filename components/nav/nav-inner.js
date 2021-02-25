@@ -8,7 +8,9 @@ export default function NavInner() {
             <a href="/">feedback</a>
         </div>,
         <a href="/new">
-            <Button type={4}> New Game</Button>
+            <Button type={ 2 }>
+                New Game
+            </Button>
         </a>
     ]
 }

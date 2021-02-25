@@ -20,8 +20,8 @@ export default class HomepageBackground extends React.Component {
                 </div>
                 <div
                     style={ this.interpolatePosition(
-                        { top: 40, left: 40, zoom: 0.95},
-                        { top: 40, left: 40, zoom: 1.1}
+                        { top: 40, left: 0, zoom: 0.95},
+                        { top: 40, left: 0, zoom: 1.1}
                     )}
                     className="logo"
                 >

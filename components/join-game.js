@@ -65,7 +65,6 @@ export default class JoinGame extends React.Component {
         <div className="nav">
           <Logo />
           <GameOverviewNav gameState={ gameState } />
-          <UserInfo />
         </div>
         {
           this.props.playerHasContributed ? (
@@ -77,7 +76,7 @@ export default class JoinGame extends React.Component {
             <div className="join flex-container full-height">
               <div className="input-container">
                   <h3>
-                    { adminPlayer.playerName } has invited you to play a game of <i>writeydrawey</i>!
+                    <b>{ adminPlayer.playerName }</b> has invited you to play a game of <i>writeydrawey</i>!
                     <br/>
                     <br/>
                   </h3>
