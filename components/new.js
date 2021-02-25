@@ -3,7 +3,8 @@ import Toggle from 'react-toggle'
 import Layout from './layout'
 import Logo from './logo'
 import Button from './ui/button'
-import UserInfo from './user-info'
+import Input from './ui/input'
+
 import * as api from '../lib/api'
 import { TURN_LIMIT } from '../lib/constants'
 import { baseUrlFrontend, formatTime } from '../lib/util'
@@ -45,7 +46,7 @@ class New extends React.Component {
     document.location = `http://${ baseUrlFrontend() }/${ id }`
   }
   
-  onNameInputChanage = e => {
+  onNameInputChange = e => {
     this.setState({
       playerName: e.target.value
     })
@@ -69,38 +70,35 @@ class New extends React.Component {
         <div className="content-container ctr-adjust-pad">
           <div className="nav">
             <Logo />
-            <UserInfo />
           </div>
-          <div className="join flex-container">
+          <div className="join flex-container full-height">
             <div className="input-container">
-                <div className="input-container-flex">
-                    <h3 className="mono input-label">your name</h3>
-                    <span className="input-wrapper">
-                    <input onChange={ this.onNameInputChanage } />
-                    </span>
-                </div>
-                <div className="input-container-flex">
-                    <h3 className="mono input-label">a phrase</h3>
-                    <span className="input-wrapper">
-                    <input onChange={ this.onPhraseInputChange } />
-                    </span>
-                </div>
-                <div className="input-container-flex">
-                    <h3 className="mono input-label">time limit <span className="pill">new!</span></h3>
-                    <label className="toggle input-wrapper">
-                        <span className="label-text">
-                          { this.state.timeLimit ? formatTime( TURN_LIMIT / 1000 ) : 'off'}
-                        </span>
-                        <Toggle
-                            defaultChecked={this.state.timeLimit}
-                            icons={false}
-                            onChange={this.handleToggleChange}
-                        />
-                    </label>
-                </div>
-                <Button onClick={ this.onSubmit }>
-                    New Game
-                </Button>
+              <Input
+                label="your name"
+                onChange={  this.onNameInputChange }
+                lineType={ 1 }
+              />
+              <Input
+                label="a phrase"
+                onChange={  this.onPhraseInputChange }
+                lineType={ 2 }
+              />
+              <div className="input-container-flex">
+                  <h3 className="mono input-label">time limit</h3>
+                  <label className="toggle input-wrapper">
+                      <span className="label-text">
+                        { this.state.timeLimit ? formatTime( TURN_LIMIT / 1000 ) : 'off'}
+                      </span>
+                      <Toggle
+                          defaultChecked={this.state.timeLimit}
+                          icons={false}
+                          onChange={this.handleToggleChange}
+                      />
+                  </label>
+              </div>
+              <Button onClick={ this.onSubmit }>
+                  New Game
+              </Button>
             </div>
           </div>
         </div>

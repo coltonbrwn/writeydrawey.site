@@ -4,6 +4,7 @@ import GameOverviewNav from './game-overview-nav'
 import UserInfo from './user-info'
 import * as api from '../lib/api'
 import Button from './ui/button'
+import Input from './ui/input'
 import GameStartingPlayerList from './game-starting-player-list'
 
 export default class JoinGame extends React.Component {
@@ -73,28 +74,24 @@ export default class JoinGame extends React.Component {
               gameState={ gameState }
             />
           ) : (
-            <div className="join flex-container">
+            <div className="join flex-container full-height">
               <div className="input-container">
                   <h3>
                     { adminPlayer.playerName } has invited you to play a game of <i>writeydrawey</i>!
                     <br/>
                     <br/>
                   </h3>
-                  <div className="input-container-flex">
-                      <h3 className="mono input-label">your name</h3>
-                      <span className="input-wrapper">
-                      <input onChange={ this.onNameInputChanage } />
-                      </span>
-                  </div>
-                  <div className="input-container-flex">
-                      <h3 className="mono input-label">a phrase</h3>
-                      <span className="input-wrapper">
-                      <input
-                        onChange={ this.onPhraseInputChange }
-                        onKeyDown={ this.onPhraseInputKeyDown }
-                      />
-                      </span>
-                  </div>
+                  <Input
+                    label="your name"
+                    onChange={ this.onNameInputChanage }
+                    lineType={ 0 }
+                  />
+                  <Input
+                    label="a phrase"
+                    onChange={ this.onPhraseInputChange }
+                    onKeyDown={ this.onPhraseInputKeyDown }
+                    lineType={ 0 }
+                  />
                   <Button onClick={ this.onJoinGameClick }>
                     Join Game
                   </Button>

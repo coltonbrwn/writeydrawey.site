@@ -1,5 +1,6 @@
 import copy from 'copy-to-clipboard'
 import Button from './ui/button'
+import Input from './ui/input'
 import { MIN_NUM_PLAYERS } from '../lib/constants'
 import { nextRound } from '../lib/api'
 import { baseUrlFrontend } from '../lib/util'
@@ -41,16 +42,16 @@ export default class GameStartingPlayerList extends React.Component {
         }
 
         return (
-            <div className="join flex-container">
+            <div className="join flex-container full-height">
                 <div className="input-container">
                     {
                         playerList.map( (player, i) => (
-                            <div className="input-container-flex" key={ player.playerId || i }>
-                                <h3 className="mono input-label">{ i+1 }.</h3>
-                                <span className="input-wrapper">
-                                <input className="text--left" disabled value={ player.playerName } />
-                                </span>
-                            </div>
+                            <Input
+                                key={ player.playerId || i}
+                                label={`${ i+1 }.`}
+                                disabled
+                                value={ player.playerName }
+                            />
                         ))
                     }
                     <div className="subtext">

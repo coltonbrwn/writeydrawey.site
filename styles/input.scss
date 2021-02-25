@@ -1,0 +1,34 @@
+.input-container-flex {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 0.8rem;
+    width: 100%;
+    height: 3em;
+    position: relative;
+    input, .input-label {
+      display: inline-block;
+      white-space: nowrap;
+      padding-bottom: 0.2em;
+    }
+    .input-label {
+      margin-right: 0.2rem;
+      z-index: 1;
+      bottom: 0.1em;
+    }
+    .input-wrapper {
+      flex: 1;
+      position: relative;
+      text-align: center;
+      margin-left: 0.5em;
+      .input-drawnline {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        bottom: -0.25em;
+        pointer-events: none;
+      }
+      svg {
+        width: 100%;
+      }
+    }
+  }
