@@ -7,10 +7,8 @@ export default function NavInner() {
             <a href="/gallery">gallery</a>
             <a href="/">feedback</a>
         </div>,
-        <Button type={4}>
-            <a href="/new">
-            New Game
-            </a>
-        </Button>
+        <a href="/new">
+            <Button type={4}> New Game</Button>
+        </a>
     ]
 }
