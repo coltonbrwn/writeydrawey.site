@@ -1,4 +1,15 @@
 .nav {
+  position: fixed;
+  background: white;
+  padding: 0.5em 0;
+  width: 100%;
+  z-index: 20;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  &.hidden {
+    display: none;
+  }
   .logo {
     height: 2rem;
     position: fixed;
@@ -6,18 +17,23 @@
     top: 0;
     padding: 1.2rem;
   }
-  .links, .text {
-    // background: linear-gradient(white 75%, #fff0);
-    // z-index: 1;
-    position: fixed;
-    top: 0;
-    right: 0;
-    text-align: right;
-    padding: 0.8rem 1.4rem;
-    // width: 100%;
-    // display: flex;
-    // justify-content: space-between;
-    // box-sizing: border-box;
+  &__logo {
+    width: 5em;
+    position: absolute;
+    left: 1em;
+  }
+  button {
+    display: inline;
+  }
+  &__line {
+    position: absolute;
+    top: 3.32em;
+    width: 100%;
+  }
+  &__links, .text {
+    a {
+      padding: 0 1em;
+    }
     h2 {
       margin: 0;
       &:nth-of-type(2) {
@@ -37,15 +53,5 @@
     padding: 1.6rem;
     right: 0;
     top: 0;
-  }
-  .user-info {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    button {
-      margin: 1rem;
-      background: rgb(226, 226, 226);
-      border-radius: 0.4em;
-    }
   }
 }

@@ -1,4 +1,4 @@
-import UserInfo from '../user-info'
+import Nav from '../nav/index'
 import HomepageBackground from './homepage-background'
 import SocialBackground from './social-background'
 
@@ -25,28 +25,9 @@ export default class Home extends React.Component {
   render() {
     return (
       <div className="full-height">
-        <div className="nav">
-          <div className="links">
-            <h2>
-              <a href="/credits">credits</a>
-            </h2>
-            <h2>
-              <a href="/gallery">gallery</a>
-            </h2>
-            <h2>
-              <a href="/new">new game</a>
-            </h2>
-          </div>
-          <UserInfo />
-        </div>
+        <Nav hidden={ this.state.scrollRatio < 1 } />
         <div className="home flex-container mural" id="scrollArea">
-          {
-            this.props.statusCode == 404 ? (  
-              <p>We couldn't find a game here</p>
-            ) : (
-              <HomepageBackground completionRatio={ this.state.scrollRatio } />
-            )
-          }
+          <HomepageBackground completionRatio={ this.state.scrollRatio } />
         </div>
         <div className="home federer-dialogue">
           <div className="content-container">

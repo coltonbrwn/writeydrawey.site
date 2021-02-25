@@ -3,7 +3,7 @@ import Logo from './logo'
 import GameOverviewNav from './game-overview-nav'
 import UserInfo from './user-info'
 import * as api from '../lib/api'
-import Button from './button'
+import Button from './ui/button'
 import GameStartingPlayerList from './game-starting-player-list'
 
 export default class JoinGame extends React.Component {

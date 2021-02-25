@@ -9,12 +9,34 @@
     }
 }
 
+.home.mural {
+    padding: 0;
+    height: 300vh;
+    justify-content: flex-end;
+    background-color: $lightgray;
+}
+
 .homepage-background {
     overflow: hidden;
     position: fixed;
-    bottom: 0;
-    width: 100vw;
-    height: 100vh;
+    bottom: 2vh;
+    width: 98vw;
+    height: 96vh;
+    border: 2px solid black;
+    border-radius: 7px;
+    box-shadow: -7px 7px 0px #bbb;
+    background-color: #fff;
+    &__nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        a {
+            padding: 0 1em;
+        }
+        button {
+            display: inline;
+        }
+    }
     img, .rain, .logo {
         position: absolute;
     }
@@ -49,12 +71,6 @@
             }
         }
     }
-}
-
-.home.mural {
-    padding: 0;
-    height: 300vh;
-    justify-content: flex-end;
 }
 
 .home.federer-dialogue {

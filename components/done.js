@@ -1,4 +1,3 @@
-import Button from './button'
 import Logo from './logo'
 import UserInfo from './user-info'
 import createCardStacks from '../lib/create-card-stacks'

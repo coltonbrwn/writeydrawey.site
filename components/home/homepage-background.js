@@ -1,6 +1,6 @@
 import Logo from '../svg/logo'
 import Rain from '../svg/rain'
-import Border from '../svg/border'
+import NavInner from '../nav/nav-inner'
 
 import interpolatePosition from './interpolatePosition'
 
@@ -11,7 +11,13 @@ export default class HomepageBackground extends React.Component {
     render() {
         const isFixedPosition = this.props.completionRatio < 0.66666;
         return (
-            <div className="homepage-background" style={{ position: isFixedPosition ? 'fixed' : 'relative'}}>
+            <div
+                className="homepage-background"
+                style={{ position: isFixedPosition ? 'fixed' : 'relative'}}
+            >
+                <div className="homepage-background__nav-inner">
+                    <NavInner />
+                </div>
                 <div
                     style={ this.interpolatePosition(
                         { top: 40, left: 40, zoom: 0.95},
@@ -101,9 +107,6 @@ export default class HomepageBackground extends React.Component {
                     className="hpb-snake"
                     src="/homepg-images/long-snake.png"
                 />
-                <div className="border">
-                    <Border />
-                </div>
             </div>
         )
     }

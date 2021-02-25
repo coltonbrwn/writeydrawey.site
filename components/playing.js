@@ -2,7 +2,7 @@ import onetime from 'onetime'
 
 import * as api from '../lib/api'
 import Logo from './logo'
-import Button from './button'
+import Button from './ui/button'
 import GameOverviewNav from './game-overview-nav'
 import DrawingCanvas from './drawing-canvas'
 import { isGameOver, areAllPlayersReady } from '../lib/util'

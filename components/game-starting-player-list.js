@@ -1,5 +1,5 @@
 import copy from 'copy-to-clipboard'
-import Button from './button'
+import Button from './ui/button'
 import { MIN_NUM_PLAYERS } from '../lib/constants'
 import { nextRound } from '../lib/api'
 import { baseUrlFrontend } from '../lib/util'

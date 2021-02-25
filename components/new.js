@@ -2,7 +2,7 @@ import Toggle from 'react-toggle'
 
 import Layout from './layout'
 import Logo from './logo'
-import Button from './button'
+import Button from './ui/button'
 import UserInfo from './user-info'
 import * as api from '../lib/api'
 import { TURN_LIMIT } from '../lib/constants'

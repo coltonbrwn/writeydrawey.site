@@ -47,7 +47,7 @@ export default class Button extends React.Component {
     return (
       <button { ...this.props }>
         <span dangerouslySetInnerHTML={{ __html: getStyle(this.props.type) }} />
-        <span className="text">
+        <span className="button__text">
           { this.props.children }
         </span>
       </button>

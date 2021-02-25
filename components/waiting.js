@@ -1,4 +1,4 @@
-import RoughNotation from './rough-notation'
+import RoughNotation from './ui/rough-notation'
 import Logo from './logo'
 import GameOverviewNav from './game-overview-nav'
 import { getPlayersReadyMap } from '../lib/util'
