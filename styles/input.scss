@@ -49,6 +49,13 @@ input {
     width: 100%;
     height: 3em;
     position: relative;
+    &.input-container-flex--vertical {
+      flex-direction: column;
+      align-items: flex-start;
+      .input-drawnline {
+        transform: rotate(180deg);
+      }
+    }
     input, .input-label {
       display: inline-block;
       white-space: nowrap;
@@ -64,6 +71,7 @@ input {
       position: relative;
       text-align: right;
       margin-left: 0.5em;
+      width: 100%;
       .input-drawnline {
         position: absolute;
         width: 100%;

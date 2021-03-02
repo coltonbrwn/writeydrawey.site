@@ -1,27 +1,35 @@
+import classNames from 'classnames'
 import Line2 from '../svg/line-2'
 import Line3 from '../svg/line-3'
 
 const noop = ()=>{}
 
 export default function Input({
-    lineType,
+    disabled,
+    lineType=0,
     label,
     onChange=noop,
     onKeyDown=noop,
-    disabled,
-    value
+    onFocus=noop,
+    value,
+    isVertical=false
 }) {
 
     const Line = [
         <Line2 />,
         <Line3 />
-    ][ lineType || 0]
+    ][ lineType ]
 
     return (
-        <div className="input-container-flex">
+        <div className={
+            classNames("input-container-flex", {
+                'input-container-flex--vertical': isVertical
+            })
+        }>
             <h3 className="mono input-label">{ label }</h3>
             <span className="input-wrapper">
                 <input
+                    onFocus={ onFocus }
                     onChange={ onChange }
                     onKeyDown={ onKeyDown }
                     disabled={ disabled }

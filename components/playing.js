@@ -3,6 +3,7 @@ import onetime from 'onetime'
 import * as api from '../lib/api'
 import Logo from './logo'
 import Button from './ui/button'
+import Input from './ui/input'
 import GameOverviewNav from './game-overview-nav'
 import DrawingCanvas from './drawing-canvas'
 import { isGameOver, areAllPlayersReady } from '../lib/util'
@@ -175,19 +176,18 @@ export default class Home extends React.Component {
               <div className="flex-container full-height small-pad">
                 <img
                   className="playerDrawing"
-                  src={ leftHandPlayerInput.drawing } />
+                  src={ leftHandPlayerInput.drawing }
+                />
                 <div className="bottom-margin">
-                  <span className="input-wrapper">
-                    <h3>
-                      describe this
-                    </h3>
-                    <input
-                      onFocus={ this.startTimer }
-                      onChange={ this.onDescriptionChange }
-                      onKeyDown={ this.onDescriptionKeyDown }
-                      value={ this.state.description }
-                    />
-                  </span>
+                  <Input
+                    onFocus={ this.startTimer }
+                    onChange={ this.onDescriptionChange }
+                    onKeyDown={ this.onDescriptionKeyDown }
+                    value={ this.state.description }
+                    label="describe this:"
+                    isVertical
+                    lineType={ 1 }
+                  />
                   <Button onClick={ this.onDescriptionDoneClick }>
                     Okay
                   </Button>

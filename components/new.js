@@ -67,7 +67,7 @@ class New extends React.Component {
   render() {
     return (
       <Layout theme="light">
-        <div className="content-container ctr-adjust-pad">
+        <div className="content-container">
           <div className="nav">
             <Logo />
           </div>
