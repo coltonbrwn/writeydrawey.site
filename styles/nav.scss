@@ -3,32 +3,41 @@
   background: white;
   width: 100%;
   z-index: 20;
+  top:0;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  padding: 0 1rem;
+  box-sizing: border-box;
   &.hidden {
     display: none;
   }
   .logo {
     height: 2rem;
     position: fixed;
-    left: 0;
+    left: 1.2rem;
     top: 0;
-    padding: 1.2rem;
+    padding: 1.2rem 0;
   }
   &__logo {
     width: 4em;
     position: absolute;
-    left: 1em;
+    left: 1rem;
   }
   button {
     display: inline;
-    padding: 0.8em;
+    padding: 1.05em;
+    font-size: 0.9em;
   }
   &__line {
     position: absolute;
     top: 2.32em;
     width: 100%;
+    left: 0;
+    svg {
+      width: 100%;
+      height: auto;
+    }
   }
   &__links, .text {
     a {

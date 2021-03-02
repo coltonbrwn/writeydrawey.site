@@ -1,4 +1,4 @@
-import Logo from './logo'
+import Nav from './nav/index.js'
 import UserInfo from './user-info'
 import createCardStacks from '../lib/create-card-stacks'
 
@@ -12,15 +12,13 @@ export default class Home extends React.Component {
     }, {})
 
     return (
-      <div className="game-over content-container">
-        <div className="nav">
-          <Logo />
-          <div className="text">
-            <h3>game over!</h3>
-          </div>
-          <UserInfo />
+      <div className="full-height game-over">
+        <Nav />
+        <div className="game-over__hero">
+          <img src="/homepg-images/aladin.png" />
+          <h1>Game Over!</h1>
         </div>
-        <div className="full-height center">
+        <div className="center content-container">
           {
             cardStacks.map( c => (
               <div key={ c.player.playerId }>

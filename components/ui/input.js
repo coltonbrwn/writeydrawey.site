@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import Line1 from '../svg/line'
 import Line2 from '../svg/line-2'
 import Line3 from '../svg/line-3'
 
@@ -17,7 +18,8 @@ export default function Input({
 
     const Line = [
         <Line2 />,
-        <Line3 />
+        <Line3 />,
+        <Line1 />
     ][ lineType ]
 
     return (

@@ -117,10 +117,10 @@ body {
   }
 }
 .game-over {
-  width: 60%;
-  margin: 0 auto;
-  @media (max-width: $break_sm) {
-    width: 100%;
+  &__hero {
+    background: var(--lightgray);
+    text-align: center;
+    padding: 6em 0 2em 0;
   }
   img {
     width: 30rem;

@@ -67,39 +67,37 @@ class New extends React.Component {
   render() {
     return (
       <Layout theme="light">
-        <div className="content-container">
-          <div className="nav">
-            <Logo />
-          </div>
-          <div className="join flex-container full-height">
-            <div className="input-container">
-              <Input
-                label="your name"
-                onChange={  this.onNameInputChange }
-                lineType={ 1 }
-              />
-              <Input
-                label="a phrase"
-                onChange={  this.onPhraseInputChange }
-                lineType={ 2 }
-              />
-              <div className="input-container-flex">
-                  <h3 className="mono input-label">time limit</h3>
-                  <label className="toggle input-wrapper">
-                      <span className="label-text">
-                        { this.state.timeLimit ? formatTime( TURN_LIMIT / 1000 ) : 'off'}
-                      </span>
-                      <Toggle
-                          defaultChecked={this.state.timeLimit}
-                          icons={false}
-                          onChange={this.handleToggleChange}
-                      />
-                  </label>
-              </div>
-              <Button onClick={ this.onSubmit }>
-                  New Game
-              </Button>
+        <div className="nav">
+          <Logo />
+        </div>
+        <div className="join flex-container full-height">
+          <div className="input-container">
+            <Input
+              label="your name"
+              onChange={  this.onNameInputChange }
+              lineType={ 1 }
+            />
+            <Input
+              label="a phrase"
+              onChange={  this.onPhraseInputChange }
+              lineType={ 2 }
+            />
+            <div className="input-container-flex">
+                <h3 className="mono input-label">time limit</h3>
+                <label className="toggle input-wrapper">
+                    <span className="label-text">
+                      { this.state.timeLimit ? formatTime( TURN_LIMIT / 1000 ) : 'off'}
+                    </span>
+                    <Toggle
+                        defaultChecked={this.state.timeLimit}
+                        icons={false}
+                        onChange={this.handleToggleChange}
+                    />
+                </label>
             </div>
+            <Button onClick={ this.onSubmit }>
+                New Game
+            </Button>
           </div>
         </div>
       </Layout>

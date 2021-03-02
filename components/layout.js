@@ -25,17 +25,20 @@ export default class Layout extends React.Component {
     return (
       <div>
         <Head>
-          <script async src={ `https://www.googletagmanager.com/gtag/js?id=${ ga_id }` }></script>
-          <script dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-                function gtag(){
-                  dataLayer.push(arguments);
-                }
-                gtag('js', new Date());
-                gtag('config', '${ ga_id }');
-            `
-          }} />
+          {
+            ga_id && (process.env.NODE_ENV !== 'development') && (
+              <script dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                    function gtag(){
+                      dataLayer.push(arguments);
+                    }
+                    gtag('js', new Date());
+                    gtag('config', '${ ga_id }');
+                `
+              }} />
+            )
+          }
           <script dangerouslySetInnerHTML={{
             __html: `
               window.process = {

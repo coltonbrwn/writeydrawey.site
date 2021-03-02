@@ -8,7 +8,7 @@ export default function Nav({ hidden }) {
     return (
         <div className={ classNames("nav", { "hidden": hidden } )}>
             <div className="nav__logo">
-                <Logo />
+                <a href="/"><Logo /></a>
             </div>
             <NavInner />
             <div className="nav__line">
