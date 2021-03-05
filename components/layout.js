@@ -1,4 +1,3 @@
-import classname from 'classnames';
 import Head from 'next/head';
 import { get } from 'dotty';
 import {
@@ -26,7 +25,7 @@ export default class Layout extends React.Component {
       <div>
         <Head>
           {
-            ga_id && (process.env.NODE_ENV !== 'development') && (
+            ga_id && (process.env.node_env !== 'dev') && (
               <script dangerouslySetInnerHTML={{
                 __html: `
                   window.dataLayer = window.dataLayer || [];
@@ -43,7 +42,7 @@ export default class Layout extends React.Component {
             __html: `
               window.process = {
                  env: {
-                   NODE_ENV: '${ process.env.NODE_ENV }'
+                   node_env: '${ process.env.NODE_ENV === 'development' ? 'dev' : 'prod' }'
                  }
               };
             `

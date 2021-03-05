@@ -20,7 +20,19 @@ class New extends React.Component {
     }
   }
 
-  onSubmit = async () => {
+  onPublicJoinClick = async () => {
+    if (!this.state.playerName || !this.state.phrase) {
+      return
+    }
+    const { gameState: { id } } = await api.findPublicGame({
+      options: {
+        time_limit: this.state.timeLimit
+      }
+    });
+    await this.addPlayerToGame({ id })
+  }
+
+  onNewGameClick = async () => {
     if (!this.state.playerName || !this.state.phrase) {
       return
     }
@@ -29,6 +41,10 @@ class New extends React.Component {
         time_limit: this.state.timeLimit
       }
     });
+    await this.addPlayerToGame({ id })
+  }
+
+  addPlayerToGame = async ({ id }) => {
     await api.addPlayer({
       gameId: id,
       player: {
@@ -40,9 +56,6 @@ class New extends React.Component {
       phrase: this.state.phrase,
       round: 0
     })
-    
-    // this.props.onUpdateState(gameState)
-
     document.location = `http://${ baseUrlFrontend() }/${ id }`
   }
   
@@ -95,9 +108,14 @@ class New extends React.Component {
                     />
                 </label>
             </div>
-            <Button onClick={ this.onSubmit }>
-                New Game
-            </Button>
+            <div className="buttons-row display--flex">
+              <Button onClick={ this.onPublicJoinClick }>
+                  Join Public Game  
+              </Button>
+              <Button onClick={ this.onNewGameClick }>
+                  New Game 
+              </Button>
+            </div>
           </div>
         </div>
       </Layout>

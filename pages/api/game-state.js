@@ -1,17 +1,21 @@
+import dedupe from 'dedupe'
+
 import { parseCookie, sortByTimestamp } from '../../lib/util'
 import backendGetState from '../../backend/get-state'
 
 export default async function getState(req, res) {
   const userId = parseCookie(req)
   if (!req.query.id) {
-    res.status(400).send()
+    res.status(400).json({})
   }
 
   const { Item: gameState } = await backendGetState({ id: req.query.id })
 
   if (!gameState) {
-    return res.status(404).send()
+    res.status(404).json({})
+    return;
   }
+
 
   const transformedGameState =  {
     admin: gameState.admin,

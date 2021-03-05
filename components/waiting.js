@@ -36,9 +36,9 @@ export default class Starting extends React.Component {
           </div>
           {
             hasValidTimer && (
-              <h3 className="waiting__next-round-timer">
+              <h2 className="waiting__next-round-timer">
                 Next round in <TurnTimer timer={ roundTimer } />
-              </h3>
+              </h2>
             )
           }
         </div>

@@ -10,9 +10,10 @@ export default async function updateState(req, res) {
   /*
     Look for or create userId
   */
-  let setCookie, userId = parseCookie(req);
+  let userId = parseCookie(req);
   switch (req.body.method) {
     case API_METHODS.CREATE_GAME:
+    case API_METHODS.FIND_PUBLIC_GAME:
     case API_METHODS.ADD_PLAYER:
       // can create new user tokens here
       if (!userId) {

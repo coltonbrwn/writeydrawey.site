@@ -28,6 +28,8 @@ export default async ({ method, payload, viewer }) => {
           return endGame(payload, viewer)
         case API_METHODS.NEXT_ROUND:
           return nextRound(payload, viewer)
+        case API_METHODS.FIND_PUBLIC_GAME:
+          return findPublicGame(payload, viewer)
         default:
           return Promise.reject(new Error(`Method ${ method } not found`))
     }
@@ -214,4 +216,47 @@ async function nextRound({ gameId, round }) {
     ReturnValues: 'ALL_NEW'
   }).promise()
 
+}
+
+/*
+  FIND PUBLIC GAME
+ */
+async function findPublicGame({ options }, viewer) {
+  const { Items, Count } = await dynamodb.scan({
+    TableName,
+    ScanFilter: {
+      'state': {
+        AttributeValueList: [ GAME_STATE.STARTING ],
+        ComparisonOperator: 'EQ'
+      },
+      'isPublic': {
+        AttributeValueList: [ true ],
+        ComparisonOperator: 'EQ'
+      },
+    }
+  }).promise()
+
+  if( Count > 0) {
+    return { Attributes: { gameState: Items[0] }}
+  }
+
+  const newGameId = shortid.generate()
+  return dynamodb.put({
+    TableName,
+    Item: {
+      ...INITIAL_STATE,
+      id: newGameId,
+      state: GAME_STATE.STARTING,
+      admin: viewer.userId,
+      options: options,
+      isPublic: true,
+      created: new Date().getTime()
+    }
+  }).promise().then( res => ({
+    Attributes: {
+        gameState: {
+            id: newGameId
+        }
+    }
+  }))
 }

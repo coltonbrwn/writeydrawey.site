@@ -138,6 +138,10 @@ body {
   button {
     margin: 1rem;
   }
+  &__next-round-timer {
+    position: absolute;
+    bottom: 2em;
+  }
 }
 .game-over {
   &__hero {
