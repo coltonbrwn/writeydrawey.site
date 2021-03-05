@@ -1,11 +1,10 @@
 import onetime from 'onetime'
 
-import * as api from '../lib/api'
-import Logo from './logo'
 import Button from './ui/button'
 import Input from './ui/input'
-import GameOverviewNav from './game-overview-nav'
-import DrawingCanvas from './drawing-canvas'
+import PlayerNav from './nav/player-nav'
+import DrawingCanvas from './ui/drawing-canvas'
+import * as api from '../lib/api'
 import { isGameOver, areAllPlayersReady } from '../lib/util'
 
 export default class Home extends React.Component {
@@ -52,7 +51,6 @@ export default class Home extends React.Component {
   }
 
   onDescriptionKeyDown = e => {
-    console.log(e.key)
     if (e.key === 'Enter') {
       this.onDescriptionDoneClick()
     }
@@ -151,33 +149,25 @@ export default class Home extends React.Component {
   
     return (
       <div className="playing full-height">
-        <div className="nav">
-          <Logo />
-          <GameOverviewNav { ...this.props } />
-        </div>
+        <PlayerNav gameState={ gameState } viewer={ viewer } />
         {
           isDrawingRound
-            ? (
-              <div className="flex-container full-height small-pad">
+            ? [
                 <DrawingCanvas onInteractionStart={ this.onDrawingInteractionStart } />
-                <div className="bottom-margin">
-                  <div className="mono">
-                    draw&nbsp;
-                  </div>
-                  <h3>
-                    "{ leftHandPlayerInput.phrase }"
-                  </h3>
-                  <Button onClick={ this.onDrawingDoneClick }>
-                    Done
-                  </Button>
-                </div>
+              ,
+              <div className="bottom-margin">
+                <h3>
+                  <span className="mono">draw:</span> "{ leftHandPlayerInput.phrase }"
+                </h3>
+                <Button onClick={ this.onDrawingDoneClick }>
+                  Done
+                </Button>
               </div>
-            ) : (
-              <div className="flex-container full-height small-pad">
-                <img
-                  className="playerDrawing"
-                  src={ leftHandPlayerInput.drawing }
-                />
+            ] : [
+                <div className="playerDrawing" >
+                  <img src={ leftHandPlayerInput.drawing } />
+                </div>
+              ,
                 <div className="bottom-margin">
                   <Input
                     onFocus={ this.startTimer }
@@ -192,8 +182,7 @@ export default class Home extends React.Component {
                     Okay
                   </Button>
                 </div>
-              </div>
-          )
+            ]
         }
       </div>
     )

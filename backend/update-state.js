@@ -2,7 +2,7 @@ import AWS from 'aws-sdk'
 import shortid from 'shortid'
 
 import { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE, DEFAULT_TURN_DELAY, TURN_LIMIT } from '../lib/constants'
-import convertImage from '../lib/convert-image'
+import convertImage from './lib/convert-image'
 
 AWS.config = {
   accessKeyId: process.env.AWS_ID,

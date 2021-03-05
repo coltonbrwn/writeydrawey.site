@@ -5,11 +5,11 @@ import Home from '../components/home'
 import Waiting from '../components/waiting'
 import Playing from '../components/playing'
 import JoinGame from '../components/join-game'
-import GameInProgress from '../components/game-in-progress'
-import NextRoundCountdown from '../components/next-round-countdown'
+import GameInProgress from './game-in-progress'
 import Done from '../components/done'
-import { GAME_STATE, INITIAL_STATE } from '../lib/constants'
+import { GAME_STATE, INITIAL_STATE, EMPTY_VIEWER } from '../lib/constants'
 import * as api from '../lib/api'
+import GameStarting from './game-starting'
 
 const UPDATE_INTERVAL = 2000;
 
@@ -19,7 +19,7 @@ export default class Main extends React.Component {
     super()
     this.state = {
       gameState: gameState || INITIAL_STATE,
-      viewer,
+      viewer: viewer || EMPTY_VIEWER,
       error: null,
       statusCode
     }
@@ -98,20 +98,22 @@ export default class Main extends React.Component {
 
   getComponent() {
     const { gameState, viewer } = this.state
+    const viewerIsPartOfGame = gameState.players.find( p => p.playerId === viewer.userId )
     const roundTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === '0')
     const hasValidTimer = roundTimer && roundTimer.end > new Date().getTime()
-    const viewerIsPartOfGame = gameState.players.find( p => p.playerId === viewer.userId )
 
     if (gameState.state === GAME_STATE.DONE) {
       return Done
     } else if (gameState.state === GAME_STATE.STARTING) {
-      return JoinGame
+      if (this.playerHasContributed()) {
+        return GameStarting
+      } else {
+        return JoinGame
+      }
     } else if (gameState.state === GAME_STATE.PLAYING) {
       if ( !viewerIsPartOfGame ) {
         return GameInProgress
-      } else if (hasValidTimer) {
-        return NextRoundCountdown
-      } else if (this.playerHasContributed()) {
+      } else if (this.playerHasContributed() || hasValidTimer ) {
         return Waiting
       } else {
         return Playing

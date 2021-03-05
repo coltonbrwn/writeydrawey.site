@@ -1,7 +1,7 @@
 import Toggle from 'react-toggle'
 
 import Layout from './layout'
-import Logo from './logo'
+import Logo from './svg/logo'
 import Button from './ui/button'
 import Input from './ui/input'
 

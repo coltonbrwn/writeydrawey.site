@@ -1,4 +1,4 @@
-import Logo from './logo'
+import Logo from '../svg/logo'
 import TurnTimer from './turn-timer'
 
 export default ({ gameState }) => {

@@ -12,7 +12,6 @@ export default class DrawingCanvas extends React.Component {
 
     eventListener = (e) => {
       if (this.props.onInteractionStart) {
-        console.log('hi')
         this.props.onInteractionStart()
       }
     }

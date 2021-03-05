@@ -1,5 +1,4 @@
 import Nav from './nav/index.js'
-import UserInfo from './user-info'
 import createCardStacks from '../lib/create-card-stacks'
 
 export default class Home extends React.Component {

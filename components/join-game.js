@@ -1,11 +1,8 @@
 import onetime from 'onetime'
-import Logo from './logo'
-import GameOverviewNav from './game-overview-nav'
-import UserInfo from './user-info'
-import * as api from '../lib/api'
+import PlayerNav from './nav/player-nav'
 import Button from './ui/button'
 import Input from './ui/input'
-import GameStartingPlayerList from './game-starting-player-list'
+import * as api from '../lib/api'
 
 export default class JoinGame extends React.Component {
 
@@ -58,46 +55,34 @@ export default class JoinGame extends React.Component {
   })
 
   render() {
-    const { gameState } = this.props;
+    const { gameState, viewer } = this.props;
     const adminPlayer = gameState.players.find( p => p.playerId === gameState.admin )
     return (
-      <div className="content-container">
-        <div className="nav">
-          <Logo />
-          <GameOverviewNav gameState={ gameState } />
+      <div className="full-height">
+        <PlayerNav gameState={ gameState } viewer={ viewer } />
+        <div className="join flex-container full-height">
+          <div className="input-container">
+              <h3>
+                <b>{ adminPlayer.playerName }</b> has invited you to play a game of <i>writeydrawey</i>!
+                <br/>
+                <br/>
+              </h3>
+              <Input
+                label="your name"
+                onChange={ this.onNameInputChanage }
+                lineType={ 0 }
+              />
+              <Input
+                label="a phrase"
+                onChange={ this.onPhraseInputChange }
+                onKeyDown={ this.onPhraseInputKeyDown }
+                lineType={ 0 }
+              />
+              <Button onClick={ this.onJoinGameClick }>
+                Join Game
+              </Button>
+          </div>
         </div>
-        {
-          this.props.playerHasContributed ? (
-            <GameStartingPlayerList
-              onUpdateState={ this.props.onUpdateState }
-              gameState={ gameState }
-            />
-          ) : (
-            <div className="join flex-container full-height">
-              <div className="input-container">
-                  <h3>
-                    <b>{ adminPlayer.playerName }</b> has invited you to play a game of <i>writeydrawey</i>!
-                    <br/>
-                    <br/>
-                  </h3>
-                  <Input
-                    label="your name"
-                    onChange={ this.onNameInputChanage }
-                    lineType={ 0 }
-                  />
-                  <Input
-                    label="a phrase"
-                    onChange={ this.onPhraseInputChange }
-                    onKeyDown={ this.onPhraseInputKeyDown }
-                    lineType={ 0 }
-                  />
-                  <Button onClick={ this.onJoinGameClick }>
-                    Join Game
-                  </Button>
-              </div>
-            </div>
-          )
-        }
       </div>
     )
   }

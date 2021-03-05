@@ -1,4 +1,4 @@
-import { formatTime } from '../lib/util'
+import { formatTime } from '../../lib/util.js'
 
 export default class TurnTimer extends React.Component {
 

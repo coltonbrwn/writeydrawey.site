@@ -17,7 +17,7 @@
     position: fixed;
     left: 1.2rem;
     top: 0;
-    padding: 1.2rem 0;
+    padding: 0.65rem 0;
   }
   &__logo {
     width: 4em;
@@ -26,14 +26,20 @@
   }
   button {
     display: inline;
-    padding: 1.05em;
+    padding: 1.15em;
     font-size: 0.9em;
   }
   &__line {
     position: absolute;
-    top: 2.32em;
+    top: 2.6em;
     width: 100%;
     left: 0;
+    background: white;
+    z-index: -1;
+    > span {
+      display: block;
+      height: 0;
+    }
     svg {
       width: 100%;
       height: auto;
@@ -62,5 +68,19 @@
     padding: 1.6rem;
     right: 0;
     top: 0;
+  }
+}
+
+/*
+  PlayerNav is visible when playing the game
+*/
+.nav--player {
+  height: 3em;
+  display: flex;
+  padding: 1em 1em 0;
+  align-items: center;
+  justify-content: space-between;
+  > a {
+    height: 100%;
   }
 }

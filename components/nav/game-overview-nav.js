@@ -1,6 +1,6 @@
-import { GAME_STATE, TURN_LIMIT, MIN_NUM_PLAYERS } from "../lib/constants"
-import { formatTime } from '../lib/util'
-import TurnTimer from './turn-timer'
+import { GAME_STATE, TURN_LIMIT, MIN_NUM_PLAYERS } from "../../lib/constants"
+import { formatTime } from '../../lib/util'
+import TurnTimer from '../ui/turn-timer'
 
 export default ({ gameState, viewer, playerHasContributed }) => {
     let timeLimitText, roundText, roundTitle;

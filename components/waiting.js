@@ -1,6 +1,6 @@
+import PlayerNav from './nav/player-nav'
 import RoughNotation from './ui/rough-notation'
-import Logo from './logo'
-import GameOverviewNav from './game-overview-nav'
+import TurnTimer from './ui/turn-timer'
 import { getPlayersReadyMap } from '../lib/util'
 
 export default class Starting extends React.Component {
@@ -8,13 +8,12 @@ export default class Starting extends React.Component {
   render() {
     const { gameState, viewer } = this.props
     const playersReadyMap = getPlayersReadyMap(gameState)
+    const roundTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === '0')
+    const hasValidTimer = roundTimer && roundTimer.end > new Date().getTime()
 
     return (
-      <div className="content-container">
-        <div className="nav">
-          <Logo />
-          <GameOverviewNav {...this.props} />
-        </div>
+      <div className="waiting">
+        <PlayerNav gameState={ gameState } viewer={ viewer } />
         <div className="waiting flex-container full-height">
           <div className="players">
             {
@@ -35,6 +34,13 @@ export default class Starting extends React.Component {
                 ))
             }
           </div>
+          {
+            hasValidTimer && (
+              <h3 className="waiting__next-round-timer">
+                Next round in <TurnTimer timer={ roundTimer } />
+              </h3>
+            )
+          }
         </div>
       </div>
     )

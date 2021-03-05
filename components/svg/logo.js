@@ -18,5 +18,5 @@ const svg = p => `
 `;
 
 export default props => (
-  <span dangerouslySetInnerHTML={{ __html: svg(props) }} />
+  <span className="logo" dangerouslySetInnerHTML={{ __html: svg(props) }} />
 )

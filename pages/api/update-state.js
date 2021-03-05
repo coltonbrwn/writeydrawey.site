@@ -20,7 +20,7 @@ export default async function updateState(req, res) {
         res.setHeader(
           'Set-Cookie',
           cookie.serialize('cookiedrawey', userId, {
-            maxAge: 9999,
+            maxAge: 99999999,
             path: '/'
           })
         )
