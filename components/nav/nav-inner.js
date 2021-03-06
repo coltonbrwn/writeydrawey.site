@@ -9,7 +9,7 @@ export default function NavInner() {
         </div>,
         <a href="/new" key="2">
             <Button type={ 2 }>
-                New Game
+                Play Now
             </Button>
         </a>
     ]

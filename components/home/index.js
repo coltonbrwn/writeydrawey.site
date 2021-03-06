@@ -72,26 +72,28 @@ export default class Home extends React.Component {
             </div>
           </div>
         </div>
-        <div className="social flex-container">
-          <div className="social__left">
-            <img src="/homepg-images/margin-l.png" />
-          </div>
-          <div className="social__center">
-            <h3>Great for video chats with friends, family, and coworkers</h3>
-            <div className="social-image">
-              <img src="/homepg-images/social.png" />
+        <div className="social">
+          <div className="content-container flex-container">
+            <div className="social__left">
+              <img src="/homepg-images/margin-l.png" />
             </div>
-            <div className="social__bottom">
-              <img src="/homepg-images/margin-b.png" />
+            <div className="social__center">
+              <h3>Great for video chats with friends, family, and coworkers</h3>
+              <div className="social-image">
+                <img src="/homepg-images/social.png" />
+              </div>
+              <div className="social__bottom">
+                <img src="/homepg-images/margin-b.png" />
+              </div>
             </div>
-          </div>
-          <div className="social__right">
-            <img src="/homepg-images/margin-r.png" />
+            <div className="social__right">
+              <img src="/homepg-images/margin-r.png" />
+            </div>
           </div>
         </div>
         <div className="flex-container cta">
           <Button>
-            Start A Game
+            Play Now
           </Button>
           <h3>
             <br/>

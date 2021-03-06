@@ -81,7 +81,7 @@ class New extends React.Component {
     return (
       <Layout theme="light">
         <div className="nav">
-          <Logo />
+          <a href="/"><Logo /></a>
         </div>
         <div className="join flex-container full-height">
           <div className="input-container">

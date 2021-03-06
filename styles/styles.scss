@@ -29,8 +29,11 @@ body {
 }
 .content-container {
   height: 100%;
+  width: 100%;
   padding: 0 1.4rem;
   box-sizing: border-box;
+  max-width: 60em;
+  margin: 0 auto;
 }
 .full-height {
   height: 100%;
@@ -85,6 +88,9 @@ body {
 }
 .center {
   text-align: center;
+}
+.hidden {
+  display: none;
 }
 
 .rules {
