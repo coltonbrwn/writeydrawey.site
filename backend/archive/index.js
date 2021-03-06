@@ -4,7 +4,7 @@ var Path = require('path')
 var AWS = require('aws-sdk')
 const request = require('request')
 
-var { TABLES, API_METHODS, GAME_STATE } = require('../constants')
+var { TABLES, API_METHODS, GAME_STATE } = require('../../lib/constants.js')
 
 const BATCH_SIZE_GAMES = 10
 var dynamodb = new AWS.DynamoDB.DocumentClient({region: 'us-east-1'})
