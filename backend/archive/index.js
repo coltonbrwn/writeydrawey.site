@@ -1,11 +1,6 @@
 var sharp = require('sharp')
 var AWS = require('aws-sdk')
-const request = require('request')
-
 var { GAME_STATE, BUCKETS } = require('../../lib/constants')
-const { arch } = require('os')
-
-// process.env.node_env = 'prod'
 
 AWS.config = {
   accessKeyId: process.env.AWS_ID,
@@ -137,7 +132,7 @@ module.exports.handler = async function(event, context, cb) {
         Key: key
       }).promise();
       const resizedImg = await sharp(image.Body)
-        .resize(200)
+        .resize(300)
         .toFormat('png')
         .toBuffer();
       return await s3.putObject({
