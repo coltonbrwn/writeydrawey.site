@@ -1,14 +1,28 @@
 .gallery {
     background: var(--lightgray);
-    padding: 8em 0;
+    padding: 8em 2em;
+    h1 {
+        padding: 1em 0 2em 0;
+    }
     &__content {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(7, 1fr);
         gap: 1em;
         grid-auto-rows: minmax(100px, auto);
+        @media (max-width: 100em) {
+            grid-template-columns: repeat(6, 1fr);
+        }
+        @media (max-width: 80em) {
+            grid-template-columns: repeat(5, 1fr);
+        }
+        @media (max-width: 60em) {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        @media (max-width: 50em) {
+            grid-template-columns: repeat(3, 1fr);
+        }
     }
-    &-image{
-        width: 10em;
+    &-image {
         height: 10em;
         background: white;
         img {

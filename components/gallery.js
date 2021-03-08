@@ -49,7 +49,10 @@ export default class Gallery extends React.Component {
             <Layout theme="light">
                 <Nav />
                 <div className="gallery" id="scrollContainer">
-                    <div className="content-container" >
+                    <h1 className="center">
+                        Gallery
+                    </h1>
+                    <div className="" >
                         <div className="gallery__content">
                         {
                             this.state.contents.map( ({ Key, url }) => (
