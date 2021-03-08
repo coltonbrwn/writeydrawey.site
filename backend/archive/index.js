@@ -1,42 +1,59 @@
-var fs = require('fs')
-var Path = require('path')
+var sharp = require('sharp')
 var AWS = require('aws-sdk')
 const request = require('request')
 
-var { TABLES, DB_INDEXES, API_METHODS, GAME_STATE } = require('../../lib/constants')
+var { GAME_STATE, BUCKETS } = require('../../lib/constants')
+const { arch } = require('os')
 
-const BATCH_SIZE_GAMES = 100
-var dynamodb = new AWS.DynamoDB.DocumentClient({
+// process.env.node_env = 'prod'
+
+AWS.config = {
   accessKeyId: process.env.AWS_ID,
   secretAccessKey: process.env.AWS_KEY,
   region: process.env.AWS_REG
-})
+}
+var s3 = new AWS.S3();
 let directory = __dirname;
 
-const downloadTask = task =>
-  new Promise((resolve, reject) => {
-    request.head(task.url, (err, res, body) => {
-      if (err) {
-        return reject(err)
-      }
-      const path = Path.resolve(
-        directory,
-        'test-images',
-        `${ task.createdTime }_${ task.player }.png`
-      )
-      request(task.url)
-        .pipe(fs.createWriteStream(path))
-        .on('error', reject)
-        .on('close', () => {
-          resolve( task )
-        })
+const imageBucketName = BUCKETS[ process.env.node_env === 'dev' ? 'IMAGES_DEV' : 'IMAGES']
+const archiveBucketName = BUCKETS[ process.env.node_env === 'dev' ? 'ARCHIVE_DEV' : 'ARCHIVE']
 
-    })
+const getGameIdFromKeyName = keyName => {
+  try {
+    const regex = /^g-(.*)\//mg
+    return regex.exec(keyName)[1]
+  } catch (e) {
+    console.log(keyName)
+    console.log(e)
+  }
+}
+const getPlayerIdFromKeyName = keyName => {
+  try {
+    const regex = /^(g-.*\/\d+_p-)([a-f0-9-]*)/mg
+    return regex.exec(keyName)[2]
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+const s3ListAllObjects = ({ Bucket }) => {
+  let contents = [];
+  const fetchObjects = ({ ContinuationToken }) => s3.listObjectsV2({
+    Bucket,
+    ContinuationToken
+  }).promise().then( ({ Contents, IsTruncated, NextContinuationToken }) => {
+    console.log(`+   Found ${ Contents.length } Objects in ${ Bucket }`)
+    contents = contents.concat(Contents);
+    if (IsTruncated) {
+      return fetchObjects({ ContinuationToken: NextContinuationToken })
+    }
+    return Promise.resolve(contents)
   })
+  return fetchObjects({})
+}
 
 module.exports.handler = async function(event, context, cb) {
 
-  const tableName = TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES']
   const startDate = new Date().getTime()
   console.log(`+-- Archive starting [${ new Date().toUTCString() }]`)
   console.log(`+   Environment is '${ process.env.node_env || 'prod' }'`)
@@ -48,66 +65,98 @@ module.exports.handler = async function(event, context, cb) {
 
   try {
 
-    const { Items } = await dynamodb.scan({
-      TableName: tableName,
-      ScanFilter: {
-        'state': {
-          AttributeValueList: [ GAME_STATE.DONE ],
-          ComparisonOperator: 'EQ'
-        },
-        'archived': {
-          ComparisonOperator: 'NULL'
+    const Objects = await s3ListAllObjects({ Bucket: imageBucketName })
+
+    /*
+      {
+        [gameId] : Boolean
+      }
+     */
+    const ArchivedObjects = await s3ListAllObjects({ Bucket: archiveBucketName })
+    const archivedObjectsMap = ArchivedObjects.reduce((acc, val) => {
+      acc[getGameIdFromKeyName(val.Key)] = true
+      return acc
+    }, {})
+    
+    /*
+      Group objects by gameId
+      {
+        [gameId]: { <gameMapItem>
+          id: String,
+          images: [ String ],
+          inferredStatus: Boolean,
+          isArchived: Boolean
         }
-      },
-      Limit: BATCH_SIZE_GAMES
-    }).promise()
+      }
+    */
+    const gamesMap = Objects.reduce((acc, val) => {
+      const gameId = getGameIdFromKeyName(val.Key)
+      if (!acc[gameId]) {
+        acc[gameId] = {
+          id: gameId,
+          images: [],
+          inferredStatus: null,
+          isArchived: null
+        }
+      }
+      acc[gameId].images.push( val.Key )
+      return acc
+    }, {})
 
-    console.log(`+   ${ Items.length } games fetched ...`)
+    Object.keys(gamesMap).forEach( key => {
+      const val = gamesMap[key]
+      val.inferredStatus = val.images.length >= 6 ? GAME_STATE.DONE : GAME_STATE.STARTING
+      val.isArchived = Boolean(archivedObjectsMap[key])
+    })
 
-    if (!Items.length) {
+    /*
+      [ <gameMapItem> ]
+    */
+    const gamesToBeArchived = Object.values(gamesMap)
+      .filter( game => (!game.isArchived && game.inferredStatus === GAME_STATE.DONE))
+
+    if (!gamesToBeArchived.length) {
       console.log(`+-- Done, none archived [${ new Date().getTime() - startDate }ms elapsed]\n`)
       return;
     }
 
-    const tasks = []
-    Items.forEach( game => {
+    let tasks = []
+    gamesToBeArchived.forEach( game => {
       const gameId = game.id
-      const players = game.players
-      game.playerInput.filter( item => item.drawing ).map(drawing => {
-        let d = new Date(drawing.ts)
-        tasks.push({
-          createdTime: `${ d.getDate() }-${ d.getMonth() }-${ d.getFullYear() }-${ d.getHours() }${ d.getMinutes() }${ d.getSeconds() }`,
-          url: drawing.drawing,
-          player: players.find( p => p.playerId === drawing.playerId ).playerName,
-          game: gameId
-        })
-      })
+      const images = game.images
+      tasks = tasks.concat( images.map( img => ({
+        key: img,
+        gameId,
+        playerId: getPlayerIdFromKeyName(img)
+      })))
     })
 
+    const archiveTask = async ({ key, gameId, playerId }) => {
+      const image = await s3.getObject({
+        Bucket: imageBucketName,
+        Key: key
+      }).promise();
+      const resizedImg = await sharp(image.Body)
+        .resize(200)
+        .toFormat('png')
+        .toBuffer();
+      return await s3.putObject({
+        Bucket: archiveBucketName,
+        Body: resizedImg,
+        Key: `${ key }_thumb.png`,
+        ACL: 'public-read'
+      }).promise();
+    }
+
     const archiveResults = await Promise.allSettled(
-      tasks.map( downloadTask )
+      tasks.map( archiveTask )
     )
 
-    console.log(`+   ${ archiveResults.length } images archived ...`)
+    const numSuccess = archiveResults.reduce((acc, val) => (val.status === 'fulfilled' ? acc + 1 : acc), 0)
+    const numFail = archiveResults.reduce((acc, val) => (val.status !== 'fulfilled' ? acc + 1 : acc), 0)
 
-    await dynamodb.transactWrite({
-      TransactItems: Items.map( item => ({
-        Update: {
-          TableName: tableName,
-          Key: {
-            id: item.id
-          },
-          UpdateExpression: 'set #archived = :archived_date',
-          ExpressionAttributeNames: {
-            '#archived': 'archived'
-          },
-          ExpressionAttributeValues: {
-            ':archived_date': new Date().getTime()
-          }
-        }
-      }))
-    }).promise()
-
+    console.log(`+  ${ numSuccess } succeeded`)
+    console.log(`+  ${ numFail } failed`)
     console.log(`+-- Done [${ new Date().getTime() - startDate }ms elapsed]\n`)
 
   } catch (e) {
