@@ -10,7 +10,7 @@ AWS.config = {
   region: process.env.AWS_REG
 }
 var dynamodb = new AWS.DynamoDB.DocumentClient();
-const TableName = TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES']
+const TableName = TABLES[ process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'GAMES_DEV' : 'GAMES']
 
 export default async ({ method, payload, viewer }) => {
     switch (method) {

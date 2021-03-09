@@ -25,7 +25,7 @@ export default class Layout extends React.Component {
       <div>
         <Head>
           {
-            ga_id && (process.env.node_env !== 'dev') && (
+            ga_id && (process.env.NEXT_PUBLIC_NODE_ENV !== 'development') && (
               <script dangerouslySetInnerHTML={{
                 __html: `
                   window.dataLayer = window.dataLayer || [];
@@ -38,17 +38,6 @@ export default class Layout extends React.Component {
               }} />
             )
           }
-          <script dangerouslySetInnerHTML={{
-            __html: `
-              window.process = {
-                 env: {
-                   node_env: '${ process.env.NODE_ENV === 'development' ? 'dev' : 'prod' }',
-                   VERCEL_URL: '${ process.env.VERCEL_URL }'
-                 }
-              };
-            `
-          }} />
-
           <link rel="shortcut icon" href="/favicon/favicon-32.png" />
           <link rel="icon" type="image/png" href="/favicon/favicon-196.png" />
           <link rel="apple-touch-icon" href="/favicon/favicon-180.png" />

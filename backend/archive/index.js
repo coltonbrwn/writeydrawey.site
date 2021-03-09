@@ -10,8 +10,8 @@ AWS.config = {
 var s3 = new AWS.S3();
 let directory = __dirname;
 
-const imageBucketName = BUCKETS[ process.env.node_env === 'dev' ? 'IMAGES_DEV' : 'IMAGES']
-const archiveBucketName = BUCKETS[ process.env.node_env === 'dev' ? 'ARCHIVE_DEV' : 'ARCHIVE']
+const imageBucketName = BUCKETS[ process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'IMAGES_DEV' : 'IMAGES']
+const archiveBucketName = BUCKETS[ process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'ARCHIVE_DEV' : 'ARCHIVE']
 
 const getGameIdFromKeyName = keyName => {
   try {
@@ -51,7 +51,7 @@ module.exports.handler = async function(event, context, cb) {
 
   const startDate = new Date().getTime()
   console.log(`+-- Archive starting [${ new Date().toUTCString() }]`)
-  console.log(`+   Environment is '${ process.env.node_env || 'prod' }'`)
+  console.log(`+   Environment is '${ process.env.NEXT_PUBLIC_NODE_ENV }'`)
 
   if (process.argv[2]) {
     directory = process.argv[2]

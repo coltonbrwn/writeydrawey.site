@@ -9,7 +9,7 @@ AWS.config = {
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 
 export default async ({ id }) => await dynamodb.get({
-  TableName: TABLES[ process.env.node_env === 'dev' ? 'GAMES_DEV' : 'GAMES'],
+  TableName: TABLES[ process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'GAMES_DEV' : 'GAMES'],
   Key: {
     id
   }

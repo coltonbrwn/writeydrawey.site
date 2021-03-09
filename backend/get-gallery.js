@@ -7,7 +7,7 @@ AWS.config = {
   region: process.env.AWS_REG
 }
 const s3 = new AWS.S3()
-const archiveBucketName = BUCKETS[ process.env.node_env === 'dev' ? 'ARCHIVE_DEV' : 'ARCHIVE']
+const archiveBucketName = BUCKETS[ process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'ARCHIVE_DEV' : 'ARCHIVE']
 const getObjectUrl = key => `https://${ archiveBucketName }.s3.amazonaws.com/${ key }`
 
 export default async ({ offsetKey }) => {

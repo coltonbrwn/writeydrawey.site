@@ -2,9 +2,6 @@
     "configurations": [
         {
             "type": "node-terminal",
-            "env": {
-                "node_env": "dev"
-            },
             "name": "webserver",
             "request": "launch",
             "command": "npm run dev",

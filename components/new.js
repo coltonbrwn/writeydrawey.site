@@ -7,7 +7,7 @@ import Input from './ui/input'
 
 import * as api from '../lib/api'
 import { TURN_LIMIT } from '../lib/constants'
-import { baseUrlFrontend, formatTime } from '../lib/util'
+import { appUrl, formatTime } from '../lib/util'
 
 class New extends React.Component {
 
@@ -56,7 +56,7 @@ class New extends React.Component {
       phrase: this.state.phrase,
       round: 0
     })
-    document.location = `http://${ baseUrlFrontend() }/${ id }`
+    document.location = `${ appUrl() }/${ id }`
   }
   
   onNameInputChange = e => {

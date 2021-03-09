@@ -4,7 +4,7 @@ import Input from './ui/input'
 import PlayerNav from './nav/player-nav'
 import { MIN_NUM_PLAYERS } from '../lib/constants'
 import { nextRound } from '../lib/api'
-import { baseUrlFrontend } from '../lib/util'
+import { appUrl } from '../lib/util'
 
 export default class GameStarting extends React.Component {
 
@@ -27,7 +27,7 @@ export default class GameStarting extends React.Component {
         if (this.state.isCopied) {
             return;
         }
-        copy(`${ baseUrlFrontend() }/${ this.props.gameState.id }`)
+        copy(`${ appUrl() }/${ this.props.gameState.id }`)
         this.setState({
             isCopied: true
         })
