@@ -25,9 +25,9 @@ export default class Gallery extends React.Component {
     }
 
     componentDidMount() {
-        const { clientHeight }  = document.getElementById('scrollContainer')
         this.inteveral = window.setInterval(() => {
-            if ((window.scrollY + window.innerHeight) / clientHeight > 3/4) {
+            const distanceFromBottom = document.body.scrollHeight - window.scrollY - window.innerHeight
+            if (distanceFromBottom < window.innerHeight) {
                 this.fetchData()
             }
         }, 2000)
