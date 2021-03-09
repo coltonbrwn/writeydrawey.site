@@ -1,0 +1,29 @@
+name: Archive
+
+on:
+  push:
+    branches: [ dev ]
+  schedule:
+    - cron:  '*/15 * * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [15.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+      env:
+        AWS_ID: ${{ secrets.AWS_ID }}
+        AWS_KEY: ${{ secrets.AWS_KEY }}
+        AWS_REG: ${{ secrets.AWS_REG }}
+        node_env: ${{ secrets.node_env }}
+    - run: npm run archive
