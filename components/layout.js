@@ -42,7 +42,8 @@ export default class Layout extends React.Component {
             __html: `
               window.process = {
                  env: {
-                   node_env: '${ process.env.NODE_ENV === 'development' ? 'dev' : 'prod' }'
+                   node_env: '${ process.env.NODE_ENV === 'development' ? 'dev' : 'prod' }',
+                   VERCEL_URL: '${ process.env.VERCEL_URL }'
                  }
               };
             `
