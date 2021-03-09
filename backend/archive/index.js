@@ -57,8 +57,6 @@ module.exports.handler = async function(event, context, cb) {
     directory = process.argv[2]
   }
 
-  console.log(process.env)
-
   try {
 
     const Objects = await s3ListAllObjects({ Bucket: imageBucketName })
