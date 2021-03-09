@@ -36,4 +36,4 @@ jobs:
         AWS_KEY: ${{ secrets.AWS_KEY }}
         AWS_REG: ${{ secrets.AWS_REG }}
         node_env: ${{ secrets.node_env }}
-    - run: npm run archive
+    - run: node backend/archive/exec.js
