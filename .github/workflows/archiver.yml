@@ -4,13 +4,17 @@ on:
   push:
     branches: [ dev ]
   schedule:
-    - cron:  '*/15 * * * *'
+    - cron:  '*/60 * * * *'
   workflow_dispatch:
     inputs:
       name:
         description: 'Notes'
         default: ''
         required: false
+
+env:
+  AWS_ID: ${{ secrets.AWS_ID }}
+  AWS_KEY: ${{ secrets.AWS_KEY }}
 
 jobs:
   build:
@@ -27,11 +31,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-      env:
-        AWS_ID: ${{ secrets.AWS_ID }}
-        AWS_KEY: ${{ secrets.AWS_KEY }}
-        AWS_REG: ${{ secrets.AWS_REG }}
-        node_env: ${{ secrets.node_env }}
     - run: npm install
-    - run: node backend/archive/exec.js
+    - run: AWS_ID=$AWS_ID AWS_KEY=$AWS_KEY AWS_REG=us-east-1 node_env=prod node backend/archive/exec.js
     
