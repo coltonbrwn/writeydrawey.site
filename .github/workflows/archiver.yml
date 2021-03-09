@@ -1,11 +1,5 @@
 name: Archive
 
-env:
-  AWS_ID: ${{ secrets.AWS_ID }}
-  AWS_KEY: ${{ secrets.AWS_KEY }}
-  AWS_REG: ${{ secrets.AWS_REG }}
-  node_env: ${{ secrets.node_env }}
-
 on:
   push:
     branches: [ dev ]
@@ -33,5 +27,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+      env:
+        AWS_ID: ${{ secrets.AWS_ID }}
+        AWS_KEY: ${{ secrets.AWS_KEY }}
+        AWS_REG: ${{ secrets.AWS_REG }}
+        node_env: ${{ secrets.node_env }}
     - run: npm install
     - run: node backend/archive/exec.js
+    
