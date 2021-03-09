@@ -33,7 +33,7 @@
     "build": "next build",
     "start": "next start",
     "test": "mocha",
-    "archive": ""
+    "archive_local": "node backend/archive/exec_local.js"
   },
   "keywords": [],
   "license": "MIT",
