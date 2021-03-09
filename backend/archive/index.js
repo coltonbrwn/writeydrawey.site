@@ -56,7 +56,8 @@ module.exports.handler = async function(event, context, cb) {
   if (process.argv[2]) {
     directory = process.argv[2]
   }
-  console.log(`+   Image directory is '${ directory }'`)
+
+  console.log(process.env)
 
   try {
 
