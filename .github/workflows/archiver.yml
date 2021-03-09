@@ -27,11 +27,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-      env:
-        AWS_ID: ${{ secrets.AWS_ID }}
-        AWS_KEY: ${{ secrets.AWS_KEY }}
-        AWS_REG: ${{ secrets.AWS_REG }}
-        node_env: ${{ secrets.node_env }}
     - run: npm install
-    - run: node backend/archive/exec.js
+    - run: AWS_ID=${{ secrets.AWS_ID }} AWS_KEY=${{ secrets.AWS_KEY }} AWS_REG=us-east-1 node=env=prod node backend/archive/exec.js
     
