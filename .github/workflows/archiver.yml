@@ -1,20 +1,22 @@
 name: Archive
 
+env:
+  AWS_ID: ${{ secrets.AWS_ID }}
+  AWS_KEY: ${{ secrets.AWS_KEY }}
+  AWS_REG: ${{ secrets.AWS_REG }}
+  node_env: ${{ secrets.node_env }}
+
 on:
   push:
     branches: [ dev ]
   schedule:
     - cron:  '*/15 * * * *'
   workflow_dispatch:
-    # Inputs the workflow accepts.
     inputs:
       name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
-        # Default value if no value is explicitly provided
-        default: 'World'
-        # Input has to be provided for the workflow to run
-        required: true
+        description: 'Notes'
+        default: ''
+        required: false
 
 jobs:
   build:
@@ -31,9 +33,5 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-      env:
-        AWS_ID: ${{ secrets.AWS_ID }}
-        AWS_KEY: ${{ secrets.AWS_KEY }}
-        AWS_REG: ${{ secrets.AWS_REG }}
-        node_env: ${{ secrets.node_env }}
+    - run: npm install
     - run: node backend/archive/exec.js
