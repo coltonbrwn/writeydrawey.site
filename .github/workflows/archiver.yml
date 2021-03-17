@@ -30,7 +30,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: aws s3 rm s3://writey-drawey-archive --recursive
+    - run: aws s3 rm s3://writey-drawey-archive --recursive --quiet
     - run: npm install
     - run: NEXT_PUBLIC_NODE_ENV=production node backend/archive/exec.js
     

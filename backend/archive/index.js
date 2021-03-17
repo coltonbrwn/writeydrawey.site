@@ -110,15 +110,16 @@ module.exports.handler = async function(event, context, cb) {
     gamesToBeArchived.forEach( game => {
       const gameId = game.id
       const images = game.images
+      const orderingKey = uuid.v4().slice(0, 8)
       tasks = tasks.concat( images.map( originalKey => ({
+        orderingKey,
         originalKey,
         gameId,
         playerId: getPlayerIdFromKeyName(originalKey)
       })))
     })
 
-    const archiveTask = async ({ originalKey }) => {
-      const orderingKey = uuid.v4().slice(0, 8)
+    const archiveTask = async ({ originalKey, orderingKey }) => {
       const image = await s3.getObject({
         Bucket: imageBucketName,
         Key: originalKey
