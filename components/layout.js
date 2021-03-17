@@ -2,8 +2,7 @@ import Head from 'next/head';
 import { get } from 'dotty';
 import {
   COLORS,
-  THEME_LIGHT,
-  THEME_DARK,
+  THEME_LIGHT
 } from '../lib/util';
 
 const social_img_url = '/favicon-xxxl.png';
@@ -20,7 +19,7 @@ export default class Layout extends React.Component {
 
   render () {
     const description = this.props.description;
-    const themeColor = name => get(COLORS, [this.props.theme, name]);
+    const themeColor = colorName => get(COLORS, [this.props.theme, colorName]);
     return (
       <div>
         <Head>
@@ -61,7 +60,11 @@ export default class Layout extends React.Component {
           <meta property="og:site_name" content={ title } />
           <meta property="og:url" content={ url } />
 
-          <meta name="robots" content="noindex" />
+          {
+            process.env.NEXT_PUBLIC_NODE_ENV !== 'production' && (
+              <meta name="robots" content="noindex" />
+            )
+          }
 
           <title>{ title }</title>
           <meta charSet="utf-8" />
