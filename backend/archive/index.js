@@ -119,7 +119,7 @@ module.exports.handler = async function(event, context, cb) {
       })))
     })
 
-    const archiveTask = async ({ originalKey, orderingKey }) => {
+    const archiveTask = async ({ originalKey, orderingKey }, index) => {
       const image = await s3.getObject({
         Bucket: imageBucketName,
         Key: originalKey
@@ -128,12 +128,18 @@ module.exports.handler = async function(event, context, cb) {
         .resize(300)
         .toFormat('png')
         .toBuffer();
-      return await s3.putObject({
+      const s3Result = await s3.putObject({
         Bucket: archiveBucketName,
         Body: resizedImg,
         Key: `${ orderingKey }_${ originalKey }_thumb.png`,
         ACL: 'public-read'
       }).promise();
+
+      if (index % 1000) {
+        console.log('resized batch of 1000 images ....')
+      }
+
+      return s3Result;
     }
 
     const archiveResults = await Promise.allSettled(
