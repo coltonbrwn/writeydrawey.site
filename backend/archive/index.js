@@ -135,8 +135,8 @@ module.exports.handler = async function(event, context, cb) {
         ACL: 'public-read'
       }).promise();
 
-      if (index % 1000) {
-        console.log('resized batch of 1000 images ....')
+      if (index % 1000 === 0) {
+        console.log('resizing a batch of 1000 images ....')
       }
 
       return s3Result;
