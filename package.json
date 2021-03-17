@@ -15,7 +15,12 @@
     "cookie": "^0.4.1",
     "copy-to-clipboard": "^3.3.1",
     "dedupe": "^3.0.2",
+<<<<<<< HEAD
     "dotty": "^0.1.0",
+=======
+    "dotenv": "^8.2.0",
+    "dotty": "^0.1.1",
+>>>>>>> origin/dev
     "next": "^10.0.5",
     "onetime": "^5.1.2",
     "react": "^16.14.0",
