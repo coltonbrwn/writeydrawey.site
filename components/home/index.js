@@ -1,6 +1,14 @@
+import Link from 'next/link'
+
 import Nav from '../nav/index'
 import HomepageBackground from './homepage-background'
+import RoughLink from '../ui/rough-link'
 import Button from '../ui/button'
+import Logo from '../ui/logo'
+import Squiggle from '../svg/squiggle-field'
+import Twitter from '../svg/twitter-icon'
+import Email from '../svg/email-icon'
+import copy from './copy'
 
 export default class Home extends React.Component {
 
@@ -12,12 +20,19 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
+    const roughSteps = document.getElementsByClassName('rough-notation__homepage-step')
+
+
     const { clientHeight, clientTop } = document.getElementById('scrollArea');
     this.interval = window.setInterval(() => {
+
+
+
       this.setState({
+        scrollY: window.scrollY,
         scrollRatio: (window.scrollY - clientTop) / clientHeight
       })
-    }, 30)
+    }, 28)
   }
 
   componentWillUnmount() {
@@ -35,10 +50,13 @@ export default class Home extends React.Component {
           <div className="content-container">
             <div className="federer-dialogue__container">
               <p className="federer-dialogue__text">
-                Writey Drawey is a free web game you play with your friends over video chat. To start, each player must add their name and write a secret phrase. When the host is ready, they’ll start the game.
+                { copy.federer_dialogue }
               </p>
               <img src="/homepg-images/federer.png" />
             </div>
+          </div>
+          <div className="federer-dialogue__squiggle-border">
+            <Squiggle />
           </div>
         </div>
         <div className="three-step">
@@ -46,39 +64,50 @@ export default class Home extends React.Component {
             <div className="three-step__step">
               <img src="/homepg-images/step-1.png" />
               <div className="three-step__step__text">
-                <h2>step 1.</h2>
+                <div className="rough-notation__homepage-step">
+                  <h2>Step 1</h2>
+                </div>
                 <p>
-                  Each player comes up with a word or phrase and writes it down. “Lollipop”, “Roger Federer”, or “Aladin”. Anything goes.
+                  { copy.step_1 }
                 </p>
               </div>
             </div>
             <div className="three-step__step">
               <img src="/homepg-images/step-2.png" />
               <div className="three-step__step__text">
-                <h2>step 2.</h2>
+                <div className="rough-notation__homepage-step">
+                  <h2>Step 2</h2>
+                </div>
                 <p>
-                  The phrases are shuffled among all players, then everyone attempts to draw the phrase they’ve received.
+                  { copy.step_2 }
                 </p>
               </div>
             </div>
             <div className="three-step__step">
               <img src="/homepg-images/step-3.png" />
               <div className="three-step__step__text">
-                <h2>step 3.</h2>
+                <div className="rough-notation__homepage-step">
+                  <h2>Step 3</h2>
+                </div>
                 <p>
-                  The drawings are rotated around the group with each player describing the image with a new phrase. The cycle repeats until the game is up and everyone’s submissions are revealed
+                  { copy.step_3 }
                 </p>
               </div>
             </div>
           </div>
         </div>
         <div className="social">
+          <div className="social__squiggle-border">
+            <Squiggle />
+          </div>
           <div className="content-container flex-container">
             <div className="social__left">
               <img src="/homepg-images/margin-l.png" />
             </div>
             <div className="social__center">
-              <h3>Great for video chats with friends, family, and coworkers</h3>
+              <h3>
+                { copy.social_blurb }
+              </h3>
               <div className="social-image">
                 <img src="/homepg-images/social.png" />
               </div>
@@ -91,17 +120,59 @@ export default class Home extends React.Component {
             </div>
           </div>
         </div>
-        <div className="flex-container cta">
-          <Button>
-            Play Now
-          </Button>
-          <h3>
-            <br/>
-            Follow us @writeydrawey
-          </h3>
+        <div className="version">
+          <div className="content-container">
+            <div className="version__header">
+              <h3>
+                { copy.changes_header }
+              </h3>
+            </div>
+            <div className="flex-container">
+              {
+                copy.changes_topics.map( topic => (
+                  <div className="version__topic">
+                    <h2>{ topic.title }</h2>
+                    <p>
+                      { topic.body }
+                    </p>
+                    <div className="mono">
+                      <RoughLink href={ topic.href } style="underline">
+                        { topic.cta }
+                      </RoughLink>
+                    </div>
+                  </div>   
+                ))
+              }
+            </div>
+          </div>
+        </div>
+        <div className="cta">
+          <div className="content-container">
+            <div className="flex-container">
+              <div className="cta__logo">
+                <Logo />
+              </div>
+              <div className="cta__socials">
+                  <h3><Email /> subscribe </h3>
+                  <h3><Twitter /> @writeydrawey</h3>
+              </div>
+              <div className="cta_button">
+                <Link href="/new">
+                  <a>
+                    <Button>
+                      Play Now
+                    </Button>
+                  </a>
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="footer">
-
+          <div className="content-container">
+            <small>© { new Date().getFullYear() } writeydrawey inc, all rights reserved. </small>
+            <small>we are a not-for-profit social experiment. all data anonymous</small>
+          </div>
         </div>
       </div>
     )

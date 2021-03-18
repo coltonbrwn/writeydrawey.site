@@ -7,7 +7,7 @@ function onMouseDown(event) {
   // Create a new path and set its stroke color to black:
   path = new Path({
     segments: [event.point],
-    strokeColor: 'black'
+    strokeColor: 'var(--black-ln)'
   });
   path.strokeWidth = 4;
   path.strokeCap = 'round';

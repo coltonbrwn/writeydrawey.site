@@ -7,7 +7,9 @@ export default function Nav({ gameState, viewer }) {
             <a href="/">
                 <Logo />
             </a>
-            <GameOverviewNav gameState={ gameState } viewer={ viewer } />
+            { gameState && viewer && (
+                <GameOverviewNav gameState={ gameState } viewer={ viewer } />
+            )}
         </div>
     )
 }

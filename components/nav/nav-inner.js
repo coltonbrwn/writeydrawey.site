@@ -1,25 +1,28 @@
 import Link from 'next/link'
 import Button from '../ui/button'
+import RoughLink from '../ui/rough-link'
 
 export default function NavInner() {
     return [
         <div className="nav__links" key="1">
-            <Link href="/credits">
-                <a>credits</a>
-            </Link>
-            <Link href="/gallery">
-                <a>gallery</a>
-            </Link>
-            <Link href="/">
-                <a>feedback</a>
-            </Link>
+            <RoughLink href="/about" style="underline">
+                about
+            </RoughLink>
+            <RoughLink href="/gallery" style="circle">
+                gallery
+            </RoughLink>
+            <RoughLink href="/" style="underline">
+                feedback
+            </RoughLink>
         </div>,
-        <Link href="/new">
-            <a key="2">
-                <Button type={ 2 }>
-                    Play Now
-                </Button>
-            </a>
-        </Link>
+        <div className="nav__cta" key="2">
+            <Link href="/new">
+                <a>
+                    <Button type={ 2 }>
+                        Play Now
+                    </Button>
+                </a>
+            </Link>
+        </div>
     ]
 }

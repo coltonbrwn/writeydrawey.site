@@ -9,7 +9,7 @@
   align-items: center;
   padding: 0 1rem;
   box-sizing: border-box;
-  height: 4em;
+  height: 3.2em;
   opacity: 1;
   transition: 300ms opacity;
   &.hidden {
@@ -17,19 +17,46 @@
     pointer-events: none;
   }
   &--main {
+    /*
+      This turns the nav into a floating box for xtra wide screens
+    */
+    @media (min-width: $break_xl) {
+      @include borderBox;
+      width: 18em;
+      min-height: 7.5em;
+      margin: 2em;
+      right: 0;
+      position: fixed;
+      flex-direction: column-reverse;
+      .nav__line {
+        display: none;
+      }
+      .nav__logo {
+        margin: 1em 0;
+        width: 5em;
+      }
+      .nav__cta {
+        align-self: flex-end;
+        margin: 0.45em 0;
+        font-size: 1.1em;
+      }
+      .nav__links {
+        margin-top: 0.45em;
+      }
+    }
     button {
-      width: 9em;
+      width: 8.5em;
       margin-left: 1em;
       font-size: 0.75em;
     }
   }
-  .logo {
-    height: 2rem;
-    position: fixed;
-    left: 1.2rem;
-    top: 0;
-    padding: 1em 0;
-  }
+  // .logo {
+  //   height: 2rem;
+  //   position: fixed;
+  //   left: 1.2rem;
+  //   top: 0;
+  //   padding: 0.5em 0;
+  // }
   &__logo {
     width: 4em;
     position: absolute;
@@ -43,7 +70,7 @@
   }
   &__line {
     position: absolute;
-    top: 3em;
+    top: 2.2em;
     width: 100%;
     left: 0;
     background: white;
@@ -68,7 +95,6 @@
       }
     }
     span:not(.nohover):hover, a:hover {
-      text-decoration: underline;
       cursor: pointer;
     }
   }
@@ -92,6 +118,10 @@
   padding: 1em 1em;
   align-items: center;
   justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 10;
   > a {
     height: 2.4em;
   }

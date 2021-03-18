@@ -1,7 +1,7 @@
 import Toggle from 'react-toggle'
 
 import Layout from './layout'
-import Logo from './ui/logo'
+import PlayerNav from './nav/player-nav'
 import Button from './ui/button'
 import Input from './ui/input'
 
@@ -11,13 +11,19 @@ import { appUrl, formatTime } from '../lib/util'
 
 class New extends React.Component {
 
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
       playerName: '',
       phrase: '',
       timeLimit: false,
-      isPublic: false
+      isPublic: props.isPublic
+    }
+  }
+
+  static getInitialProps({ req, query }) {
+    return {
+      isPublic: Boolean(query.public)
     }
   }
 
@@ -89,9 +95,7 @@ class New extends React.Component {
   render() {
     return (
       <Layout theme="light" subtitle="new">
-        <div className="nav">
-          <Logo />
-        </div>
+        <PlayerNav />
         <div className="join flex-container full-height">
           <div className="input-container">
             <Input

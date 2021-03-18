@@ -18,6 +18,24 @@
        url('/fonts/relative-italic.ttf')  format('truetype'); /* Safari, Android, iOS */
 }
 @font-face {
+  font-family: 'Relative';
+  font-weight: 600;
+  src: url('/fonts/relative-medium.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/relative-medium.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/relative-medium.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/fonts/relative-medium.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/relative-medium.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+@font-face {
+  font-family: 'Relative';
+  font-weight: 700;
+  src: url('/fonts/relative-bold.eot'); /* IE9 Compat Modes */
+  src: url('/fonts/relative-bold.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/fonts/relative-bold.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/fonts/relative-bold.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/relative-bold.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+@font-face {
   font-family: 'Relative Mono';
   font-weight: normal;
   src: url('/fonts/relative-mono-11-pitch.eot'); /* IE9 Compat Modes */
@@ -56,10 +74,11 @@ h1 {
 h2 {
   font-size: $h2fontsize;
   margin-bottom: 0.4em;
+  font-weight: 600;
 }
 h3 {
   font-size: $h3fontsize;
-  // font-weight: bold;
+  font-weight: 700;
 }
 p {
   font-size: 1rem;
