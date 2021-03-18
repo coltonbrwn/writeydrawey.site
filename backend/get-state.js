@@ -6,11 +6,12 @@ AWS.config = {
   secretAccessKey: process.env.AWS_KEY,
   region: process.env.AWS_REG
 }
-var dynamodb = new AWS.DynamoDB.DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+const gamesTable = TABLES[ process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'GAMES_DEV' : 'GAMES']
 
 export default async ({ id }) => await dynamodb.get({
-  TableName: TABLES[ process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? 'GAMES_DEV' : 'GAMES'],
+  TableName: gamesTable,
   Key: {
     id
   }
-}).promise();
+}).promise()

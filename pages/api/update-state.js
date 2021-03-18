@@ -1,6 +1,6 @@
 import cookie from 'cookie'
 import { v4 } from 'uuid'
-import updateStateBackend from '../../backend/update-state'
+import updateGameState from '../../backend/update-state'
 
 import { parseCookie } from '../../lib/util'
 import { API_METHODS } from '../../lib/constants'
@@ -35,7 +35,7 @@ export default async function updateState(req, res) {
 
   const { method, payload } = req.body
   const viewer = { userId }
-  const { Attributes: updatedState } = await updateStateBackend({ method, payload, viewer })
+  const { Attributes: updatedState } = await updateGameState({ method, payload, viewer })
 
   res.status(200).json({
     gameState: updatedState,

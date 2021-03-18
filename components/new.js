@@ -21,28 +21,30 @@ class New extends React.Component {
     }
   }
 
-  onPublicJoinClick = async () => {
-    if (!this.state.playerName || !this.state.phrase) {
-      return
-    }
-    const { gameState: { id } } = await api.findPublicGame({
-      options: {
-        time_limit: this.state.timeLimit
-      }
-    });
-    await this.addPlayerToGame({ id })
-  }
-
   onNewGameClick = async () => {
     if (!this.state.playerName || !this.state.phrase) {
       return
     }
-    const { gameState: { id } } = await api.createNewGame({
-      options: {
-        time_limit: this.state.timeLimit
-      }
-    });
-    await this.addPlayerToGame({ id })
+
+    let gameId;
+    if (this.state.isPublic) {
+      const { gameState: { id } } = await api.findPublicGame({
+        isPublic: this.state.isPublic,
+        options: {
+          time_limit: this.state.timeLimit
+        }
+      })
+      gameId = id
+    } else {
+      const { gameState: { id } } = await api.createNewGame({
+        isPublic: this.state.isPublic,
+        options: {
+          time_limit: this.state.timeLimit
+        }
+      });
+      gameId = id
+    }
+    await this.addPlayerToGame({ id: gameId })
   }
 
   addPlayerToGame = async ({ id }) => {

@@ -5,7 +5,7 @@ import Cross from './svg/cross'
 import Button from './ui/button'
 import Input from './ui/input'
 import PlayerNav from './nav/player-nav'
-import { MIN_NUM_PLAYERS } from '../lib/constants'
+import { MIN_NUM_PLAYERS_PRIVATE, MIN_NUM_PLAYERS_PUBLIC } from '../lib/constants'
 import { nextRound, invite } from '../lib/api'
 import { appUrl } from '../lib/util'
 
@@ -81,9 +81,10 @@ export default class GameStarting extends React.Component {
         const viewerIsAdmin = gameState.admin === viewer.userId
         const adminPlayer = gameState.players.find( player => player.playerId === gameState.admin) || {}
         const numPlayersPresent = gameState.players.length
-        const numPlayersNeeded =  MIN_NUM_PLAYERS - numPlayersPresent
+        const minNumPlayers = gameState.isPublic ?  MIN_NUM_PLAYERS_PUBLIC : MIN_NUM_PLAYERS_PRIVATE
+        const numPlayersNeeded =  minNumPlayers - numPlayersPresent
         const playerList = [...gameState.players]
-        while (playerList.length < MIN_NUM_PLAYERS) {
+        while (playerList.length < minNumPlayers) {
             playerList.push({})
         }
 
@@ -132,9 +133,15 @@ export default class GameStarting extends React.Component {
                         }
                         <div className="subtext">
                             {
-                                numPlayersPresent < MIN_NUM_PLAYERS
-                                    ? `need ${ numPlayersNeeded } more player${ numPlayersNeeded < 2 ? '' : 's' } to start`
-                                    : `ready to start!`
+                                gameState.isPublic ? (
+                                    numPlayersPresent < minNumPlayers
+                                        ? `need ${ numPlayersNeeded } more player${ numPlayersNeeded < 2 ? '' : 's' } and the game will start automatically`
+                                        : `game starting...`
+                                ) : (
+                                    numPlayersPresent < minNumPlayers
+                                        ? `need ${ numPlayersNeeded } more player${ numPlayersNeeded < 2 ? '' : 's' } to start`
+                                        : `ready to start!`
+                                )
                             }
                         </div>
                         <div className="buttons-row display--flex">
@@ -143,8 +150,8 @@ export default class GameStarting extends React.Component {
                             </Button>
                             <Button
                                 onClick={ this.onStartClick }
-                                disabled={ (this.props.gameState.players.length < MIN_NUM_PLAYERS) ||  !viewerIsAdmin }
-                                tooltip={ viewerIsAdmin ? '' : `only the host (${ adminPlayer.playerName }) can start the game` }
+                                disabled={ (this.props.gameState.players.length < minNumPlayers) || !viewerIsAdmin || gameState.isPublic }
+                                tooltip={ (viewerIsAdmin || gameState.isPublic) ? '' : `only the host (${ adminPlayer.playerName }) can start the game` }
                             >
                                 Start Game
                             </Button>

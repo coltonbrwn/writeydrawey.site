@@ -56,7 +56,7 @@ export default class JoinGame extends React.Component {
 
   render() {
     const { gameState, viewer } = this.props;
-    const adminPlayer = gameState.players.find( p => p.playerId === gameState.admin )
+    const adminPlayer = gameState.eligiblePlayers.find( p => p.playerId === gameState.admin )
     return (
       <div className="full-height">
         <PlayerNav gameState={ gameState } viewer={ viewer } />
