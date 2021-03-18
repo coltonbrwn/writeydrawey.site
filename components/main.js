@@ -126,7 +126,7 @@ export default class Main extends React.Component {
   render() {
     const Component = this.getComponent();
     return (
-      <Layout theme="light">
+      <Layout theme="light" subtitle={ this.state.gameState.id }>
         <Component
           { ...this.state }
           onUpdateState={ this.updateGameState }

@@ -62,7 +62,7 @@ export default class JoinGame extends React.Component {
         <PlayerNav gameState={ gameState } viewer={ viewer } />
         <div className="join flex-container full-height">
           <div className="input-container">
-              <h3>
+              <h3 className="text--left">
                 <b>{ adminPlayer.playerName }</b> has invited you to play a game of <i>writeydrawey</i>!
                 <br/>
                 <br/>

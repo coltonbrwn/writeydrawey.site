@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import Button from './button'
 import Line1 from '../svg/line'
 import Line2 from '../svg/line-2'
 import Line3 from '../svg/line-3'
@@ -13,7 +14,8 @@ export default function Input({
     onKeyDown=noop,
     onFocus=noop,
     value,
-    isVertical=false
+    isVertical=false,
+    hasError=false
 }) {
 
     const Line = [
@@ -25,7 +27,8 @@ export default function Input({
     return (
         <div className={
             classNames("input-container-flex", {
-                'input-container-flex--vertical': isVertical
+                'input-container-flex--vertical': isVertical,
+                'input-container--error': hasError
             })
         }>
             <h3 className="mono input-label">{ label }</h3>

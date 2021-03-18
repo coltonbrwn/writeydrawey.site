@@ -5,19 +5,20 @@ import {
   THEME_LIGHT
 } from '../lib/util';
 
-const social_img_url = '/favicon-xxxl.png';
-const title = 'Writey Drawey';
-const ga_id = 'UA-93943838-5'
-const url = 'https://writeydrawey.site'
-
 export default class Layout extends React.Component {
 
   static defaultProps = {
     srollPos: 0,
-    theme: THEME_LIGHT
+    theme: THEME_LIGHT,
+    subtitle: ''
   }
 
   render () {
+    const subtitle = this.props.subtitle
+    const social_img_url = '/favicon-xxxl.png';
+    const title = `Writey Drawey${ subtitle ? ` - ${ subtitle}` : '' }`;
+    const ga_id = 'UA-93943838-5'
+    const url = 'https://writeydrawey.site'
     const description = this.props.description;
     const themeColor = colorName => get(COLORS, [this.props.theme, colorName]);
     return (

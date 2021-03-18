@@ -1,7 +1,7 @@
 import Toggle from 'react-toggle'
 
 import Layout from './layout'
-import Logo from './svg/logo'
+import Logo from './ui/logo'
 import Button from './ui/button'
 import Input from './ui/input'
 
@@ -16,7 +16,8 @@ class New extends React.Component {
     this.state = {
       playerName: '',
       phrase: '',
-      timeLimit: false
+      timeLimit: false,
+      isPublic: false
     }
   }
 
@@ -71,17 +72,23 @@ class New extends React.Component {
     })
   }
 
-  handleToggleChange = e => {
+  toggleTimeLimit = e => {
     this.setState({
         timeLimit: e.target.checked
+    })
+  }
+  
+  togglePublic = e => {
+    this.setState({
+        isPublic: e.target.checked
     })
   }
 
   render() {
     return (
-      <Layout theme="light">
+      <Layout theme="light" subtitle="new">
         <div className="nav">
-          <a href="/"><Logo /></a>
+          <Logo />
         </div>
         <div className="join flex-container full-height">
           <div className="input-container">
@@ -95,25 +102,37 @@ class New extends React.Component {
               onChange={  this.onPhraseInputChange }
               lineType={ 2 }
             />
-            <div className="input-container-flex">
-                <h3 className="mono input-label">time limit</h3>
-                <label className="toggle input-wrapper">
-                    <span className="label-text">
-                      { this.state.timeLimit ? formatTime( TURN_LIMIT / 1000 ) : 'off'}
-                    </span>
-                    <Toggle
-                        defaultChecked={this.state.timeLimit}
-                        icons={false}
-                        onChange={this.handleToggleChange}
-                    />
-                </label>
+            <div className="toggle-container">
+              <div className="input-container-flex">
+                  <h4 className="mono input-label">time limit</h4>
+                  <label className="toggle input-wrapper">
+                      <span className="label-text">
+                        { this.state.timeLimit ? formatTime( TURN_LIMIT / 1000 ) : 'off'}
+                      </span>
+                      <Toggle
+                          defaultChecked={this.state.timeLimit}
+                          icons={false}
+                          onChange={this.toggleTimeLimit}
+                      />
+                  </label>
+              </div>
+              <div className="input-container-flex">
+                  <h4 className="mono input-label">game type</h4>
+                  <label className="toggle input-wrapper">
+                      <span className="label-text">
+                        { this.state.isPublic ? 'public' : 'invite only'}
+                      </span>
+                      <Toggle
+                          defaultChecked={this.state.isPublic}
+                          icons={false}
+                          onChange={this.togglePublic}
+                      />
+                  </label>
+              </div>
             </div>
             <div className="buttons-row display--flex">
-              <Button onClick={ this.onPublicJoinClick }>
-                  Join Public Game  
-              </Button>
               <Button onClick={ this.onNewGameClick }>
-                  New Game 
+                  { this.state.isPublic ? 'Join Public Game' : 'New Game' }
               </Button>
             </div>
           </div>

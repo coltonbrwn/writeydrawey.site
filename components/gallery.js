@@ -46,7 +46,7 @@ export default class Gallery extends React.Component {
 
     render() {
         return (
-            <Layout theme="light">
+            <Layout theme="light" subtitle="gallery">
                 <Nav />
                 <div className="gallery" id="scrollContainer">
                     <h1 className="center">

@@ -22,6 +22,12 @@ label.toggle {
     }
 }
 
+.join .toggle-container {
+  padding-top: 1.6em;
+  .input-container-flex {
+    height: 2em;
+  }
+}
   
 input {
     border: none;
@@ -82,5 +88,8 @@ input {
       svg {
         width: 100%;
       }
+    }
+    &.input-container--error input {
+      color: red;
     }
 }

@@ -40,6 +40,19 @@ button {
       display: inline-block;
       transform: rotate(-1deg);
     }
+    .tooltip {
+      display: block;
+      position: absolute;
+      right: -9em;
+      top: 30%;
+      width: 8em;
+      height: 1em;
+      text-align: left;
+      font-size: 0.8em;
+      &[hidden] {
+        opacity: 0;
+      }
+    }
 }
 
 .buttons-row {

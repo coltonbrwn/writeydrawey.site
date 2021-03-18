@@ -1,4 +1,5 @@
-import Nav from './nav/index.js'
+import Logo from './ui/logo.js'
+import PlayerNav from './nav/player-nav.js'
 import createCardStacks from '../lib/create-card-stacks'
 
 export default class Home extends React.Component {
@@ -12,7 +13,7 @@ export default class Home extends React.Component {
 
     return (
       <div className="full-height game-over">
-        <Nav />
+        <PlayerNav { ...this.props } />
         <div className="game-over__hero">
           <img src="/homepg-images/aladin.png" />
           <h1>Game Over!</h1>

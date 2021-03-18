@@ -1,5 +1,3 @@
-import dedupe from 'dedupe'
-
 import { parseCookie, sortByTimestamp } from '../../lib/util'
 import backendGetState from '../../backend/get-state'
 
