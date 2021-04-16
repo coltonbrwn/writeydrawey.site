@@ -1,7 +1,7 @@
 import React from 'react';
 
 const svg = p => `
-  <svg width="208" height="314" viewBox="0 0 208 314" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="208" height="340" viewBox="0 0 208 375" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M17.8138 1.04431C16.7656 6.41633 16.3978 8.27435 13.4458 11.9643C12.2108 13.5081 10.6549 14.881 10.5338 17.0603C10.312 21.0528 9.8068 25.7963 14.9018 25.7963C22.3956 25.7963 11.6373 7.04456 17.8138 3.95631" stroke="var(--black-ln)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M92.8817 75.5607C92.8817 79.7386 94.9474 88.7643 89.9697 91.2532C87.7583 92.3589 86.1831 92.6701 84.4693 94.8123C81.1206 98.9981 87.2386 105.904 91.4257 106.137C98.106 106.508 100.99 98.8995 98.3822 93.0327C96.3364 88.4298 94.3377 73.4356 94.3377 78.4727" stroke="var(--black-ln)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M121.219 7.87567C121.219 12.0535 123.284 21.0793 118.307 23.5681C116.095 24.6738 114.52 24.985 112.806 27.1272C109.458 31.313 115.576 38.219 119.763 38.4517C126.443 38.8228 129.327 31.2144 126.719 25.3477C124.673 20.7447 122.675 5.75058 122.675 10.7877" stroke="var(--black-ln)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

@@ -15,7 +15,7 @@ export default class HomepageBackground extends React.Component {
                 className="homepage-background"
                 style={{ position: isFixedPosition ? 'fixed' : 'relative'}}
             >
-                <div className="homepage-background__nav-inner">
+                <div className="nav-inner">
                     <NavInner />
                 </div>
                 <div

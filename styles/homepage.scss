@@ -26,16 +26,8 @@
     border-radius: 7px;
     box-shadow: -7px 7px 0px var(--gray);
     background-color: var(--white);
-    &__nav-inner {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
+    .nav-inner {
         padding: 0.5em 0;
-        height: 4em;
-        button {
-            height: 5em;
-            margin: 0 1em;
-        }
     }
     img, .rain, .logo {
         position: absolute;

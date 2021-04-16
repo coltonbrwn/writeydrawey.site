@@ -20,14 +20,8 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    const roughSteps = document.getElementsByClassName('rough-notation__homepage-step')
-
-
     const { clientHeight, clientTop } = document.getElementById('scrollArea');
     this.interval = window.setInterval(() => {
-
-
-
       this.setState({
         scrollY: window.scrollY,
         scrollRatio: (window.scrollY - clientTop) / clientHeight
@@ -168,7 +162,7 @@ export default class Home extends React.Component {
             </div>
           </div>
         </div>
-        <div className="footer">
+        <div className="footer" hidden>
           <div className="content-container">
             <small>© { new Date().getFullYear() } writeydrawey inc, all rights reserved. </small>
             <small>we are a not-for-profit social experiment. all data anonymous</small>

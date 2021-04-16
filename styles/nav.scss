@@ -124,5 +124,17 @@
   z-index: 10;
   > a {
     height: 2.4em;
+    padding: 0.6em;
+  }
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 4em;
+  button {
+    height: 5em;
+    margin: 0 1em;
   }
 }

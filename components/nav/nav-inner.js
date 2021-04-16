@@ -19,7 +19,7 @@ export default function NavInner() {
             <Link href="/new">
                 <a>
                     <Button type={ 2 }>
-                        Play Now
+                        New Game
                     </Button>
                 </a>
             </Link>

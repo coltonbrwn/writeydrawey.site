@@ -1,5 +1,7 @@
 import Layout from './layout'
 import Nav from './nav/index'
+import NavInner from './nav/nav-inner'
+import Logo from './ui/logo'
 import { getGallery } from '../lib/api'
 
 export default class Gallery extends React.Component {
@@ -16,21 +18,29 @@ export default class Gallery extends React.Component {
         super()
         this.state = {
             contents,
-            isTruncated
+            isTruncated,
+            showHoverNav: false
         }
     }
     
     componentWillUnmount() {
-        window.clearInterval(this.interval)
+        window.clearInterval(this.interval1)
+        window.clearInterval(this.interval2)
     }
 
     componentDidMount() {
-        this.inteveral = window.setInterval(() => {
+        const contentContainer = document.getElementById('contentContainer')
+        this.inteveral1 = window.setInterval(() => {
             const distanceFromBottom = document.body.scrollHeight - window.scrollY - window.innerHeight
             if (distanceFromBottom < window.innerHeight) {
                 this.fetchData()
             }
-        }, 2000)
+        }, 1500)
+        this.interval2 = window.setInterval(() => {
+            this.setState({
+                showHoverNav: Boolean(window.scrollY > contentContainer.offsetTop)
+            })
+        }, 50)
     }
 
     async fetchData() {
@@ -47,13 +57,19 @@ export default class Gallery extends React.Component {
     render() {
         return (
             <Layout theme="light" subtitle="gallery">
-                <Nav />
+                <div className="gallery__nav">
+                    <Logo />
+                    <div className="nav-inner">
+                        <NavInner />
+                    </div>
+                </div>
+                <Nav hidden={ !this.state.showHoverNav }/>
                 <div className="gallery" id="scrollContainer">
                     <h1 className="center">
                         Gallery
                     </h1>
                     <div className="" >
-                        <div className="gallery__content">
+                        <div className="gallery__content" id="contentContainer">
                         {
                             this.state.contents.map( ({ Key, url }) => (
                                 <div key={ Key } className="gallery-image">
