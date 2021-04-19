@@ -68,6 +68,15 @@
             }
         }
     }
+    @media screen and (max-width: $break_sm) {
+        height: 97vh;
+        .hpb-doug {
+            display: none;
+        }
+        .rain {
+
+        }
+    }
 }
 
 .home .federer-dialogue {
@@ -86,7 +95,7 @@
     &__text {
         position: absolute;
         left: 0;
-        padding: 4em 3em 0 13em;
+        padding: 9% 10% 0 40%;
     }
     &__squiggle-border {
         position: absolute;
@@ -95,6 +104,32 @@
         z-index: -10;
         svg {
             width: 100%;
+        }
+    }
+    @media screen and (max-width: $break_lg) {
+        .federer-dialogue {
+            &__container {
+                width: 80%;
+            }
+        }
+    }
+    @media screen and (max-width: $break_med) {
+        .federer-dialogue {
+            &__text {
+                position: static;
+                padding: 0 2em;
+            }
+        }
+        img {
+            display: none;
+        }
+    }
+    @media screen and (max-width: $break_sm) {
+        .federer-dialogue {
+            &__text {
+                position: static;
+                padding: 0;
+            }
         }
     }
 }
@@ -117,6 +152,22 @@
     > .content-container {
         padding-top: 4em;
     }
+    @media screen and (max-width: $break_lg) {
+        .three-step__step {
+            width: 100%;
+            margin: 8rem 0;
+            img {
+                width: 15em;
+            }
+        }
+    }
+    @media screen and (max-width: $break_med) {
+        .three-step__step {
+            display: block;
+            text-align: center;
+        }
+    }
+
 }
 
 .home .social {
@@ -158,6 +209,11 @@
     > .content-container {
         padding-top: 2em;
     }
+    @media screen and (max-width: $break_lg) {
+        .social__left, .social__bottom, .social__right {
+            display: none;
+        }
+    }
 }
 
 .home .version {
@@ -180,6 +236,17 @@
     }
     p {
         padding-bottom: 1.2em;
+    }
+    @media screen and (max-width: $break_lg) {
+        .version__header {
+            padding: 9em 1em 6em;
+        }
+        .version__topic {
+            padding: 0 1em;
+        }
+        .content-container {
+            padding: 0 2em;
+        }
     }
 }
 
@@ -208,7 +275,18 @@
             }
         }
     }
-    &__button {
+    @media screen and (max-width: $break_lg) {
+        .content-container {
+            padding: 0 2em;
+        }
+    }
+    @media screen and (max-width: $break_med) {
+        .logo, .cta_button {
+            display: none;
+        }
+        .flex-container {
+            justify-content: center;
+        }
     }
 }
 

@@ -37,7 +37,7 @@ export default class HomepageBackground extends React.Component {
                 />
                 <img
                     style={ this.interpolatePosition(
-                        { bottom: 26, right: 27}
+                        { bottom: 32, right: 27}
                     )}
                     className="hpb-doug"
                     src="/homepg-images/doug.png"

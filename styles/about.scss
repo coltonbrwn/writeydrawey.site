@@ -27,7 +27,7 @@
         box-sizing: border-box;
         > a {
             height: 2.4em;
-            padding: 0.6em;
+            padding: 0.6em 1em;
         }
     }
     &__content {
@@ -41,5 +41,16 @@
         display: flex;
         align-items: flex-end;
         padding-bottom: 6em;
+    }
+    @media screen and (max-width: $break_lg) {
+        .content-container {
+            display: block;
+            padding: 4em 2em;
+        }
+        &__content, &__links {
+            padding-top: 4em;
+            width: 100%;
+            text-align: left;
+        }
     }
 }

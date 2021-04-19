@@ -3,7 +3,7 @@ const copy = {
     step_1: "Each player comes up with a word or phrase and writes it down. “Lollipop”, “Roger Federer”, or “Aladin”. Anything goes.",
     step_2: "The phrases are shuffled among all players, then everyone attempts to draw the phrase they’ve received.",
     step_3: "The drawings are rotated around the group with each player describing the image with a new phrase. The cycle repeats until the game is up and everyone’s submissions are revealed",
-    social_blurb: "This is a screenshot of real-life people playing Writey Drawey. They're very happy about their decision.",
+    social_blurb: "These are actual people playing Writey Drawey. They're very happy about their decision.",
     changes_header: "New in version 2.0:",
     changes_topics: [
         {
