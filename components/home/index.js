@@ -123,8 +123,8 @@ export default class Home extends React.Component {
             </div>
             <div className="flex-container">
               {
-                copy.changes_topics.map( topic => (
-                  <div className="version__topic">
+                copy.changes_topics.map( (topic, i) => (
+                  <div className="version__topic" key={i}>
                     <h2>{ topic.title }</h2>
                     <p>
                       { topic.body }
@@ -147,7 +147,6 @@ export default class Home extends React.Component {
                 <Logo />
               </div>
               <div className="cta__socials">
-                  <h3><Email /> subscribe </h3>
                   <h3><Twitter /> @writeydrawey</h3>
               </div>
               <div className="cta_button">
@@ -160,12 +159,6 @@ export default class Home extends React.Component {
                 </Link>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="footer" hidden>
-          <div className="content-container">
-            <small>© { new Date().getFullYear() } writeydrawey inc, all rights reserved. </small>
-            <small>we are a not-for-profit social experiment. all data anonymous</small>
           </div>
         </div>
       </div>

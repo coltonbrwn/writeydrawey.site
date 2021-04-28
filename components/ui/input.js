@@ -15,7 +15,8 @@ export default function Input({
     onFocus=noop,
     value,
     isVertical=false,
-    hasError=false
+    hasError=false,
+    placeholder
 }) {
 
     const Line = [
@@ -39,6 +40,7 @@ export default function Input({
                     onKeyDown={ onKeyDown }
                     disabled={ disabled }
                     value={ value }
+                    placeholder={ placeholder }
                 />
                 <div className="input-drawnline">
                     <Line2 />

@@ -107,6 +107,7 @@ class New extends React.Component {
               label="a phrase"
               onChange={  this.onPhraseInputChange }
               lineType={ 2 }
+              placeholder="~ whatever comes to mind"
             />
             <div className="toggle-container">
               <div className="input-container-flex">

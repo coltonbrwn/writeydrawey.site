@@ -11,7 +11,7 @@
   box-sizing: border-box;
   height: 3.2em;
   opacity: 1;
-  transition: 300ms opacity;
+  transition: 500ms opacity;
   &.hidden {
     opacity: 0;
     pointer-events: none;
@@ -50,13 +50,7 @@
       font-size: 0.75em;
     }
   }
-  // .logo {
-  //   height: 2rem;
-  //   position: fixed;
-  //   left: 1.2rem;
-  //   top: 0;
-  //   padding: 0.5em 0;
-  // }
+
   &__logo {
     width: 4em;
     position: absolute;
@@ -125,6 +119,26 @@
   > a {
     height: 2.4em;
     padding: 0.6em 1em;
+  }
+}
+
+/*
+  Mobile Navigation Logic
+ */
+.nav__mobile {
+  display: none;
+  .hamburger-menu {
+    width: 2.5em;
+    padding-right: 1em;
+    cursor: pointer;
+  }
+  @media screen and (max-width: $break_med) {
+    display: block;
+  }
+}
+.nav__links, .nav__cta {
+  @media screen and (max-width: $break_med) {
+    display: none;
   }
 }
 

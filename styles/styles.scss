@@ -233,3 +233,7 @@ ol {
     }
   }
 }
+
+.join, .about, .gallery {
+  @include animateIn(800ms, 1ms);
+}

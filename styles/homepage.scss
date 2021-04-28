@@ -28,14 +28,18 @@
     background-color: var(--white);
     .nav-inner {
         padding: 0.5em 0;
+        @include animateIn(1s, 200ms);
     }
     img, .rain, .logo {
         position: absolute;
+        @include animateIn(1s, 200ms);
     }
     .logo {
         width: 100%;
         left: 0;
         height: 6rem;
+        animation: none;
+        opacity: 1;
     }
     .hpb-hills {
         width: 60%;
@@ -246,6 +250,15 @@
         }
         .content-container {
             padding: 0 2em;
+        }
+    }
+    @media screen and (max-width: $break_sm) {
+        .flex-container {
+            display: block;
+        }
+        .version__topic {
+            width: 100%;
+            margin-bottom: 4em;
         }
     }
 }

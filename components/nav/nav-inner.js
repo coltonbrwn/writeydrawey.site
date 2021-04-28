@@ -1,9 +1,15 @@
 import Link from 'next/link'
 import Button from '../ui/button'
 import RoughLink from '../ui/rough-link'
+import Hamburger from '../svg/hamburger'
 
 export default function NavInner() {
     return [
+        <div className="nav__mobile">
+            <div className="hamburger-menu">
+                <Hamburger />
+            </div>
+        </div>,
         <div className="nav__links" key="1">
             <RoughLink href="/about" style="underline">
                 about

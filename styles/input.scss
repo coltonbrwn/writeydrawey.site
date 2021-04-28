@@ -37,6 +37,12 @@ input {
     width: 100%;
     padding-left: 0.1em;
     margin-left: 0.1em;
+    &::placeholder {
+      @include animateIn;
+      font-size: 0.5em;
+      opacity: 0.4;
+      text-align: right;
+    }
     &.text--left {
       text-align: left;
     }
@@ -51,10 +57,13 @@ input {
 .input-container-flex {
     display: flex;
     align-items: flex-end;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.4rem;
     width: 100%;
     height: 3em;
     position: relative;
+    &:first-of-type .input-drawnline svg {
+      transform: rotate(180deg) scaleY(-1);
+    }
     &.input-container-flex--vertical {
       flex-direction: column;
       align-items: flex-start;

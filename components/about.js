@@ -25,17 +25,17 @@ export default class Feedback extends React.Component {
                     </div>
                     <div className="content-container">
                         <div className="about__content">
-                            <strong>About</strong>
+                            <strong>But why?</strong>
                             <p>
-                            Writey drawey was created by <a target="_blank" href={ myTwitter }>Colton Brown</a> as a social experiment during covid lockdown. you can read the blog post <a target="_blank" href={ mediumLink }>here</a> to learn about the project’s history and learnings about digital spaces.
+                            Writey drawey was created by <a target="_blank" href={ myTwitter }>Colton Brown</a> as a social experiment to bring an in-person party game onto the web. You can read the blog post <a target="_blank" href={ mediumLink }>here</a> to learn about the project’s history and musings about digital spaces.
                             </p>
                             <strong>Q&A</strong>
                             <p>
-                            if you have any questions or feedback you can submit it on <a target="_blank" href={ replyLink }>rep.ly</a> or send a DM to our <a target="_blank" href={ wdTwitter }>twitter</a>
+                            If you'd like to leave feedback you can make submission on <a target="_blank" href={ replyLink }>rep.ly</a> or dm <a target="_blank" href={ wdTwitter }>@writey_drawey</a> on twitter to say hi.
                             </p>
                             <strong>tech + design</strong>
                             <p>
-                            the site was built with react, next.js, vercel, amazon S3 and dynamoDB. Hover animations were acheived with the <a target="_blank" href={ roughNotationLink } >rough-notation</a> library; drawing mechanism use <a target="_blank" href={ paperLink }>paper.js</a>. The typeface used throughout the site and is the logo is colophon's <a target="_blank" href={ relativeLink }>relative</a>.
+                            Hover animations were acheived with the <a target="_blank" href={ roughNotationLink } >rough-notation</a> library; drawing mechanism uses <a target="_blank" href={ paperLink }>paper.js</a>. The typeface used throughout the site and is the logo is colophon's <a target="_blank" href={ relativeLink }>relative</a>.
                             </p>
                         </div>
                         <div className="about__links">
