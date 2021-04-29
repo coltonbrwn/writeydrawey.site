@@ -16,7 +16,8 @@ export default function Input({
     value,
     isVertical=false,
     hasError=false,
-    placeholder
+    placeholder="",
+    mobileCollapse=false
 }) {
 
     const Line = [
@@ -29,7 +30,8 @@ export default function Input({
         <div className={
             classNames("input-container-flex", {
                 'input-container-flex--vertical': isVertical,
-                'input-container--error': hasError
+                'input-container--error': hasError,
+                'mobile-collapse': mobileCollapse
             })
         }>
             <h3 className="mono input-label">{ label }</h3>

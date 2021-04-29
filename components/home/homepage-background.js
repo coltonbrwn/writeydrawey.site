@@ -1,3 +1,4 @@
+import classnames from 'classnames'
 import Logo from '../svg/logo'
 import Rain from '../svg/rain'
 import NavInner from '../nav/nav-inner'
@@ -9,13 +10,17 @@ export default class HomepageBackground extends React.Component {
     interpolatePosition = interpolatePosition.bind(this)
 
     render() {
-        const isFixedPosition = this.props.completionRatio < 0.66666;
+        const isAboveFold = this.props.completionRatio < 0.66666;
         return (
             <div
                 className="homepage-background"
-                style={{ position: isFixedPosition ? 'fixed' : 'relative'}}
+                style={{ position: isAboveFold ? 'fixed' : 'relative'}}
             >
-                <div className="nav-inner">
+                <div className={
+                    classnames("nav-inner", {
+                        'hide': !isAboveFold
+                    })
+                }>
                     <NavInner />
                 </div>
                 <div
@@ -37,7 +42,7 @@ export default class HomepageBackground extends React.Component {
                 />
                 <img
                     style={ this.interpolatePosition(
-                        { bottom: 32, right: 27}
+                        { bottom: 38, right: 27}
                     )}
                     className="hpb-doug"
                     src="/homepg-images/doug.png"

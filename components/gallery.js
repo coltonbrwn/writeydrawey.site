@@ -1,6 +1,6 @@
 import Layout from './layout'
 import Nav from './nav/index'
-import NavInner from './nav/nav-inner'
+import { default as NavInner, MobileNav } from './nav/nav-inner'
 import Logo from './ui/logo'
 import { getGallery } from '../lib/api'
 
@@ -57,6 +57,7 @@ export default class Gallery extends React.Component {
     render() {
         return (
             <Layout theme="light" subtitle="gallery">
+                <MobileNav />
                 <div className="gallery__nav">
                     <Logo />
                     <div className="nav-inner">

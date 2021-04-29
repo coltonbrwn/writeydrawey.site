@@ -1,3 +1,28 @@
+@mixin bubbleNav {
+  @include borderBox;
+  width: 18em;
+  min-height: 8.5em;
+  margin: 2em;
+  right: 0;
+  position: fixed;
+  flex-direction: column-reverse;
+  .nav__line {
+    display: none;
+  }
+  .nav__logo {
+    margin: 1em 0;
+    width: 5em;
+  }
+  .nav__cta {
+    align-self: flex-end;
+    margin: 0.45em 0;
+    font-size: 1.1em;
+  }
+  .nav__links {
+    margin-top: 1em;
+  }
+}
+
 .nav {
   position: fixed;
   background: white;
@@ -21,28 +46,7 @@
       This turns the nav into a floating box for xtra wide screens
     */
     @media (min-width: $break_xl) {
-      @include borderBox;
-      width: 18em;
-      min-height: 7.5em;
-      margin: 2em;
-      right: 0;
-      position: fixed;
-      flex-direction: column-reverse;
-      .nav__line {
-        display: none;
-      }
-      .nav__logo {
-        margin: 1em 0;
-        width: 5em;
-      }
-      .nav__cta {
-        align-self: flex-end;
-        margin: 0.45em 0;
-        font-size: 1.1em;
-      }
-      .nav__links {
-        margin-top: 0.45em;
-      }
+      @include bubbleNav()
     }
     button {
       width: 8.5em;
@@ -78,9 +82,13 @@
       height: auto;
     }
   }
+  &__hamburger, &__close-button {
+    width: 2.5em;
+    cursor: pointer;
+  }
   &__links, .text {
     a {
-      padding: 0 1em;
+      padding: 0 1.2em;
     }
     h2 {
       margin: 0;
@@ -116,29 +124,56 @@
   width: 100%;
   box-sizing: border-box;
   z-index: 10;
+  background-color: white;
   > a {
     height: 2.4em;
-    padding: 0.6em 1em;
+    padding: 0.6em 1em 0.6em 0.4em;
   }
 }
 
 /*
   Mobile Navigation Logic
  */
-.nav__mobile {
+.nav__hamburger {
   display: none;
-  .hamburger-menu {
-    width: 2.5em;
-    padding-right: 1em;
-    cursor: pointer;
+}
+.nav__mobile {
+  @include animateIn(400ms, 1ms);
+  display: none;
+  width: 100vw;
+  background: white;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 50;
+  text-align: center;
+  padding-bottom: 2em;
+  border-bottom: .1em solid var(--black-ln);
+  &__links {
+    padding-top: 3em;
+    font-size: 1.4em;
+    > span {
+      display: block;
+      margin-bottom: 1.4em;
+    }
   }
-  @media screen and (max-width: $break_med) {
-    display: block;
+  .nav__close-button {
+    position: absolute;
+    right: 0;
+    padding: 1em;
   }
 }
-.nav__links, .nav__cta {
-  @media screen and (max-width: $break_med) {
+@media screen and (max-width: $break_med) {
+  .nav__links, .nav__cta {
     display: none;
+  }
+  .nav__hamburger {
+    display: block;
+  }
+  #main.mobile--open {
+    .nav__mobile {
+      display: block;
+    }
   }
 }
 
@@ -147,6 +182,8 @@
   align-items: center;
   justify-content: flex-end;
   height: 4em;
+  position: relative;
+  z-index: 1;
   button {
     height: 5em;
     margin: 0 1em;

@@ -104,6 +104,7 @@ body {
 .playing {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   h2, h3 {
     flex: 1;
     text-align: left;
@@ -124,8 +125,12 @@ body {
     flex: 1;
     max-height: 100%;
     max-width: 100%;
-    object-fit: contain;
-    scale: 0.85;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      transform: scale(0.85);
+    }
     &.preview {
       filter: blur(6px);
     }
@@ -144,6 +149,7 @@ body {
   &__next-round-timer {
     position: absolute;
     bottom: 2em;
+    font-weight: 400;
   }
 }
 .game-over {
@@ -166,8 +172,13 @@ body {
   }
   .nav--player {
     position: fixed;
+    background: var(--lightgray);
     width: 100%;
     box-sizing: border-box;
+    padding: 0.4em 1em;
+    button {
+      height: 4em;
+    }
   }
   &--section {
     margin: 4rem 0;
@@ -225,7 +236,7 @@ ol {
   .modal__close {
     position: absolute;
     top: 1em;
-    right: 0;
+    right: 1em;
     height: 2em;
     cursor: pointer;
     &:hover {
@@ -236,4 +247,8 @@ ol {
 
 .join, .about, .gallery {
   @include animateIn(800ms, 1ms);
+}
+
+.game-starting button.start-game-button:not([disabled]) {
+  filter: drop-shadow(2px 2px 20px #44d);
 }

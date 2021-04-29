@@ -1,21 +1,26 @@
 import Layout from './layout'
-import NavInner from './nav/nav-inner'
+import {default as NavInner, MobileNav } from './nav/nav-inner'
 import Logo from './ui/logo'
+import { SOCIALS } from '../lib/constants'
 
-const replyLink = "https://rep.ly/writey_drawey"
-const myTwitter = "https://twitter.com/coltontbrown"
-const wdTwitter = "https://twitter.com/writey_drawey"
-const mediumLink = "https://rep.ly/writey_drawey"
-const roughNotationLink = "https://roughnotation.com/"
-const paperLink = "http://paperjs.org/"
-const relativeLink = "https://www.colophon-foundry.org/typefaces/relative/"
-const githubLink = "https://github.com/coltonTB/writeydrawey.site"
-const email = "mailto:mail@writeydrawey.site"
+const {
+    replyLink,
+    myTwitter,
+    wdTwitter,
+    mediumLink,
+    roughNotationLink,
+    paperLink,
+    relativeLink,
+    githubLink,
+    email,
+    discordServer
+} = SOCIALS;
 
 export default class Feedback extends React.Component {
     render() {
         return (
             <Layout theme="light" subtitle="about">
+                <MobileNav />
                 <div className="about">
                     <div className="about__nav">
                         <Logo />
@@ -57,6 +62,11 @@ export default class Feedback extends React.Component {
                             <h3 className="mono">
                                 <a target="_blank" href={ wdTwitter }>
                                     @writey_drawey
+                                </a>
+                            </h3>
+                            <h3 className="mono">
+                                <a target="_blank" href={ discordServer }>
+                                    discord
                                 </a>
                             </h3>
                         </div>

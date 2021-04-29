@@ -29,9 +29,13 @@
     .nav-inner {
         padding: 0.5em 0;
         @include animateIn(1s, 200ms);
+        .nav__hamburger {
+            padding-right: 1em;
+        }
     }
     img, .rain, .logo {
         position: absolute;
+        z-index: 0;
         @include animateIn(1s, 200ms);
     }
     .logo {
@@ -148,6 +152,8 @@
         margin: 8rem auto;
         img {
             width: 20em;
+            object-fit: contain;
+            object-position: 0 0;
         }
         &__text {
             padding: 1em 2em 0;
@@ -278,13 +284,17 @@
         }
     }
     &__socials {
-        text-align: left;
+        text-align: center;
         h3 {
             font-weight: 500;
+            padding-bottom: 0.2em;
             > span {
                 position: relative;
                 top: 0.2em;
                 padding: 0 0.2em;
+            }
+            svg {
+                height: 1em;
             }
         }
     }

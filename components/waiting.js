@@ -3,7 +3,7 @@ import RoughNotation from './ui/rough-notation'
 import TurnTimer from './ui/turn-timer'
 import { getPlayersReadyMap } from '../lib/util'
 
-export default class Starting extends React.Component {
+export default class Waiting extends React.Component {
 
   render() {
     const { gameState, viewer } = this.props

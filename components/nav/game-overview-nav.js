@@ -1,10 +1,27 @@
-import { GAME_STATE, TURN_LIMIT, MIN_NUM_PLAYERS } from "../../lib/constants"
+import { GAME_STATE, TURN_LIMIT, MIN_NUM_PLAYERS_PRIVATE, MIN_NUM_PLAYERS_PUBLIC } from "../../lib/constants"
 import { formatTime } from '../../lib/util'
 import TurnTimer from '../ui/turn-timer'
+import Link from 'next/link'
+import Button from '../ui/button'
 
 export default ({ gameState, viewer, playerHasContributed }) => {
     let timeLimitText, roundText, roundTitle;
     const playerTimer = gameState.timers.find( item => item.round === gameState.round && item.playerId === viewer.userId)
+    const minNumPlayers = gameState.isPublic ?  MIN_NUM_PLAYERS_PUBLIC : MIN_NUM_PLAYERS_PRIVATE
+
+    if (gameState.state === GAME_STATE.DONE) {
+        return (
+            <div>
+                <Link href="/new">
+                    <a>
+                        <Button type={ 1 }>
+                            Play Again
+                        </Button>
+                    </a>
+                </Link>
+            </div>
+        )
+    }
 
     /* 
         Build text to display the status of the timer
@@ -22,7 +39,7 @@ export default ({ gameState, viewer, playerHasContributed }) => {
     */
     if (gameState.state === GAME_STATE.STARTING) {
         roundTitle = 'rounds'
-        roundText = gameState.players.length <= MIN_NUM_PLAYERS ? MIN_NUM_PLAYERS : gameState.players.length
+        roundText = gameState.players.length <= minNumPlayers ? minNumPlayers : gameState.players.length
     } else {
         roundTitle = 'round'
         roundText = `${ gameState.round } / ${ gameState.players.length }`

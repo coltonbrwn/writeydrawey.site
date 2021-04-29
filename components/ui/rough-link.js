@@ -20,12 +20,19 @@ export default class RoughLink extends React.Component {
         this.annotation.hide()
     }
 
+    onClick = () => {
+        if (this.props.onClick) {
+            window.setTimeout(this.props.onClick, 200)
+        }
+    }
+
     render() {
         return (
             <span
                 style={{ position: 'relative' }}
                 onMouseEnter={ this.mouseEnter }
                 onMouseLeave={ this.mouseLeave }
+                onClick={ this.onClick }
             >
                 <span ref={ this.ref }>
                     <Link href={ this.props.href }>

@@ -39,6 +39,7 @@ export default class Button extends React.Component {
 
     return (
       <div
+        className={ this.props.className }
         onMouseEnter={ this.onMouseEnter }
         onMouseLeave={ this.onMouseLeave }
       >

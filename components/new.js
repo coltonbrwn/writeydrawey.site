@@ -94,7 +94,7 @@ class New extends React.Component {
 
   render() {
     return (
-      <Layout theme="light" subtitle="new">
+      <Layout theme="light" subtitle="New Game">
         <PlayerNav />
         <div className="join flex-container full-height">
           <div className="input-container">
@@ -102,12 +102,14 @@ class New extends React.Component {
               label="your name"
               onChange={  this.onNameInputChange }
               lineType={ 1 }
+              mobileCollapse
             />
             <Input
               label="a phrase"
               onChange={  this.onPhraseInputChange }
               lineType={ 2 }
-              placeholder="~ whatever comes to mind"
+              placeholder="~ whatever comes to mind   "
+              mobileCollapse
             />
             <div className="toggle-container">
               <div className="input-container-flex">

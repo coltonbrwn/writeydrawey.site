@@ -1,14 +1,16 @@
 import Link from 'next/link'
 
 import Nav from '../nav/index'
+import { MobileNav } from '../nav/nav-inner'
 import HomepageBackground from './homepage-background'
 import RoughLink from '../ui/rough-link'
 import Button from '../ui/button'
 import Logo from '../ui/logo'
 import Squiggle from '../svg/squiggle-field'
 import Twitter from '../svg/twitter-icon'
-import Email from '../svg/email-icon'
+import Discord from '../svg/discord-icon'
 import copy from './copy'
+import { SOCIALS } from '../../lib/constants'
 
 export default class Home extends React.Component {
 
@@ -36,6 +38,7 @@ export default class Home extends React.Component {
   render() {
     return (
       <div className="full-height home">
+        <MobileNav />
         <Nav hidden={ this.state.scrollRatio < 1 } />
         <div className="home flex-container mural" id="scrollArea">
           <HomepageBackground completionRatio={ this.state.scrollRatio } />
@@ -147,7 +150,16 @@ export default class Home extends React.Component {
                 <Logo />
               </div>
               <div className="cta__socials">
-                  <h3><Twitter /> @writeydrawey</h3>
+                  <h3>
+                    <a target="_blank" href={ SOCIALS.discordServer }>
+                      <Discord /> Writey Drawey
+                    </a>
+                  </h3>
+                  <h3>
+                    <a target="_blank"  href={ SOCIALS.wdTwitter }>
+                      <Twitter /> @writeydrawey
+                    </a>
+                  </h3>
               </div>
               <div className="cta_button">
                 <Link href="/new">

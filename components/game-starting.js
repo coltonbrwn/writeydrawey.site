@@ -119,7 +119,7 @@ export default class GameStarting extends React.Component {
                     </div>
                 ) : ''}
                 <PlayerNav gameState={ gameState } viewer={ viewer } />
-                <div className="join flex-container full-height" >
+                <div className="join flex-container full-height game-starting" >
                     <div className="input-container">
                         {
                             playerList.map( (player, i) => (
@@ -149,6 +149,7 @@ export default class GameStarting extends React.Component {
                                 Invite Players
                             </Button>
                             <Button
+                                className="start-game-button"
                                 onClick={ this.onStartClick }
                                 disabled={ (this.props.gameState.players.length < minNumPlayers) || !viewerIsAdmin || gameState.isPublic }
                                 tooltip={ (viewerIsAdmin || gameState.isPublic) ? '' : `only the host (${ adminPlayer.playerName }) can start the game` }
