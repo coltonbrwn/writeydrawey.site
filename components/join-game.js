@@ -57,13 +57,16 @@ export default class JoinGame extends React.Component {
   render() {
     const { gameState, viewer } = this.props;
     const adminPlayer = gameState.pendingPlayers.find( p => p.playerId === gameState.admin )
+    const inviteCopy = adminPlayer
+      ? <span><b>{ adminPlayer.playerName }</b> has invited you to play a game of <i>writeydrawey</i>!</span>
+      : <span>Welcome to <i>writeydrawey</i></span>
     return (
       <div className="full-height">
         <PlayerNav gameState={ gameState } viewer={ viewer } />
         <div className="join flex-container full-height">
           <div className="input-container">
               <h3 className="text--left">
-                <b>{ adminPlayer.playerName }</b> has invited you to play a game of <i>writeydrawey</i>!
+                { inviteCopy }
                 <br/>
                 <br/>
               </h3>

@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk'
 import shortid from 'shortid'
 
-import { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE, DEFAULT_TURN_DELAY, TURN_LIMIT } from '../lib/constants'
+import { TABLES, API_METHODS, GAME_STATE, INITIAL_STATE, DEFAULT_TURN_DELAY, TURN_LIMIT, PUBLIC_GAME_STALE_TIMEOUT } from '../lib/constants'
 import convertImage from './lib/convert-image'
 
 AWS.config = {
@@ -272,7 +272,10 @@ async function findPublicGame({ options }, viewer) {
     }
   }).promise()
 
-  if( Count > 0) {
+  
+  if( Count > 0 ) {
+    const existingGame = Items[0]
+    if (new Date().getTime() - existingGame.created < PUBLIC_GAME_STALE_TIMEOUT )
     return { Attributes: { gameState: Items[0] }}
   }
 
