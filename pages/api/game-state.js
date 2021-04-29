@@ -1,9 +1,10 @@
 import dedupe from 'dedupe'
+import { get } from 'dotty'
 
 import { parseCookie, sortByTimestamp, now } from '../../lib/util'
 import getGameState from '../../backend/get-state'
 import { getGamePlayerActivity, updatePlayerActivity } from '../../backend/player-activity'
-import { MAX_PLAYER_IDLE_MS } from '../../lib/constants'
+import { MAX_PLAYER_IDLE_MS, GAME_STATE } from '../../lib/constants'
 
 export default async function getState(req, res) {
   const userId = parseCookie(req)
@@ -26,23 +27,35 @@ export default async function getState(req, res) {
     return;
   }
 
+  /*
+    Build a cached lookup table for player activity
+   */
   const playerLastSeenMap = playerActivity.reduce((acc, val) => {
-    acc[val.id] = now() - val.lastSeen
+    acc[val.id] = val.lastSeen
     return acc
   }, { [userId]: now() })
-  const activePlayers = gameState.players.filter(
-    player => playerLastSeenMap[player.playerId] < MAX_PLAYER_IDLE_MS
+
+  /*
+    Find the active players. 
+    Filter people out who haven't polled the server in N ms.
+   */
+  const activePendingPlayers = gameState.pendingPlayers.filter(
+    player => (now() - playerLastSeenMap[player.playerId]) < MAX_PLAYER_IDLE_MS
   )
 
+  const admin = gameState.isPublic 
+    ? get(activePendingPlayers, `${ 0 }.playerId`)
+    : gameState.admin
+
   const transformedGameState =  {
-    admin: gameState.admin,
+    admin,
     id: gameState.id,
     options: {
       rounds: gameState.players.length,
       ...gameState.options
     },
-    players: dedupe(sortByTimestamp(activePlayers), p => p.playerId ),
-    eligiblePlayers: sortByTimestamp( gameState.players),
+    players: sortByTimestamp(gameState.players),
+    pendingPlayers: dedupe(sortByTimestamp(activePendingPlayers), p => p.playerId ),
     playerInput: sortByTimestamp( gameState.playerInput ),
     round: gameState.round,
     timers: gameState.timers,

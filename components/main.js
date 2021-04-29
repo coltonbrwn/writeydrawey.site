@@ -38,7 +38,6 @@ export default class Main extends React.Component {
   }
 
   static async getInitialProps({ req, query }) {
-    console.log(query)
     if (!query.slug) {
       return {
         gameState: INITIAL_STATE,
@@ -125,7 +124,6 @@ export default class Main extends React.Component {
   }
 
   render() {
-    console.log(this.props.gameState.players)
     const Component = this.getComponent();
     return (
       <Layout theme="light" subtitle={ this.state.gameState.id }>

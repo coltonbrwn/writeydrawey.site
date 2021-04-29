@@ -6,7 +6,7 @@ import Button from './ui/button'
 import Input from './ui/input'
 import PlayerNav from './nav/player-nav'
 import { MIN_NUM_PLAYERS_PRIVATE, MIN_NUM_PLAYERS_PUBLIC } from '../lib/constants'
-import { nextRound, invite } from '../lib/api'
+import { startGame, invite } from '../lib/api'
 import { appUrl } from '../lib/util'
 
 
@@ -23,9 +23,9 @@ export default class GameStarting extends React.Component {
     }
 
     onStartClick = async () => {
-        const gameState = await nextRound({
+        const gameState = await startGame({
             gameId: this.props.gameState.id,
-            round: 0
+            players: this.props.gameState.pendingPlayers
         })
         this.props.onUpdateState(gameState)
     }
@@ -54,6 +54,10 @@ export default class GameStarting extends React.Component {
 
     sendEmail = async ({ adminPlayer }) => {
 
+        const { userId } = this.props.viewer 
+        const viewerPlayer = this.props.gameState.pendingPlayers.find( player => player.playerId === userId) || {}
+        const viewerName = viewerPlayer.playerName
+
         const { email } = this.state
         if(!validator.validate(email)) {
             return this.setState({
@@ -63,7 +67,7 @@ export default class GameStarting extends React.Component {
         try {
             await invite({
                 playerAddress: email,
-                fromName: adminPlayer.playerName,
+                fromName: viewerName,
                 gameId: this.props.gameState.id
             })
             this.setState({
@@ -79,11 +83,11 @@ export default class GameStarting extends React.Component {
     render() {
         const { gameState, viewer } = this.props
         const viewerIsAdmin = gameState.admin === viewer.userId
-        const adminPlayer = gameState.players.find( player => player.playerId === gameState.admin) || {}
-        const numPlayersPresent = gameState.players.length
+        const adminPlayer = gameState.pendingPlayers.find( player => player.playerId === gameState.admin) || {}
+        const numPlayersPresent = gameState.pendingPlayers.length
         const minNumPlayers = gameState.isPublic ?  MIN_NUM_PLAYERS_PUBLIC : MIN_NUM_PLAYERS_PRIVATE
         const numPlayersNeeded =  minNumPlayers - numPlayersPresent
-        const playerList = [...gameState.players]
+        const playerList = [...gameState.pendingPlayers]
         while (playerList.length < minNumPlayers) {
             playerList.push({})
         }
@@ -111,7 +115,8 @@ export default class GameStarting extends React.Component {
                                         { this.state.isCopied ? 'Copied' : 'Copy Link' }
                                     </Button>
                                     <Button onClick={ () => this.sendEmail({ adminPlayer }) }>
-                                        invite via email
+                                    { this.state.apiStatusSuccess ? 'Email Sent' : 'invite via email' }
+
                                     </Button>
                                 </div>
                             </div>
@@ -120,6 +125,16 @@ export default class GameStarting extends React.Component {
                 ) : ''}
                 <PlayerNav gameState={ gameState } viewer={ viewer } />
                 <div className="join flex-container full-height game-starting" >
+                    {
+                        gameState.isPublic ? (
+                            <div className="join__public-game-notice">
+                                <div className="subtext">
+                                    This is a public game, anyone can join.
+                                </div>
+                            </div>
+                        ) : ''
+                    }
+
                     <div className="input-container">
                         {
                             playerList.map( (player, i) => (
@@ -128,6 +143,7 @@ export default class GameStarting extends React.Component {
                                     label={`${ i+1 }.`}
                                     disabled
                                     value={ player.playerName }
+                                    ornament={ player.playerId === viewer.userId }
                                 />
                             ))
                         }
@@ -135,12 +151,12 @@ export default class GameStarting extends React.Component {
                             {
                                 gameState.isPublic ? (
                                     numPlayersPresent < minNumPlayers
-                                        ? `need ${ numPlayersNeeded } more player${ numPlayersNeeded < 2 ? '' : 's' } and the game will start automatically`
-                                        : `game starting...`
+                                        ? `${ numPlayersNeeded } more player${ numPlayersNeeded < 2 ? '' : 's' } and the host (${ adminPlayer.playerName }) can start`
+                                        : `ready for ${ adminPlayer.playerName } to start the game`
                                 ) : (
                                     numPlayersPresent < minNumPlayers
                                         ? `need ${ numPlayersNeeded } more player${ numPlayersNeeded < 2 ? '' : 's' } to start`
-                                        : `ready to start!`
+                                        : `ready for ${ adminPlayer.playerName } to start the game`
                                 )
                             }
                         </div>
@@ -151,8 +167,8 @@ export default class GameStarting extends React.Component {
                             <Button
                                 className="start-game-button"
                                 onClick={ this.onStartClick }
-                                disabled={ (this.props.gameState.players.length < minNumPlayers) || !viewerIsAdmin || gameState.isPublic }
-                                tooltip={ (viewerIsAdmin || gameState.isPublic) ? '' : `only the host (${ adminPlayer.playerName }) can start the game` }
+                                disabled={ (gameState.pendingPlayers.length < minNumPlayers) || !viewerIsAdmin }
+                                tooltip={ viewerIsAdmin ? '' : `only the host (${ adminPlayer.playerName }) can start the game` }
                             >
                                 Start Game
                             </Button>

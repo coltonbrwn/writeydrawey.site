@@ -21,7 +21,6 @@ export default class Waiting extends React.Component {
                 .map( p => (
                   <div className="rough-notation-wrapper">
                     <RoughNotation
-                      className="TEST"
                       style="strike-through"
                       toggle={ playersReadyMap[ p.playerId ]}
                       key={ p.playerId + playersReadyMap[p.playerId ]}

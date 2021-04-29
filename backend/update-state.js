@@ -74,9 +74,9 @@ async function addPlayer({ player, gameId }, viewer) {
     Key: {
       id: gameId
     },
-    UpdateExpression: 'set #players = list_append(#players, :vals)',
+    UpdateExpression: 'set #pendingPlayers = list_append(#pendingPlayers, :vals)',
     ExpressionAttributeNames: {
-      '#players': 'players'
+      '#pendingPlayers': 'pendingPlayers'
     },
     ExpressionAttributeValues: {
       ':vals': [
@@ -187,24 +187,61 @@ async function endGame({ gameId }, viewer) {
 }
 
 /*
- NEXT ROUND
+  START GAME
  */
-async function nextRound({ gameId, round }) {
-
+async function startGame({ gameId, players }) {
   return dynamodb.update({
     TableName,
     Key: {
       id: gameId
     },
-    UpdateExpression: 'set #round = #round + :one, #game_state = :playing_state, #timers = list_append(#timers, :timers)',
+    UpdateExpression: `set #round = :one,
+      #game_state = :playing_state,
+      #timers = list_append(#timers, :timers),
+      #gameStartTimestamp = :now,
+      #players = :players
+    `,
     ExpressionAttributeNames: {
       '#round': 'round',
       '#timers': 'timers',
-      '#game_state': 'state'
+      '#game_state': 'state',
+      '#gameStartTimestamp': 'game_start',
+      '#players': 'players'
     },
     ExpressionAttributeValues: {
       ':one': 1,
       ':playing_state': GAME_STATE.PLAYING,
+      ':timers': [
+        {
+          playerId: '0',
+          round: 1,
+          end: new Date().getTime() + DEFAULT_TURN_DELAY
+        }
+      ],
+      ':now': new Date().getTime(),
+      ":players": players
+    },
+    ReturnValues: 'ALL_NEW'
+  }).promise()
+}
+
+
+/*
+ NEXT ROUND
+ */
+async function nextRound({ gameId, round }) {
+  return dynamodb.update({
+    TableName,
+    Key: {
+      id: gameId
+    },
+    UpdateExpression: 'set #round = #round + :one, #timers = list_append(#timers, :timers)',
+    ExpressionAttributeNames: {
+      '#round': 'round',
+      '#timers': 'timers'
+    },
+    ExpressionAttributeValues: {
+      ':one': 1,
       ':timers': [
         {
           playerId: '0',
@@ -215,7 +252,6 @@ async function nextRound({ gameId, round }) {
     },
     ReturnValues: 'ALL_NEW'
   }).promise()
-
 }
 
 /*

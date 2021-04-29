@@ -8,6 +8,7 @@
     font-family: 'Relative Mono';
     font-size: 0.65rem;
     text-align: center;
+    margin: 0.6em 0;
 }
 label.toggle {
     text-align: right;
@@ -108,7 +109,15 @@ input {
         width: 100%;
       }
     }
-    &.input-container--error input {
+    &--error input {
       color: red;
+    }
+    &--ornamented::after {
+      content: "(me)";
+      position: absolute;
+      right: 0;
+      font-size: 0.65em;
+      bottom: 0.6em;
+      opacity: 0.3;
     }
 }
