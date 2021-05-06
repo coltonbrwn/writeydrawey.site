@@ -4,6 +4,8 @@ import RoughLink from '../ui/rough-link'
 import Hamburger from '../svg/hamburger'
 import Cross from '../svg/cross'
 
+const blogLink = "https://blog.coltonbrown.com/the-game-that-almost-died-during-covid-and-how-i-made-it-an-app-fa485eed546e"
+
 let isMobileNavOpen = false;
 const toggleMobileNav = () => {
     const main = document.getElementById('main')
@@ -24,7 +26,7 @@ export default function NavInner() {
             <Hamburger />
         </div>,
         <div className="nav__links" key="1">
-            <RoughLink href="/about" style="underline">
+            <RoughLink href={ blogLink } style="underline">
                 about
             </RoughLink>
             <RoughLink href="/gallery" style="circle">
@@ -54,7 +56,7 @@ export function MobileNav() {
             </div>
             <div className="nav__mobile__links">
                 <RoughLink
-                    href="/about"
+                    href={ blogLink }
                     style="underline"
                     onClick={ toggleMobileNav }
                 >

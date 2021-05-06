@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { get } from 'dotty';
+
 import {
   COLORS,
   THEME_LIGHT
@@ -15,11 +16,11 @@ export default class Layout extends React.Component {
 
   render () {
     const subtitle = this.props.subtitle
-    const social_img_url = '/favicon-xxxl.png';
+    const social_img_url = '/social.png';
     const title = `Writey Drawey${ subtitle ? ` - ${ subtitle}` : '' }`;
     const ga_id = 'UA-93943838-5'
     const url = 'https://writeydrawey.site'
-    const description = this.props.description;
+    const description = "A free web game for friends, coworkers, and families"
     const themeColor = colorName => get(COLORS, [this.props.theme, colorName]);
     return (
       <div>
