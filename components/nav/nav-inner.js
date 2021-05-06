@@ -26,7 +26,7 @@ export default function NavInner() {
             <Hamburger />
         </div>,
         <div className="nav__links" key="1">
-            <RoughLink href={ blogLink } style="underline">
+            <RoughLink href={ blogLink } target="_blank" style="underline">
                 about
             </RoughLink>
             <RoughLink href="/gallery" style="circle">
@@ -59,6 +59,7 @@ export function MobileNav() {
                     href={ blogLink }
                     style="underline"
                     onClick={ toggleMobileNav }
+                    target="_blank"
                 >
                     about
                 </RoughLink>

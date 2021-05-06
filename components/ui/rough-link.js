@@ -36,7 +36,9 @@ export default class RoughLink extends React.Component {
             >
                 <span ref={ this.ref }>
                     <Link href={ this.props.href }>
-                        <a>{ this.props.children }</a>
+                        <a target={ this.props.target }>
+                            { this.props.children }
+                        </a>
                     </Link>
                 </span>
             </span>
