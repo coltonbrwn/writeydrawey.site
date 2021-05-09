@@ -39,7 +39,8 @@ export default async function getState(req, res) {
     Find the active players. 
     Filter people out who haven't polled the server in N ms.
    */
-  const activePendingPlayers = gameState.pendingPlayers.filter(
+  const pendingPlayers = gameState.pendingPlayers || []
+  const activePendingPlayers = pendingPlayers.filter(
     player => (now() - playerLastSeenMap[player.playerId]) < MAX_PLAYER_IDLE_MS
   )
 
