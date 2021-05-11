@@ -18,16 +18,20 @@ export default class Layout extends React.Component {
     const subtitle = this.props.subtitle
     const social_img_url = '/social.png';
     const title = `Writey Drawey${ subtitle ? ` - ${ subtitle}` : '' }`;
-    const ga_id = 'UA-93943838-5'
+    const ga_id = 'G-M3FG3GXZ8F'
     const url = 'https://writeydrawey.site'
     const description = "A free web game for friends, coworkers, and families"
     const themeColor = colorName => get(COLORS, [this.props.theme, colorName]);
     return (
       <div>
+
+
+
         <Head>
           {
-            ga_id && (process.env.NEXT_PUBLIC_NODE_ENV !== 'development') && (
-              <script dangerouslySetInnerHTML={{
+            ga_id && (process.env.NEXT_PUBLIC_NODE_ENV !== 'development') && [
+              <script key='1' async src={`https://www.googletagmanager.com/gtag/js?id=${ ga_id }` }></script>,
+              <script key='2' dangerouslySetInnerHTML={{
                 __html: `
                   window.dataLayer = window.dataLayer || [];
                     function gtag(){
@@ -37,7 +41,7 @@ export default class Layout extends React.Component {
                     gtag('config', '${ ga_id }');
                 `
               }} />
-            )
+            ]
           }
           <link rel="shortcut icon" href="/favicon/favicon-32.png" />
           <link rel="icon" type="image/png" href="/favicon/favicon-196.png" />
