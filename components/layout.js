@@ -52,10 +52,12 @@ export default class Layout extends React.Component {
           <meta itemProp="description" content={ description } />
           <meta itemProp="image" content={ social_img_url } />
           <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:site" content="" />
+          <meta name="twitter:site" content="@writey_drawey" />
+          <meta name="twitter:creator" content="@coltontbrown" />
           <meta name="twitter:title" content={ title } />
           <meta name="twitter:description" content={ description } />
-          <meta name="twitter:image:src" content={ social_img_url } />
+          <meta name="twitter:image" content={ `${ url }${ social_img_url }`} />
+          <meta name="twitter:card" content="summary_large_image" />
           <meta property="og:title" content={ title } />
           <meta property="og:image" content={ social_img_url } />
           <meta property="og:description" content={ description } />
