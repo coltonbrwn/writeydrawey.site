@@ -24,9 +24,6 @@ export default class Layout extends React.Component {
     const themeColor = colorName => get(COLORS, [this.props.theme, colorName]);
     return (
       <div>
-
-
-
         <Head>
           {
             ga_id && (process.env.NEXT_PUBLIC_NODE_ENV !== 'development') && [
