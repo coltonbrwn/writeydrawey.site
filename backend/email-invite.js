@@ -3,7 +3,7 @@ var AWS = require('aws-sdk')
 function gameUrl({ gameId }) {
     return process.env.NEXT_PUBLIC_NODE_ENV === 'development'
         ? `http://localhost:3030/${ gameId }`
-        : `https://${ process.env.NEXT_PUBLIC_VERCEL_URL }/${ gameId }`
+        : `https://writeydrawey.site/${ gameId }`
 }
 
 AWS.config = {
